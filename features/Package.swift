@@ -10,7 +10,8 @@ let ext = Target.Dependency.product(name: "Extensions", package: "extensions")
 let lint = Target.PluginUsage.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
 
 let libs: [Target] = [
-  .target(name: "App", dependencies: [], plugins: [lint])
+  .target(name: "App", dependencies: ["Auth"], plugins: [lint]),
+  .target(name: "Auth", dependencies: [deps, .product(name: "FirebaseAuth", package: "firebase-ios-sdk")], plugins: [lint])
 ]
 
 let package = Package(
@@ -19,13 +20,18 @@ let package = Package(
   platforms: [.iOS(.v18), .macOS(.v15)],
   products: libs.map { .library(name: $0.name, targets: [$0.name]) },
   dependencies: [
-    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.0.0"),
+//    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.0.0"),
     .package(url: "https://github.com/pointfreeco/swift-dependencies.git", from: "1.0.0"),
-    .package(url: "https://github.com/liamnichols/xcstrings-tool-plugin.git", from: "0.1.0"),
+//    .package(url: "https://github.com/liamnichols/xcstrings-tool-plugin.git", from: "0.1.0"),
     .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.1.0"),
-    .package(path: "../extensions")
+    .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.0.0"),
+//    .package(path: "../extensions")
   ],
   targets: libs + [
-    .testTarget(name: "FeaturesTest", dependencies: libs.map { .byName(name: $0.name) }, path: "Test", plugins: [lint])
+    .testTarget(
+      name: "FeaturesTest",
+      dependencies: libs.map { .byName(name: $0.name) },
+      path: "Test",
+      plugins: [lint])
   ]
 )
