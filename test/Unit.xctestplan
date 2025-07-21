@@ -18,13 +18,6 @@
         "identifier" : "FeaturesTest",
         "name" : "FeaturesTest"
       }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:library",
-        "identifier" : "LibraryTest",
-        "name" : "LibraryTest"
-      }
     }
   ],
   "version" : 1
