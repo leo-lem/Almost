@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1620"
+   LastUpgradeVersion = "1640"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,24 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SwiftUIComponents"
-               BuildableName = "SwiftUIComponents"
-               BlueprintName = "SwiftUIComponents"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Data"
-               BuildableName = "Data"
-               BlueprintName = "Data"
-               ReferencedContainer = "container:">
+               BlueprintIdentifier = "6E48374428EC991100B67CA4"
+               BuildableName = "Almost?.app"
+               BlueprintName = "Almost?"
+               ReferencedContainer = "container:portfolio.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -41,11 +27,32 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6E48374428EC991100B67CA4"
+            BuildableName = "Almost?.app"
+            BlueprintName = "Almost?"
+            ReferencedContainer = "container:portfolio.xcodeproj">
+         </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6E01ED4A291BD92000B73AB0"
+            BuildableName = "KeepinOnWidgetsExtension.appex"
+            BlueprintName = "KeepinOnWidgetsExtension"
+            ReferencedContainer = "container:portfolio.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <TestPlans>
          <TestPlanReference
-            reference = "container:Test/Library.xctestplan"
+            reference = "container:test/Unit.xctestplan"
             default = "YES">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:test/Full.xctestplan">
          </TestPlanReference>
       </TestPlans>
    </TestAction>
@@ -58,7 +65,18 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
+      enableGPUValidationMode = "1"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6E48374428EC991100B67CA4"
+            BuildableName = "Almost?.app"
+            BlueprintName = "Almost?"
+            ReferencedContainer = "container:portfolio.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -69,10 +87,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "SwiftUIComponents"
-            BuildableName = "SwiftUIComponents"
-            BlueprintName = "SwiftUIComponents"
-            ReferencedContainer = "container:">
+            BlueprintIdentifier = "6E48374428EC991100B67CA4"
+            BuildableName = "Almost?.app"
+            BlueprintName = "Almost?"
+            ReferencedContainer = "container:portfolio.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
