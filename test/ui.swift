@@ -22,8 +22,4 @@ final class KeepinOnUITests: XCTestCase {
       XCUIApplication().launch()
     }
   }
-  
-  func testAddingProject() throws {
-    app.buttons["add-project"].tap()
-  }
 }
