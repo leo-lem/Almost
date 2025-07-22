@@ -11,7 +11,7 @@ public struct AuthView: View {
   
   @Environment(\.dismiss) var dismiss
   @Dependency(\.authentication) var authentication
-  @StateObject var session = UserSession()
+  @EnvironmentObject var session: UserSession
 
   public var body: some View {
     Form {

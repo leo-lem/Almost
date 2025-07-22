@@ -12,7 +12,7 @@ public struct AlmostView: View {
   @Dependency(\.authentication) var auth
   @Dependency(\.insights) var insights
   
-  @StateObject var session = UserSession()
+  @StateObject private var session = UserSession()
 
   public var body: some View {
     VStack(spacing: 16) {
@@ -50,6 +50,7 @@ public struct AlmostView: View {
     }
     .padding()
     .onAppear { signingIn = !session.isSignedIn }
+    .environmentObject(session)
   }
 
   public init() {}

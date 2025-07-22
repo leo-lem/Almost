@@ -36,5 +36,10 @@ public struct Insight: Codable, Identifiable, Hashable, Sendable {
 }
 
 public enum Mood: String, Codable, CaseIterable, Sendable {
-  case 😞, 😐, 🙂, 😄, 🤯, 💡
+  case sad = "😞"
+  case neutral = "😐"
+  case happy = "🙂"
+  case excited = "😄"
+  case mindBlown = "🤯"
+  case idea = "💡"
 }
