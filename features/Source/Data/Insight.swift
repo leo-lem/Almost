@@ -1,6 +1,5 @@
 // Created by Leopold Lemmermann on 22.07.25.
 
-import FirebaseFirestore
 import Foundation
 
 public struct Insight: Codable, Identifiable, Hashable, Sendable {

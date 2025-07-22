@@ -1,7 +1,6 @@
 // Created by Leopold Lemmermann on 21.07.25.
 
 import Dependencies
-import SwiftUI
 import SwiftUIExtensions
 
 public struct AuthView: View {
@@ -11,7 +10,6 @@ public struct AuthView: View {
   
   @Environment(\.dismiss) var dismiss
   @Dependency(\.authentication) var authentication
-  @EnvironmentObject var session: UserSession
 
   public var body: some View {
     Form {
@@ -57,7 +55,6 @@ public struct AuthView: View {
         .buttonStyle(.borderless)
       }
     }
-    .onAppear { if session.isSignedIn { dismiss() } }
   }
   
   public init() {}
