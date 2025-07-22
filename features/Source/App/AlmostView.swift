@@ -5,32 +5,22 @@ import FirebaseAnalytics
 import SwiftUI
 
 public struct AlmostView: View {
-  @State private var userID: String?
-
-  @Dependency(\.session) var session
+  @State var signingIn = false
+  
+  @Dependency(\.userSession) var session
 
   public var body: some View {
-    VStack(spacing: 24) {
-      if let userID {
-        Text("Signed in as: \(userID)")
-          .font(.headline)
-
-        // Shows email/password sign-in form after anonymous sign-in
-        SignInView()
+    VStack {
+      Text("Welcome to Almost?!")
+        .onAppear { signingIn = !session.isSignedIn() }
+        .sheet(isPresented: $signingIn, content: AuthView.init)
+      
+      if session.isSignedIn() { // TODO: enable update
+        Button("Sign out") { try? session.signOut() }
       } else {
-        Text("Signing in...")
-          .onAppear {
-            Task {
-              do {
-                userID = try await session.signInAnonymously()
-              } catch {
-                print("Sign-in error:", error)
-              }
-            }
-          }
+        Button("Sign in") { signingIn = true }
       }
     }
-    .padding()
   }
 
   public init() {}

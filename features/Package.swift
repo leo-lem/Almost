@@ -5,13 +5,19 @@ import PackageDescription
 let tca = Target.Dependency.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
 let deps = Target.Dependency.product(name: "Dependencies", package: "swift-dependencies")
 let str = Target.Dependency.product(name: "XCStringsToolPlugin", package: "xcstrings-tool-plugin")
-let ext = Target.Dependency.product(name: "Extensions", package: "extensions")
+let ext = Target.Dependency.product(name: "SwiftUIExtensions", package: "extensions")
 
 let lint = Target.PluginUsage.plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
 
 let libs: [Target] = [
-  .target(name: "App", dependencies: ["Auth"], plugins: [lint]),
-  .target(name: "Auth", dependencies: [deps, .product(name: "FirebaseAuth", package: "firebase-ios-sdk")], plugins: [lint])
+  .target(name: "App", dependencies: [
+    "Auth"
+  ], plugins: [lint]),
+  .target(name: "Auth", dependencies: [
+    deps,
+    .product(name: "SwiftUIExtensions", package: "extensions"),
+    .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
+  ], plugins: [lint])
 ]
 
 let package = Package(
@@ -25,7 +31,7 @@ let package = Package(
 //    .package(url: "https://github.com/liamnichols/xcstrings-tool-plugin.git", from: "0.1.0"),
     .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", from: "0.1.0"),
     .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.0.0"),
-//    .package(path: "../extensions")
+    .package(path: "../extensions")
   ],
   targets: libs + [
     .testTarget(
