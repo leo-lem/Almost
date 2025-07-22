@@ -1,6 +1,6 @@
 // Created by Leopold Lemmermann on 22.07.25.
 
-import Dependencies
+@_exported import Dependencies
 import FirebaseFirestore
 
 public struct Insights: Sendable {
@@ -10,6 +10,9 @@ public struct Insights: Sendable {
 }
 
 extension Insights: DependencyKey {
+// Firebase does not work in previews because it requires a network connection and specific configurations.
+// This workaround provides a mock implementation to enable previews without runtime errors.
+#if !targetEnvironment(simulator)
   public static let liveValue = Insights(
     fetch: { userID in
       let snapshot = try await Firestore.firestore()
@@ -33,16 +36,19 @@ extension Insights: DependencyKey {
         .delete()
     }
   )
-  
+#else
+  public static let liveValue = Insights.previewValue
+#endif
+
   public static let previewValue = Insights(
     fetch: { _ in [] },
-    save: { _ in },
-    delete: { _ in }
+    save: { print("Saving insight: \($0)") },
+    delete: { print("Deleting insight: \($0)") }
   )
 }
 
-public extension DependencyValues {
-  var insights: Insights {
+extension DependencyValues {
+  public var insights: Insights {
     get { self[Insights.self] }
     set { self[Insights.self] = newValue }
   }

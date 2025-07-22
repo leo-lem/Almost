@@ -29,9 +29,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Projects"
-               BuildableName = "Projects"
-               BlueprintName = "Projects"
+               BlueprintIdentifier = "Auth"
+               BuildableName = "Auth"
+               BlueprintName = "Auth"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,9 +43,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EditableProject"
-               BuildableName = "EditableProject"
-               BlueprintName = "EditableProject"
+               BlueprintIdentifier = "Data"
+               BuildableName = "Data"
+               BlueprintName = "Data"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -57,9 +57,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EditableItem"
-               BuildableName = "EditableItem"
-               BlueprintName = "EditableItem"
+               BlueprintIdentifier = "NewInsight"
+               BuildableName = "NewInsight"
+               BlueprintName = "NewInsight"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -94,15 +94,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "App"
-            BuildableName = "App"
-            BlueprintName = "App"
-            ReferencedContainer = "container:">
-         </BuildableReference>
-      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
