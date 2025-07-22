@@ -1,36 +1,56 @@
 // Created by Leopold Lemmermann on 19.02.25.
 
 import Auth
+import Data
 import FirebaseAnalytics
 import SwiftUI
 
 public struct AlmostView: View {
-  @State private var userID: String?
+  @State var signingIn = false
+  @State var insertError: String?
 
-  @Dependency(\.session) var session
+  @Dependency(\.authentication) var auth
+  @Dependency(\.insights) var insights
+  
+  @StateObject private var session = UserSession()
 
   public var body: some View {
-    VStack(spacing: 24) {
-      if let userID {
-        Text("Signed in as: \(userID)")
-          .font(.headline)
-
-        // Shows email/password sign-in form after anonymous sign-in
-        SignInView()
+    VStack(spacing: 16) {
+      Text("Almost?")
+        .font(.title)
+        .sheet(isPresented: $signingIn, content: AuthView.init)
+      
+      if session.isSignedIn {
+        Button("Sign Out") { try? auth.signOut() }
       } else {
-        Text("Signing in...")
-          .onAppear {
+        Button("Sign In") { signingIn = true }
+      }
+      
+      if let userID = session.user?.uid {
+          Button("Insert Example Insight") {
             Task {
               do {
-                userID = try await session.signInAnonymously()
+                try await insights.save(Insight(
+                  userID: userID,
+                  title: "Forgot to push today’s commits",
+                  content: "Didn’t realize I hadn’t pushed changes. Need to double check next time."
+                ))
+                insertError = nil
               } catch {
-                print("Sign-in error:", error)
+                insertError = error.localizedDescription
               }
             }
           }
-      }
+        }
+
+        if let insertError {
+          Text("Insert failed: \(insertError)")
+            .foregroundColor(.red)
+        }
     }
     .padding()
+    .onAppear { signingIn = !session.isSignedIn }
+    .environmentObject(session)
   }
 
   public init() {}

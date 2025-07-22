@@ -1,0 +1,49 @@
+// Created by Leopold Lemmermann on 22.07.25.
+
+import Dependencies
+import FirebaseFirestore
+
+public struct Insights: Sendable {
+  public var fetch: @Sendable (_ userID: String) async throws -> [Insight]
+  public var save: @Sendable (_ insight: Insight) async throws -> Void
+  public var delete: @Sendable (_ insight: Insight) async throws -> Void
+}
+
+extension Insights: DependencyKey {
+  public static let liveValue = Insights(
+    fetch: { userID in
+      let snapshot = try await Firestore.firestore()
+        .collection("insights")
+        .whereField("userID", isEqualTo: userID)
+        .order(by: "createdAt", descending: true)
+        .getDocuments()
+
+      return try snapshot.documents.map { try $0.data(as: Insight.self) }
+    },
+    save: { insight in
+      try Firestore.firestore()
+        .collection("insights")
+        .document(insight.id)
+        .setData(from: insight)
+    },
+    delete: { insight in
+      try await Firestore.firestore()
+        .collection("insights")
+        .document(insight.id)
+        .delete()
+    }
+  )
+  
+  public static let previewValue = Insights(
+    fetch: { _ in [] },
+    save: { _ in },
+    delete: { _ in }
+  )
+}
+
+public extension DependencyValues {
+  var insights: Insights {
+    get { self[Insights.self] }
+    set { self[Insights.self] = newValue }
+  }
+}
