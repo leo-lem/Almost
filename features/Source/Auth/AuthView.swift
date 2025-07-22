@@ -10,7 +10,8 @@ public struct AuthView: View {
   @State var error: String?
   
   @Environment(\.dismiss) var dismiss
-  @Dependency(\.userSession) var session
+  @Dependency(\.authentication) var authentication
+  @StateObject var session = UserSession()
 
   public var body: some View {
     Form {
@@ -31,7 +32,7 @@ public struct AuthView: View {
       Section {
         AsyncButton {
           do {
-            try await session.signIn(email, password)
+            try await authentication.signIn(email, password)
             dismiss()
           } catch {
             self.error = error.localizedDescription
@@ -44,7 +45,7 @@ public struct AuthView: View {
 
         AsyncButton {
           do {
-            try await session.signUp(email, password)
+            try await authentication.signUp(email, password)
             dismiss()
           } catch {
             self.error = error.localizedDescription
@@ -56,6 +57,7 @@ public struct AuthView: View {
         .buttonStyle(.borderless)
       }
     }
+    .onAppear { if session.isSignedIn { dismiss() } }
   }
   
   public init() {}

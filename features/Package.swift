@@ -11,12 +11,16 @@ let lint = Target.PluginUsage.plugin(name: "SwiftLintBuildToolPlugin", package: 
 
 let libs: [Target] = [
   .target(name: "App", dependencies: [
-    "Auth"
+    "Auth",
+    "Data"
   ], plugins: [lint]),
   .target(name: "Auth", dependencies: [
     deps,
     .product(name: "SwiftUIExtensions", package: "extensions"),
     .product(name: "FirebaseAuth", package: "firebase-ios-sdk")
+  ], plugins: [lint]),
+  .target(name: "Data", dependencies: [
+    .product(name: "FirebaseFirestore", package: "firebase-ios-sdk")
   ], plugins: [lint])
 ]
 

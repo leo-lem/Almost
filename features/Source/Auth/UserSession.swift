@@ -1,36 +1,18 @@
 // Created by Leopold Lemmermann on 21.07.25.
 
-@_exported import Dependencies
 import FirebaseAuth
 
-public struct UserSession: Sendable {
-  public var isSignedIn: @Sendable () -> Bool,
-             signUp: @Sendable (_ email: String, _ password: String) async throws -> Void,
-             signIn: @Sendable (_ email: String, _ password: String) async throws -> Void,
-             signOut: @Sendable () throws -> Void
+public final class UserSession: ObservableObject {
+  @Published public private(set) var user = Auth.auth().currentUser
+  public var isSignedIn: Bool { user?.uid != nil }
   
-  // !!!: no public init, so we only instantiate via dependencies
-}
+  private var handle: AuthStateDidChangeListenerHandle?
 
-extension UserSession: DependencyKey {
-  public static let liveValue = UserSession(
-    isSignedIn: { Auth.auth().currentUser != nil },
-    signUp: { email, password in try await Auth.auth().createUser(withEmail: email, password: password) },
-    signIn: { email, password in try await Auth.auth().signIn(withEmail: email, password: password) },
-    signOut: { try Auth.auth().signOut() }
-  )
-  
-  public static let previewValue = UserSession(
-    isSignedIn: { .random() },
-    signUp: { _, _ in },
-    signIn: { _, _ in },
-    signOut: { }
-  )
-}
+  public init() {
+    handle = Auth.auth().addStateDidChangeListener { self.user = $1 }
+  }
 
-public extension DependencyValues {
-  var userSession: UserSession {
-    get { self[UserSession.self] }
-    set { self[UserSession.self] = newValue }
+  deinit {
+    if let handle { Auth.auth().removeStateDidChangeListener(handle) }
   }
 }
