@@ -10,7 +10,8 @@ public struct Insights: Sendable {
 }
 
 extension Insights: DependencyKey {
-// !!!: we cannot otherwise get previews to work
+// Firebase does not work in previews because it requires a network connection and specific configurations.
+// This workaround provides a mock implementation to enable previews without runtime errors.
 #if !targetEnvironment(simulator)
   public static let liveValue = Insights(
     fetch: { userID in
