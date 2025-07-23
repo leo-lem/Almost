@@ -1,12 +1,12 @@
 // Created by Leopold Lemmermann on 22.07.25.
 
+import FirebaseFirestore
 import Foundation
 
 /// The heart of our reflection journey, insights enable users to grow.
-public struct Insight: Codable, Identifiable, Hashable, Sendable {
-  public var id = UUID().uuidString
-  public var createdAt: Date
-  public var updatedAt: Date?
+public struct Insight: Codable, Identifiable, Hashable {
+  @DocumentID public var id: String?
+  public let timestamp: Date
 
   /// Optional: e.g. “Botched presentation”
   public var title: String?
@@ -18,17 +18,13 @@ public struct Insight: Codable, Identifiable, Hashable, Sendable {
   public var isFavorite: Bool
   
   public init(
-    id: String = UUID().uuidString,
-    createdAt: Date = .now,
-    updatedAt: Date? = nil,
+    timestamp: Date = .now,
     title: String? = nil,
     content: String,
     mood: Mood? = nil,
     isFavorite: Bool = false
   ) {
-    self.id = id
-    self.createdAt = createdAt
-    self.updatedAt = updatedAt
+    self.timestamp = timestamp
     self.title = title
     self.content = content
     self.mood = mood

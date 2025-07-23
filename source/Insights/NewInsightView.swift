@@ -15,7 +15,7 @@ public struct NewInsightView: View {
   public var body: some View {
     NavigationStack {
       Form {
-        Section("Today’s almost moment? What didn’t work — and what did you learn?") {
+        Section("Today's almost moment? What didn't work — and what did you learn?") {
           TextField("(Optional) Title", text: $title)
           TextEditor(text: $content)
             .frame(minHeight: 100)
@@ -38,7 +38,7 @@ public struct NewInsightView: View {
       .navigationTitle("New Insight")
       .toolbar {
         ToolbarItem(placement: .confirmationAction) {
-          Button("Save", action: save)
+          AsyncButton(action: save) { Text("Save") }
             .disabled(content.isEmpty)
         }
         
@@ -51,17 +51,21 @@ public struct NewInsightView: View {
 
   public init() {}
 
-  private func save() {
+  private func save() async {
     do {
       guard let userID = session.userID else {
         return error = "You need to be logged in to save an insight."
       }
-      let insight = Insight(title: title, content: content, mood: mood)
 
       try Firestore.firestore()
         .collection("users/\(userID)/insights")
-        .document(insight.id)
-        .setData(from: insight)
+        .addDocument(
+          from: Insight(
+            title: title,
+            content: content,
+            mood: mood
+          )
+        )
 
       dismiss()
     } catch {

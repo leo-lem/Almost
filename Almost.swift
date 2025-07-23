@@ -13,5 +13,9 @@ public struct AlmostApp: App {
 
   public init() {
     FirebaseApp.configure()
+
+    #if DEBUG
+    FirebaseConfiguration.shared.setLoggerLevel(.debug)
+    #endif
   }
 }

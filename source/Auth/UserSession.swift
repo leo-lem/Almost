@@ -38,7 +38,7 @@ public extension UserSession {
   }
 
   var canAddInsights: Bool {
-    if case let .signedIn(user) = state { true } else { false }
+    if case .signedIn = state { true } else { false }
   }
 
   func signUp(

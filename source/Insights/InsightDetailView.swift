@@ -47,7 +47,7 @@ public struct InsightDetailView: View {
 
       Spacer()
 
-      Text(insight.createdAt.formatted(date: .abbreviated, time: .shortened))
+      Text(insight.timestamp.formatted(date: .abbreviated, time: .omitted))
         .font(.caption)
         .foregroundColor(.gray)
     }

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		6E8275872E3142B300780973 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E8275862E3142B300780973 /* FirebaseAuth */; };
 		6E82758A2E3142E100780973 /* SwiftUIExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 6E8275892E3142E100780973 /* SwiftUIExtensions */; };
-		6E82758E2E3143CD00780973 /* AlmostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E8275882E3142D800780973 /* AlmostView.swift */; };
 		6EC7C8722A18439800C783F0 /* Almost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC7C8712A18439800C783F0 /* Almost.swift */; };
 		6EFD09B82E3000A300475D32 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B72E3000A300475D32 /* FirebaseCore */; };
 		6EFD09BA2E300CE900475D32 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B92E300CE900475D32 /* FirebaseFirestore */; };
@@ -31,7 +30,6 @@
 		6E10D4E82D66447E00EACE37 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6E37D5FC2E314A3800F7D712 /* Almost?.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Almost?.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E37D5FD2E314A3800F7D712 /* AlmostUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlmostUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6E8275882E3142D800780973 /* AlmostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlmostView.swift; sourceTree = "<group>"; };
 		6EC7C8712A18439800C783F0 /* Almost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Almost.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -43,25 +41,6 @@
 			);
 			target = 6E386F242D69E001000963DD /* AlmostUITests */;
 		};
-		6E48D5152E314B44004F2A3E /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Insight.swift,
-				InsightDetailView.swift,
-				JourneyView.swift,
-				NewInsightView.swift,
-			);
-			target = 6E48374428EC991100B67CA4 /* Almost? */;
-		};
-		6E8275902E3144C600780973 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				AuthenticationButton.swift,
-				AuthenticationView.swift,
-				UserSession.swift,
-			);
-			target = 6E48374428EC991100B67CA4 /* Almost? */;
-		};
 		6E8937082D662B1300379273 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -70,13 +49,26 @@
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
+		6EC5D92A2E3158A5008B53B8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				AlmostView.swift,
+				Auth/AuthenticationButton.swift,
+				Auth/AuthenticationView.swift,
+				Auth/UserSession.swift,
+				Insights/Insight.swift,
+				Insights/InsightDetailView.swift,
+				Insights/JourneyView.swift,
+				Insights/NewInsightView.swift,
+			);
+			target = 6E48374428EC991100B67CA4 /* Almost? */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6E48D50E2E314AF1004F2A3E /* Insights */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E48D5152E314B44004F2A3E /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Insights; sourceTree = "<group>"; };
-		6E82758F2E3144C100780973 /* Auth */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E8275902E3144C600780973 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Auth; sourceTree = "<group>"; };
 		6E8937042D662AF700379273 /* test */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E386F312D69E01F000963DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = test; sourceTree = "<group>"; };
 		6E8937072D662B0B00379273 /* resource */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E8937082D662B1300379273 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = resource; sourceTree = "<group>"; };
+		6EC5D9202E3158A0008B53B8 /* source */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6EC5D92A2E3158A5008B53B8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = source; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,9 +98,7 @@
 			children = (
 				6E10D4E82D66447E00EACE37 /* README.md */,
 				6EC7C8712A18439800C783F0 /* Almost.swift */,
-				6E8275882E3142D800780973 /* AlmostView.swift */,
-				6E48D50E2E314AF1004F2A3E /* Insights */,
-				6E82758F2E3144C100780973 /* Auth */,
+				6EC5D9202E3158A0008B53B8 /* source */,
 				6E10D4E62D66446600EACE37 /* extensions */,
 				6E8937072D662B0B00379273 /* resource */,
 				6E8937042D662AF700379273 /* test */,
@@ -238,7 +228,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E82758E2E3143CD00780973 /* AlmostView.swift in Sources */,
 				6EC7C8722A18439800C783F0 /* Almost.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

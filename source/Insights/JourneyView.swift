@@ -14,34 +14,25 @@ public struct JourneyView: View {
         } else {
           ForEach(journey) { insight in
             NavigationLink(destination: InsightDetailView(insight)) {
-              VStack(alignment: .leading) {
-                Text(insight.content.prefix(100))
-                  .font(.body)
-                HStack {
-                  if let mood = insight.mood {
-                    Text(mood.rawValue)
-                  }
-                  Spacer()
-                  Text(insight.createdAt
-                    .formatted(date: .abbreviated, time: .shortened))
-                  .font(.caption)
-                  .foregroundColor(.gray)
+              HStack {
+                if let mood = insight.mood { Text(mood.rawValue) }
+
+                if let title = insight.title, !title.isEmpty {
+                  Text(title.prefix(100))
+                } else {
+                  Text(insight.content.prefix(100))
                 }
               }
             }
           }
         }
     }
-    .refreshable {
-      // do nothing, just for good feeling :)
-      try? await Task.sleep(for: .seconds(1))
-    }
   }
 
   public init(userID: String) {
     _journey = FirestoreQuery(
       collectionPath: "users/\(userID)/insights",
-      predicates: [.order(by: "createdAt", descending: true)]
+      predicates: [.order(by: "timestamp", descending: true)]
     )
   }
 }
