@@ -6,7 +6,7 @@ import SwiftUI
 
 public struct AlmostView: View {
   @State var insertError: String?
-  @State var userID: String? = "loading..."
+  @State var authState: Authentication.State = .loading
   @State var addingInsight = false
 
   @Dependency(\.authentication) var auth
@@ -17,19 +17,23 @@ public struct AlmostView: View {
         .navigationTitle("Almost? Your Journey!")
         .font(.title)
         .sheet(isPresented: $addingInsight) {
-          if let userID { NewInsightView(userID: userID) }
+          if case let .signedIn(userID) = authState {
+            NewInsightView(userID: userID)
+          }
         }
         .toolbar {
-          ToolbarItem(placement: .topBarLeading) { AuthButton(userID) }
+          ToolbarItem(placement: .topBarLeading) {
+            AuthButton(authState)
+          }
           ToolbarItem(placement: .primaryAction) {
             Button("Add Insight") { addingInsight = true }
               .buttonStyle(.borderedProminent)
-              .disabled(userID == nil)
+              .disabled(authState == .signedOut || authState == .loading)
           }
         }
     }
     .task {
-      for await userID in auth.userIDSession() { self.userID = userID }
+      for await authState in auth.session() { self.authState = authState }
     }
   }
 

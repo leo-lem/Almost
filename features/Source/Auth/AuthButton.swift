@@ -3,39 +3,49 @@
 import SwiftUI
 
 public struct AuthButton: View {
-  let userID: String?
+  let authState: Authentication.State
   
   @State var signingIn: Bool
   @Dependency(\.authentication) var authentication
   
   public var body: some View {
     Group {
-      if userID == nil {
-        Button("Sign In (or Up)") { signingIn = true }
-      } else {
+      switch authState {
+      case .loading:
+        ProgressView().progressViewStyle(.circular)
+      case .signedIn:
         Button("Sign Out") { try? authentication.signOut() }
+      case .signedOut:
+        Button("Sign In (or Up)") { signingIn = true }
       }
     }
     .sheet(isPresented: $signingIn, content: AuthView.init)
     .buttonStyle(.bordered)
   }
   
-  public init(_ userID: String?) {
-    self.userID = userID
-    _signingIn = State(initialValue: userID == nil)
+  public init(_ authState: Authentication.State) {
+    self.authState = authState
+    _signingIn = State(initialValue: authState == .signedOut)
   }
 }
 
 #Preview("signed out") {
   NavigationStack {
     Text("Hello")
-      .toolbar { AuthButton(nil) }
+      .toolbar { AuthButton(.signedOut) }
   }
 }
 
 #Preview("signed in") {
   NavigationStack {
     Text("Hello")
-      .toolbar { AuthButton("preview") }
+      .toolbar { AuthButton(.signedIn("")) }
+  }
+}
+
+#Preview("loading") {
+  NavigationStack {
+    Text("Hello")
+      .toolbar { AuthButton(.loading) }
   }
 }

@@ -1,6 +1,7 @@
 // Created by Leopold Lemmermann on 22.07.25.
 
 import Data
+import SwiftUI
 import SwiftUIExtensions
 
 public struct NewInsightView: View {

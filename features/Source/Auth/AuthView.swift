@@ -1,6 +1,7 @@
 // Created by Leopold Lemmermann on 21.07.25.
 
 import Dependencies
+import SwiftUI
 import SwiftUIExtensions
 
 public struct AuthView: View {
