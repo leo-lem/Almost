@@ -1,19 +1,16 @@
 // Created by Leopold Lemmermann on 22.07.25.
 
-import Data
+import FirebaseFirestore
 import SwiftUI
 import SwiftUIExtensions
 
 public struct NewInsightView: View {
-  let userID: String
-  
-  @State var title = ""
-  @State var content = ""
-  @State var mood = Mood.neutral
-  @State var error: String?
-  
-  @Environment(\.dismiss) var dismiss
-  @Dependency(\.insights) var insights
+  @State private var title = ""
+  @State private var content = ""
+  @State private var mood = Mood.neutral
+  @State private var error: String?
+  @Environment(\.dismiss) private var dismiss
+  @Environment(UserSession.self) private var session
 
   public var body: some View {
     NavigationStack {
@@ -41,23 +38,10 @@ public struct NewInsightView: View {
       .navigationTitle("New Insight")
       .toolbar {
         ToolbarItem(placement: .confirmationAction) {
-          AsyncButton {
-            do {
-              try await insights.save(
-                Insight(
-                  userID: userID,
-                  title: title,
-                  content: content,
-                  mood: mood
-                )
-              )
-              dismiss()
-            } catch {
-              self.error = error.localizedDescription
-            }
-          } label: { Text("Save") }
-          .disabled(content.isEmpty)
+          Button("Save", action: save)
+            .disabled(content.isEmpty)
         }
+        
         ToolbarItem(placement: .cancellationAction) {
           Button("Cancel", action: dismiss.callAsFunction)
         }
@@ -65,11 +49,27 @@ public struct NewInsightView: View {
     }
   }
 
-  public init(userID: String) {
-    self.userID = userID
+  public init() {}
+
+  private func save() {
+    do {
+      guard let userID = session.userID else {
+        return error = "You need to be logged in to save an insight."
+      }
+      let insight = Insight(title: title, content: content, mood: mood)
+
+      try Firestore.firestore()
+        .collection("users/\(userID)/insights")
+        .document(insight.id)
+        .setData(from: insight)
+
+      dismiss()
+    } catch {
+      self.error = error.localizedDescription
+    }
   }
 }
 
 #Preview {
-  NewInsightView(userID: "preview")
+  NewInsightView()
 }

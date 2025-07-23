@@ -16,6 +16,8 @@ A reflective habit tracker focused on learning from near misses. Built as a Fire
 - Clean MV pattern  
 - Planned: iCloud sync, sharing, streak logic, and reflection prompts
 
+## Building
+
 ## Status
 
 App Store version is a minimal stub. New version in progress, focused on Firebase integration and improved UX.

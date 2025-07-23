@@ -6,6 +6,8 @@ disabled_rules:
 
 opt_in_rules:
 - sorted_imports
+- explicit_acl
+- explicit_top_level_acl
 
 analyzer_rules:
 - unused_import

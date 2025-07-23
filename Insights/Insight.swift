@@ -2,20 +2,23 @@
 
 import Foundation
 
+/// The heart of our reflection journey, insights enable users to grow.
 public struct Insight: Codable, Identifiable, Hashable, Sendable {
   public var id = UUID().uuidString
-  public var userID: String  // Required for filtering in Firestore
   public var createdAt: Date
   public var updatedAt: Date?
 
-  public var title: String?         // Optional: e.g. “Botched presentation”
-  public var content: String        // What didn’t work — and what did you learn?
-  public var mood: Mood?            // Optional: user-selected emoji/mood tag
-  public var isFavorite: Bool       // Optional UX feature
+  /// Optional: e.g. “Botched presentation”
+  public var title: String?
+  /// What didn’t work — and what did you learn?/
+  public var content: String
+  /// Optional: user-selected emoji/mood tag/
+  public var mood: Mood?
+  /// Optional UX feature/
+  public var isFavorite: Bool
   
   public init(
     id: String = UUID().uuidString,
-    userID: String,
     createdAt: Date = .now,
     updatedAt: Date? = nil,
     title: String? = nil,
@@ -24,7 +27,6 @@ public struct Insight: Codable, Identifiable, Hashable, Sendable {
     isFavorite: Bool = false
   ) {
     self.id = id
-    self.userID = userID
     self.createdAt = createdAt
     self.updatedAt = updatedAt
     self.title = title
@@ -34,6 +36,7 @@ public struct Insight: Codable, Identifiable, Hashable, Sendable {
   }
 }
 
+/// The mood associated with the insight can provide helpful context.
 public enum Mood: String, Codable, CaseIterable, Sendable {
   case sad = "😞"
   case neutral = "😐"
