@@ -43,7 +43,7 @@ public enum Mood: String, Codable, CaseIterable, Sendable {
   case excited = "😄"
   case mindBlown = "🤯"
   case idea = "💡"
-
+  
   var color: Color {
     switch self {
     case .sad: Color("MoodNegative")

@@ -8,14 +8,14 @@ public struct InsightDetailView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(Settings.self) private var settings
   @Environment(UserSession.self) private var session
-
+  
   public var body: some View {
     VStack(spacing: 16) {
       Text(insight.timestamp.formatted(date: .abbreviated, time: .omitted))
         .font(.caption)
         .foregroundColor(.gray)
         .frame(maxWidth: .infinity, alignment: .center)
-
+      
       if settings.moodEnabled {
         VStack {
           Text(insight.mood.rawValue)
@@ -26,7 +26,7 @@ public struct InsightDetailView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
         }
       }
-
+      
       if settings.favoritesEnabled {
         AsyncButton {
           insight.isFavorite.toggle()
@@ -41,12 +41,12 @@ public struct InsightDetailView: View {
         }
         .buttonStyle(.bordered)
       }
-
+      
       if let title = insight.title {
         Text(title)
           .font(.largeTitle)
       }
-
+      
       ScrollView {
         Text(insight.content)
           .font(.body)
@@ -60,7 +60,7 @@ public struct InsightDetailView: View {
           Divider()
         }
       )
-
+      
       NavigationLink {
         EditInsightView($insight)
       } label: {
@@ -69,7 +69,7 @@ public struct InsightDetailView: View {
       }
       .buttonStyle(.borderedProminent)
       .foregroundColor(.background)
-
+      
       AsyncButton { await insight.delete(dismiss: dismiss) } label: {
         Label("Delete this insight", systemImage: "trash")
           .frame(maxWidth: .infinity)
@@ -83,7 +83,7 @@ public struct InsightDetailView: View {
     .navigationBarTitleDisplayMode(.inline)
     .trackScreen("InsightDetailView")
   }
-
+  
   public init(_ insight: Insight) { self.insight = insight }
 }
 

@@ -8,7 +8,7 @@ public struct EditInsightView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(Settings.self) private var settings
   @Environment(UserSession.self) private var session
-
+  
   public var body: some View {
     Form {
       if settings.moodEnabled {
@@ -16,7 +16,7 @@ public struct EditInsightView: View {
           VStack(spacing: 8) {
             Text("How did you feel?")
               .font(.headline)
-
+            
             Text(insight.mood.rawValue)
               .font(.system(size: 64))
           }
@@ -24,7 +24,7 @@ public struct EditInsightView: View {
           .padding()
           .background(insight.mood.color.opacity(0.2))
           .clipShape(RoundedRectangle(cornerRadius: 16))
-
+          
           Picker("Mood", selection: $insight.mood) {
             ForEach(Mood.allCases, id: \.self) { mood in
               Text(mood.rawValue).tag(mood)
@@ -34,7 +34,7 @@ public struct EditInsightView: View {
           .padding(.top)
         }
       }
-
+      
       if settings.favoritesEnabled {
         Section("Mark as Favorite") {
           Toggle(isOn: $insight.isFavorite) {
@@ -47,11 +47,11 @@ public struct EditInsightView: View {
           .tint(.accentColor)
         }
       }
-
+      
       Section {
         TextField("What did you learn?", text: $insight.content)
           .frame(minHeight: 200)
-
+        
         TextField("Optional title (e.g., what went wrong)", text: Binding {
           insight.title ?? ""
         } set: {
@@ -74,7 +74,7 @@ public struct EditInsightView: View {
     }
     .trackScreen("EditInsightView")
   }
-
+  
   public init(_ insight: Binding<Insight>) { _insight = insight }
 }
 
@@ -85,7 +85,7 @@ public struct EditInsightView: View {
     content: "I will be better in the future.",
     mood: .excited
   )
-
+  
   NavigationStack {
     EditInsightView($insight)
   }

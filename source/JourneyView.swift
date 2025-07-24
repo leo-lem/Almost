@@ -10,17 +10,17 @@ public struct JourneyView: View {
   @AppStorage("fav") private var fav = false
   @Environment(UserSession.self) private var session
   @Environment(Settings.self) private var settings
-
+  
   public var body: some View {
     List {
       InsightsList(insights: insights, placeholder: Text(
-          session.userID == nil
-          ? "Sign in to start your Journey!"
-          : fav
-          ? "No favorite insights yet."
-          : "Add an insight to start your journey")
+        session.userID == nil
+        ? "Sign in to start your Journey!"
+        : fav
+        ? "No favorite insights yet."
+        : "Add an insight to start your journey")
       )
-
+      
       Section {
         AddInsightButton()
           .listRowSeparator(.hidden)
@@ -53,15 +53,15 @@ public struct JourneyView: View {
     .onChange(of: session.userID) { updateInsights($1) }
     .trackScreen("JourneyView")
   }
-
+  
   public init() {}
-
+  
   private func updateInsights(_ userID: String? = nil, fav: Bool? = nil) {
     $insights.predicates = [
       .where("userID", isEqualTo: userID ?? session.userID ?? ""),
       .order(by: "timestamp", descending: true)
     ]
-
+    
     if fav ?? self.fav {
       $insights.predicates += [.where("isFavorite", isEqualTo: true)]
     }

@@ -4,13 +4,13 @@ import SwiftUI
 public struct AuthenticationButton: View {
   @State private var signingIn = false
   @Environment(UserSession.self) private var session
-
+  
   public var body: some View {
     switch session.state {
     case .loading, .error:
       ProgressView()
         .progressViewStyle(.circular)
-
+      
     case let .signedIn(user):
       Menu {
         if let email = user.email {
@@ -18,7 +18,7 @@ public struct AuthenticationButton: View {
             .font(.caption)
             .foregroundColor(.secondary)
         }
-
+        
         Button("Sign Out", role: .destructive) {
           session.signOut()
         }
@@ -27,7 +27,7 @@ public struct AuthenticationButton: View {
           .labelStyle(.iconOnly)
           .foregroundColor(.accentColor)
       }
-
+      
     case .signedOut:
       Button {
         signingIn = true
@@ -39,7 +39,7 @@ public struct AuthenticationButton: View {
       .sheet(isPresented: $signingIn, content: AuthenticationView.init)
     }
   }
-
+  
   public init() {}
 }
 

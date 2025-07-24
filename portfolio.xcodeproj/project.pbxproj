@@ -49,6 +49,7 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				"GoogleService-Info.plist",
+				previews/preview.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
@@ -61,7 +62,6 @@
 				AuthenticationView.swift,
 				EditInsightView.swift,
 				"Firebase/Insight+Firestore.swift",
-				Firebase/preview.swift,
 				Firebase/Settings.swift,
 				Firebase/trackScreen.swift,
 				Firebase/UserSession.swift,
@@ -481,6 +481,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Almost?";
@@ -510,6 +511,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Almost?";

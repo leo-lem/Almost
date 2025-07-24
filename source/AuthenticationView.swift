@@ -8,7 +8,7 @@ public struct AuthenticationView: View {
   @State private var password = ""
   @Environment(\.dismiss) private var dismiss
   @Environment(UserSession.self) private var session
-
+  
   public var body: some View {
     Form {
       Section("Welcome!") {
@@ -18,7 +18,7 @@ public struct AuthenticationView: View {
           .textInputAutocapitalization(.never)
           .autocorrectionDisabled()
           .submitLabel(.next)
-
+        
         HStack {
           SecureField("Password", text: $password)
             .textContentType(.password)
@@ -29,7 +29,7 @@ public struct AuthenticationView: View {
                 await session.signIn(email: email, password: password, dismiss: dismiss)
               }
             }
-
+          
           AsyncButton {
             await session.signIn(email: email, password: password, dismiss: dismiss)
           } label: {
@@ -39,13 +39,13 @@ public struct AuthenticationView: View {
           .disabled(email.isEmpty || password.isEmpty)
           .buttonStyle(.borderedProminent)
         }
-
+        
         if let message = session.errorMessage {
           Text(message)
             .font(.footnote)
             .foregroundStyle(.red)
         }
-
+        
         AsyncButton {
           await session.signUp(email: email, password: password, dismiss: dismiss)
         } label: {
@@ -55,7 +55,7 @@ public struct AuthenticationView: View {
         .disabled(email.isEmpty || password.isEmpty)
         .buttonStyle(.borderless)
       }
-
+      
       Section{
         AsyncButton {
           await session.signInAnonymously(dismiss: dismiss)
@@ -78,13 +78,13 @@ public struct AuthenticationView: View {
     .animation(.default, value: session.state)
     .trackScreen("AuthenticationView")
   }
-
+  
   public init() {}
 }
 
 #Preview {
   @Previewable @State var isPresented = true
-
+  
   Toggle("Sign in", isOn: $isPresented)
     .sheet(isPresented: $isPresented) { AuthenticationView() }
     .preview()
