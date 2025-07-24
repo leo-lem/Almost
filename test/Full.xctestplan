@@ -14,9 +14,16 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:features",
-        "identifier" : "FeaturesTest",
-        "name" : "FeaturesTest"
+        "containerPath" : "container:portfolio.xcodeproj",
+        "identifier" : "6E386F242D69E001000963DD",
+        "name" : "AlmostUITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:portfolio.xcodeproj",
+        "identifier" : "6EAEC89D2E323B0F0031EDAF",
+        "name" : "AlmostTests"
       }
     }
   ],

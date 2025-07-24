@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		6E8275872E3142B300780973 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E8275862E3142B300780973 /* FirebaseAuth */; };
 		6E82758A2E3142E100780973 /* SwiftUIExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 6E8275892E3142E100780973 /* SwiftUIExtensions */; };
+		6EAEC8862E321A2D0031EDAF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */; };
+		6EAEC8882E321AAA0031EDAF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */; };
+		6EAEC88F2E322F060031EDAF /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC88E2E322F060031EDAF /* FirebaseRemoteConfig */; };
 		6EC7C8722A18439800C783F0 /* Almost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC7C8712A18439800C783F0 /* Almost.swift */; };
 		6EFD09B82E3000A300475D32 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B72E3000A300475D32 /* FirebaseCore */; };
 		6EFD09BA2E300CE900475D32 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B92E300CE900475D32 /* FirebaseFirestore */; };
@@ -46,6 +49,7 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				"GoogleService-Info.plist",
+				RemoteConfig.plist,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
@@ -55,11 +59,16 @@
 				AlmostView.swift,
 				Auth/AuthenticationButton.swift,
 				Auth/AuthenticationView.swift,
-				Auth/UserSession.swift,
-				Insights/Insight.swift,
-				Insights/InsightDetailView.swift,
-				Insights/JourneyView.swift,
-				Insights/NewInsightView.swift,
+				Firebase/preview.swift,
+				Firebase/Settings.swift,
+				Firebase/trackScreen.swift,
+				Firebase/UserSession.swift,
+				Insight/Insight.swift,
+				"Insight/Insight+Firestore.swift",
+				Journey/AddInsightButton.swift,
+				Journey/EditInsightView.swift,
+				Journey/InsightDetailView.swift,
+				Journey/JourneyView.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
@@ -86,6 +95,9 @@
 				6EFD09B82E3000A300475D32 /* FirebaseCore in Frameworks */,
 				6EFD09BA2E300CE900475D32 /* FirebaseFirestore in Frameworks */,
 				6E82758A2E3142E100780973 /* SwiftUIExtensions in Frameworks */,
+				6EAEC88F2E322F060031EDAF /* FirebaseRemoteConfig in Frameworks */,
+				6EAEC8882E321AAA0031EDAF /* FirebaseCrashlytics in Frameworks */,
+				6EAEC8862E321A2D0031EDAF /* FirebaseAnalytics in Frameworks */,
 				6E8275872E3142B300780973 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -150,6 +162,9 @@
 				6EFD09B92E300CE900475D32 /* FirebaseFirestore */,
 				6E8275862E3142B300780973 /* FirebaseAuth */,
 				6E8275892E3142E100780973 /* SwiftUIExtensions */,
+				6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */,
+				6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */,
+				6EAEC88E2E322F060031EDAF /* FirebaseRemoteConfig */,
 			);
 			productName = KeepinOn;
 			productReference = 6E37D5FC2E314A3800F7D712 /* Almost?.app */;
@@ -162,7 +177,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					6E386F242D69E001000963DD = {
@@ -581,6 +596,21 @@
 		6E8275892E3142E100780973 /* SwiftUIExtensions */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftUIExtensions;
+		};
+		6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EB5D4432E2E97900078D1AD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EB5D4432E2E97900078D1AD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		6EAEC88E2E322F060031EDAF /* FirebaseRemoteConfig */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EB5D4432E2E97900078D1AD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseRemoteConfig;
 		};
 		6EFD09B72E3000A300475D32 /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;

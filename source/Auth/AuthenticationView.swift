@@ -8,28 +8,28 @@ public struct AuthenticationView: View {
   @State private var password = ""
   @Environment(\.dismiss) private var dismiss
   @Environment(UserSession.self) private var session
-
+  
   public var body: some View {
     Form {
       Section {
         TextField("Email", text: $email)
           .textInputAutocapitalization(.never)
           .keyboardType(.emailAddress)
-
+        
         SecureField("Password", text: $password)
           .onSubmit {
             Task {
               await session.signIn(email: email, password: password, dismiss: dismiss)
             }
           }
-
+        
         if let message = session.errorMessage {
           Text(message)
             .foregroundStyle(.red)
             .font(.footnote)
         }
       }
-
+      
       Section {
         AsyncButton {
           await session.signIn(email: email, password: password, dismiss: dismiss)
@@ -38,7 +38,7 @@ public struct AuthenticationView: View {
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
-
+        
         HStack {
           AsyncButton {
             await session.signUp(email: email, password: password, dismiss: dismiss)
@@ -48,7 +48,7 @@ public struct AuthenticationView: View {
           }
           
           Divider()
-
+          
           AsyncButton {
             await session.signInAnonymously(dismiss: dismiss)
           } label: {
@@ -60,6 +60,7 @@ public struct AuthenticationView: View {
     }
     .buttonStyle(.borderless)
     .presentationDetents([.medium])
+    .trackScreen("AuthenticationView")
   }
   
   public init() {}
@@ -70,5 +71,5 @@ public struct AuthenticationView: View {
   
   Toggle("Sign in", isOn: $isPresented)
     .sheet(isPresented: $isPresented) { AuthenticationView() }
-    .environment(UserSession())
+    .preview()
 }

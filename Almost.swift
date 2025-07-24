@@ -10,12 +10,6 @@ public struct AlmostApp: App {
       AlmostView()
     }
   }
-
-  public init() {
-    FirebaseApp.configure()
-
-    #if DEBUG
-    FirebaseConfiguration.shared.setLoggerLevel(.debug)
-    #endif
-  }
+  
+  public init() { FirebaseApp.configure() }
 }
