@@ -49,26 +49,26 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				"GoogleService-Info.plist",
-				RemoteConfig.plist,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
 		6EC5D92A2E3158A5008B53B8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				AddInsightButton.swift,
 				AlmostView.swift,
-				Auth/AuthenticationButton.swift,
-				Auth/AuthenticationView.swift,
+				AuthenticationButton.swift,
+				AuthenticationView.swift,
+				EditInsightView.swift,
+				"Firebase/Insight+Firestore.swift",
 				Firebase/preview.swift,
 				Firebase/Settings.swift,
 				Firebase/trackScreen.swift,
 				Firebase/UserSession.swift,
-				Insight/Insight.swift,
-				"Insight/Insight+Firestore.swift",
-				Journey/AddInsightButton.swift,
-				Journey/EditInsightView.swift,
-				Journey/InsightDetailView.swift,
-				Journey/JourneyView.swift,
+				Insight.swift,
+				InsightDetailView.swift,
+				InsightsList.swift,
+				JourneyView.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};

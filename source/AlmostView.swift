@@ -9,25 +9,15 @@ public struct AlmostView: View {
   
   public var body: some View {
     NavigationStack {
-      Group {
-        JourneyView()
-      }
-      .navigationTitle("Almost? Your Journey!")
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          AuthenticationButton()
+      JourneyView()
+        .background(Color(uiColor: .systemBackground))
+        .foregroundStyle(.primary)
+        .navigationTitle("Your Journey 🌱")
+        .toolbar {
+          ToolbarItem(placement: .topBarLeading) { AuthenticationButton() }
         }
-        
-#if DEBUG
-        ToolbarItem {
-          Button("Crash") {
-            fatalError("Crash triggered for Firebase Crashlytics")
-          }
-          .foregroundStyle(.red)
-        }
-#endif
-      }
     }
+    .accentColor(.accent)
     .environment(session)
     .environment(config)
     .animation(.default, value: session.userID)

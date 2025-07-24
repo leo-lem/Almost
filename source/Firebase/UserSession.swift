@@ -4,7 +4,8 @@ import FirebaseAnalytics
 import FirebaseAuth
 import SwiftUI
 
-@MainActor @Observable
+@MainActor
+@Observable
 public final class UserSession {
   public var state = State.loading
   public var userID: String?

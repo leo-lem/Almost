@@ -43,4 +43,15 @@ public enum Mood: String, Codable, CaseIterable, Sendable {
   case excited = "😄"
   case mindBlown = "🤯"
   case idea = "💡"
+
+  var color: Color {
+    switch self {
+    case .sad: Color("MoodNegative")
+    case .neutral: Color("MoodNeutral")
+    case .happy: Color("MoodPositive")
+    case .excited: Color("MoodHigh")
+    case .mindBlown: Color("MoodInsight")
+    case .idea: Color("MoodInsight")
+    }
+  }
 }

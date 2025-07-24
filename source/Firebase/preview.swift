@@ -6,6 +6,7 @@ import SwiftUI
 public extension View {
   func preview() -> some View {
     self
+      .accentColor(.accent)
       .environment(UserSession())
       .environment(Settings())
   }
