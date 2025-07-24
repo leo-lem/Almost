@@ -9,11 +9,6 @@ public struct AlmostApp: App {
   public var body: some Scene {
     WindowGroup {
       AlmostView()
-        .onAppear {
-#if DEBUG
-          Tips.showAllTipsForTesting()
-#endif
-        }
     }
   }
 

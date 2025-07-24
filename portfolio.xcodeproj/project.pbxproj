@@ -483,7 +483,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = KeepinOn;
+				INFOPLIST_KEY_CFBundleDisplayName = "Almost?";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UILaunchStoryboardName = resource/launch.storyboard;
@@ -512,7 +512,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = KeepinOn;
+				INFOPLIST_KEY_CFBundleDisplayName = "Almost?";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UILaunchStoryboardName = resource/launch.storyboard;
