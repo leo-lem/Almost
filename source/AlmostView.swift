@@ -6,7 +6,7 @@ import SwiftUIExtensions
 public struct AlmostView: View {
   @State private var session = UserSession()
   @State private var config = Settings()
-
+  
   public var body: some View {
     NavigationStack {
       Group {
@@ -17,7 +17,7 @@ public struct AlmostView: View {
         ToolbarItem(placement: .topBarLeading) {
           AuthenticationButton()
         }
-
+        
 #if DEBUG
         ToolbarItem {
           Button("Crash") {
@@ -32,7 +32,7 @@ public struct AlmostView: View {
     .environment(config)
     .animation(.default, value: session.userID)
   }
-
+  
   public init() {}
 }
 

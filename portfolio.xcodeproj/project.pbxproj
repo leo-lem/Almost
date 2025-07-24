@@ -77,7 +77,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6E8937042D662AF700379273 /* test */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E386F312D69E01F000963DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = test; sourceTree = "<group>"; };
 		6E8937072D662B0B00379273 /* resource */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E8937082D662B1300379273 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = resource; sourceTree = "<group>"; };
-		6EAEC89F2E323B0F0031EDAF /* AlmostTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AlmostTests; sourceTree = "<group>"; };
 		6EC5D9202E3158A0008B53B8 /* source */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6EC5D92A2E3158A5008B53B8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = source; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -118,16 +117,7 @@
 				6E10D4E72D66447E00EACE37 /* LICENSE */,
 				6E37D5FC2E314A3800F7D712 /* Almost?.app */,
 				6E37D5FD2E314A3800F7D712 /* AlmostUITests.xctest */,
-				6EAEC89F2E323B0F0031EDAF /* AlmostTests */,
-				6EAEC8842E321A2D0031EDAF /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		6EAEC8842E321A2D0031EDAF /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

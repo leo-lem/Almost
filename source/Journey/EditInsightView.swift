@@ -8,7 +8,7 @@ public struct EditInsightView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(Settings.self) private var settings
   @Environment(UserSession.self) private var session
-
+  
   public var body: some View {
     NavigationStack {
       Form {
@@ -20,7 +20,7 @@ public struct EditInsightView: View {
           TextField("What did you learn?", text: $insight.content)
             .frame(minHeight: 100)
         }
-
+        
         if settings.moodEnabled {
           Section("Mood") {
             Picker("Mood", selection: $insight.mood) {
@@ -48,7 +48,7 @@ public struct EditInsightView: View {
     }
     .trackScreen("EditInsightView")
   }
-
+  
   public init(_ insight: Binding<Insight>) { _insight = insight }
 }
 
@@ -59,7 +59,7 @@ public struct EditInsightView: View {
     content: "I will be better in the future.",
     mood: .excited
   )
-
+  
   EditInsightView($insight)
     .preview()
 }

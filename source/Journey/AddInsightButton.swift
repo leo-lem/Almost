@@ -7,7 +7,7 @@ public struct AddInsightButton: View {
   @State private var addingInsight = false
   @State private var insight = Insight(userID: "", title: "", content: "", mood: .neutral)
   @Environment(UserSession.self) private var session
-
+  
   public var body: some View {
     Button {
       if let userID = session.userID {
@@ -22,7 +22,7 @@ public struct AddInsightButton: View {
     }
     .disabled(!session.canAddInsights)
   }
-
+  
   public init() {}
 }
 

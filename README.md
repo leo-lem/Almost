@@ -1,27 +1,42 @@
 # Almost?
 
-A reflective habit tracker focused on learning from near misses. Built as a Firebase-powered portfolio project.
+[![Firebase](https://img.shields.io/badge/Firebase-console-orange?logo=firebase)](https://console.firebase.google.com/project/dev-leolem-almost/overview)
 
-## Goals
+*A reflective tool to help you learn from your near misses.*  
+Currently being rebuilt as a Firebase-powered portfolio app.
 
-- Track daily challenges and “almosts” — things you intended to do but didn’t  
-- Write short notes on what went wrong and how to improve  
-- Visualize patterns and improve consistency over time  
-- Optionally share entries with trusted peers or mentors
+## ✨ Features
 
-## Tech
+- Log daily “almosts” — things you meant to do but didn’t  
+- Reflect on what went wrong and how to improve  
+- Mark favorites for deeper review  
+- Tag your mood to uncover emotional patterns  
+- Filter insights and observe your journey over time  
+- Remote Config to toggle features dynamically
 
-- SwiftUI  
-- Firebase (Auth, Firestore, Analytics)  
-- Clean MV pattern  
-- Planned: iCloud sync, sharing, streak logic, and reflection prompts
+## 🔧 Tech
 
-## Building
+- **SwiftUI** with modern `@Observable`-based architecture  
+- **Firebase** for:
+  - Auth (email, anonymous, etc.)
+  - Firestore (real-time sync)
+  - Analytics
+  - Remote Config  
+- Clean MV-like structure with `SessionState`, async streams, and preview/test support  
+- Planned: iCloud sync, reflection prompts, public/private sharing, streak logic
 
-## Status
+## 🚧 Status
 
-App Store version is a minimal stub. New version in progress, focused on Firebase integration and improved UX.
+The App Store version is a minimal stub.  
+A full rewrite is underway with real-time sync, analytics, and feature toggles already in place.
+
+## 🛠️ Building
+
+You’ll need:
+
+- Firebase config (`GoogleService-Info.plist`)
+- Xcode 15+
 
 ---
 
-👤 Built by @Leo‑Lem — passionate about clean code, automation, and mobile UX.
+Built by [@Leo‑Lem](https://github.com/leolem) — passionate about clean code, automation, and thoughtful UX.

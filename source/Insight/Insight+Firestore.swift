@@ -8,7 +8,7 @@ import SwiftUI
   func save(dismiss: DismissAction? = nil) async {
     let collection = Firestore.firestore()
       .collection("insights")
-
+    
     do {
       if let id {
         try collection.document(id).setData(from: self)
@@ -20,7 +20,7 @@ import SwiftUI
         "message": error.localizedDescription
       ])
     }
-
+    
     if id == nil {
       Analytics.logEvent("insight_added", parameters: [
         "has_title": title != nil,
@@ -34,13 +34,13 @@ import SwiftUI
         "mood": mood.rawValue
       ])
     }
-
+    
     dismiss?()
   }
-
+  
   func delete(dismiss: DismissAction? = nil) async {
     guard let id else { return }
-
+    
     do {
       try await Firestore.firestore()
         .collection("insights")
@@ -51,13 +51,13 @@ import SwiftUI
         "message": error.localizedDescription
       ])
     }
-
+    
     Analytics.logEvent("insight_deleted", parameters: [
       "has_title": title != nil,
       "is_favorite": isFavorite,
       "mood": mood.rawValue
     ])
-
+    
     dismiss?()
   }
 }

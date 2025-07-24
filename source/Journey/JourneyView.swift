@@ -9,7 +9,7 @@ public struct JourneyView: View {
   @AppStorage("fav") private var fav = false
   @Environment(UserSession.self) private var session
   @Environment(Settings.self) private var settings
-
+  
   public var body: some View {
     List {
       if let userID = session.userID {
@@ -17,12 +17,12 @@ public struct JourneyView: View {
           Text("Add an insight to start your journey")
             .foregroundColor(.secondary)
         }
-
+        
         insightsList(userID: userID)
       } else {
         Text("Sign in to start your Journey!")
       }
-
+      
       AddInsightButton()
     }
     .id(session.userID)
@@ -40,9 +40,9 @@ public struct JourneyView: View {
     }
     .trackScreen("JourneyView")
   }
-
+  
   public init() {}
-
+  
   @ViewBuilder
   private func insightsList(userID: String) -> some View {
     ForEach(insights) { insight in
@@ -57,7 +57,7 @@ public struct JourneyView: View {
       }
     }
   }
-
+  
   @ViewBuilder
   private func insightsListEntry(_ insight: Insight) -> some View {
     HStack {
@@ -74,22 +74,22 @@ public struct JourneyView: View {
         .labelStyle(.iconOnly)
         .buttonStyle(.borderless)
       }
-
+      
       if settings.moodEnabled {
         Text(insight.mood.rawValue)
       }
-
+      
       Text((insight.title ?? insight.content).prefix(100))
     }
   }
-
+  
   private func updateInsights(_ userID: String? = nil, fav: Bool? = nil) {
     $insights.predicates = [
       .where("userID", isEqualTo: userID ?? session.userID ?? ""),
       .order(by: "timestamp", descending: true)
     ]
-
-      if fav ?? self.fav {
+    
+    if fav ?? self.fav {
       $insights.predicates += [.where("isFavorite", isEqualTo: true)]
     }
   }

@@ -10,6 +10,6 @@ public struct AlmostApp: App {
       AlmostView()
     }
   }
-
+  
   public init() { FirebaseApp.configure() }
 }

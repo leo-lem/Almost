@@ -8,67 +8,67 @@ public struct InsightDetailView: View {
   @Environment(\.dismiss) private var dismiss
   @Environment(Settings.self) private var settings
   @Environment(UserSession.self) private var session
-
+  
   public var body: some View {
-      VStack {
-        Text(insight.timestamp.formatted(date: .abbreviated, time: .omitted))
-          .font(.caption)
-          .foregroundColor(.gray)
-          .frame(maxWidth: .infinity, alignment: .center)
-
-        HStack {
-          if settings.moodEnabled {
-            Text(insight.mood.rawValue)
-              .font(.headline)
-              .padding()
-              .background(Color.secondary.opacity(0.2))
-              .clipShape(Capsule())
-          }
-
-          Spacer()
-
-          if settings.favoritesEnabled {
-            AsyncButton {
-              insight.isFavorite.toggle()
-              await insight.save()
-            } label: {
-              insight.isFavorite
-                ? Label("A Favorite!", systemImage: "star.fill")
-                : Label("Not a Favorite!", systemImage: "star")
-            }
-            .foregroundStyle(Color.accentColor)
-            .labelStyle(.stacked)
-            .buttonStyle(.bordered)
-          }
+    VStack {
+      Text(insight.timestamp.formatted(date: .abbreviated, time: .omitted))
+        .font(.caption)
+        .foregroundColor(.gray)
+        .frame(maxWidth: .infinity, alignment: .center)
+      
+      HStack {
+        if settings.moodEnabled {
+          Text(insight.mood.rawValue)
+            .font(.headline)
+            .padding()
+            .background(Color.secondary.opacity(0.2))
+            .clipShape(Capsule())
         }
-
-        ScrollView {
-          Text(insight.content)
-            .font(.body)
-            .fixedSize(horizontal: false, vertical: true)
-        }
-
+        
         Spacer()
-          NavigationLink {
-            EditInsightView($insight)
+        
+        if settings.favoritesEnabled {
+          AsyncButton {
+            insight.isFavorite.toggle()
+            await insight.save()
           } label: {
-            Label("Edit this insight", image: "pencil")
-              .frame(maxWidth: .infinity)
+            insight.isFavorite
+            ? Label("A Favorite!", systemImage: "star.fill")
+            : Label("Not a Favorite!", systemImage: "star")
           }
-          .tint(.yellow)
-          .buttonStyle(.borderedProminent)
-
-          AsyncButton { await insight.delete(dismiss: dismiss) } label: {
-            Label("Delete this insight", systemImage: "trash")
-              .frame(maxWidth: .infinity)
-          }
-          .tint(.red)
-          .buttonStyle(.borderless)
+          .foregroundStyle(Color.accentColor)
+          .labelStyle(.stacked)
+          .buttonStyle(.bordered)
+        }
       }
-      .padding()
-      .navigationTitle(insight.title ?? "Your Insight 💭")
-      .navigationBarTitleDisplayMode(.inline)
-      .trackScreen("InsightDetailView")
+      
+      ScrollView {
+        Text(insight.content)
+          .font(.body)
+          .fixedSize(horizontal: false, vertical: true)
+      }
+      
+      Spacer()
+      NavigationLink {
+        EditInsightView($insight)
+      } label: {
+        Label("Edit this insight", systemImage: "pencil")
+          .frame(maxWidth: .infinity)
+      }
+      .tint(.yellow)
+      .buttonStyle(.borderedProminent)
+      
+      AsyncButton { await insight.delete(dismiss: dismiss) } label: {
+        Label("Delete this insight", systemImage: "trash")
+          .frame(maxWidth: .infinity)
+      }
+      .tint(.red)
+      .buttonStyle(.borderless)
+    }
+    .padding()
+    .navigationTitle(insight.title ?? "Your Insight 💭")
+    .navigationBarTitleDisplayMode(.inline)
+    .trackScreen("InsightDetailView")
   }
   
   public init(_ insight: Insight) { self.insight = insight }

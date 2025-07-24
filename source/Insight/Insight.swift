@@ -8,7 +8,7 @@ public struct Insight: Codable, Identifiable, Hashable {
   @DocumentID public var id: String?
   public let userID: String
   public let timestamp: Date
-
+  
   /// Optional: e.g. “Botched presentation”
   public var title: String?
   /// What didn’t work — and what did you learn?/
