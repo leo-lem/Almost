@@ -5,7 +5,7 @@ import SwiftUIExtensions
 
 public struct AlmostView: View {
   @State private var addingInsight = false
-  @State private var session = UserSession()
+  @Environment(UserSession.self) private var session
 
   public var body: some View {
     NavigationStack {
@@ -43,7 +43,6 @@ public struct AlmostView: View {
         }
       }
     }
-    .environment(session)
     .animation(.default, value: session.userID)
     .trackScreen("AlmostView")
   }

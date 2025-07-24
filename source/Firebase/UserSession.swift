@@ -1,10 +1,10 @@
 // Created by Leopold Lemmermann on 23.07.25.
 
+import FirebaseAnalytics
 import FirebaseAuth
 import SwiftUI
 
-@MainActor
-@Observable
+@MainActor @Observable
 public final class UserSession {
   public var state = State.loading
   public var userID: String?
@@ -49,6 +49,9 @@ public extension UserSession {
       try await Task { [auth] in try await Task.detached {
           _ = try await auth.createUser(withEmail: email, password: password)
       }.value}.value
+
+      Analytics.logEvent("sign_up", parameters: [:])
+
       dismiss?()
     } catch {
       state = .error(error.localizedDescription)
@@ -62,6 +65,9 @@ public extension UserSession {
       try await Task { [auth] in try await Task.detached {
         _ = try await auth.signIn(withEmail: email, password: password)
       }.value}.value
+
+      Analytics.logEvent("sign_in", parameters: ["anonymous": false])
+
       dismiss?()
     } catch {
       state = .error(error.localizedDescription)
@@ -73,6 +79,9 @@ public extension UserSession {
       try await Task { [auth] in try await Task.detached {
         _ = try await auth.signInAnonymously()
       }.value}.value
+
+      Analytics.logEvent("sign_in", parameters: ["anonymous": true])
+
       dismiss?()
     } catch {
       state = .error(error.localizedDescription)
@@ -82,6 +91,8 @@ public extension UserSession {
   func signOut() {
     do {
       try auth.signOut()
+
+      Analytics.logEvent("sign_out", parameters: [:])
     } catch {
       state = .error(error.localizedDescription)
     }
