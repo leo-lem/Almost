@@ -10,53 +10,65 @@ public struct InsightDetailView: View {
   @Environment(UserSession.self) private var session
   
   public var body: some View {
-    VStack {
+    VStack(spacing: 16) {
       Text(insight.timestamp.formatted(date: .abbreviated, time: .omitted))
         .font(.caption)
         .foregroundColor(.gray)
         .frame(maxWidth: .infinity, alignment: .center)
       
-      HStack {
-        if settings.moodEnabled {
+      if settings.moodEnabled {
+        VStack {
           Text(insight.mood.rawValue)
-            .font(.headline)
+            .font(.system(size: 64))
+            .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.secondary.opacity(0.2))
-            .clipShape(Capsule())
+            .background(insight.mood.color.opacity(0.2))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
-        
-        Spacer()
-        
-        if settings.favoritesEnabled {
-          AsyncButton {
-            insight.isFavorite.toggle()
-            await insight.save()
-          } label: {
-            insight.isFavorite
-            ? Label("A Favorite!", systemImage: "star.fill")
-            : Label("Not a Favorite!", systemImage: "star")
-          }
-          .foregroundStyle(Color.accentColor)
-          .labelStyle(.stacked)
-          .buttonStyle(.bordered)
+      }
+      
+      if settings.favoritesEnabled {
+        AsyncButton {
+          insight.isFavorite.toggle()
+          await insight.save()
+          UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        } label: {
+          Label(
+            insight.isFavorite ? "Marked as Favorite" : "Mark as Favorite",
+            systemImage: insight.isFavorite ? "star.fill" : "star"
+          )
+          .frame(maxWidth: .infinity)
         }
+        .buttonStyle(.bordered)
+      }
+      
+      if let title = insight.title {
+        Text(title)
+          .font(.largeTitle)
       }
       
       ScrollView {
         Text(insight.content)
           .font(.body)
-          .fixedSize(horizontal: false, vertical: true)
+          .multilineTextAlignment(.center)
       }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(
+        VStack(spacing: 0) {
+          Divider()
+          Spacer()
+          Divider()
+        }
+      )
       
-      Spacer()
       NavigationLink {
         EditInsightView($insight)
       } label: {
         Label("Edit this insight", systemImage: "pencil")
           .frame(maxWidth: .infinity)
       }
-      .tint(.yellow)
       .buttonStyle(.borderedProminent)
+      .foregroundColor(.background)
       
       AsyncButton { await insight.delete(dismiss: dismiss) } label: {
         Label("Delete this insight", systemImage: "trash")
@@ -66,7 +78,8 @@ public struct InsightDetailView: View {
       .buttonStyle(.borderless)
     }
     .padding()
-    .navigationTitle(insight.title ?? "Your Insight 💭")
+    .background(insight.mood.color.opacity(0.1))
+    .navigationTitle("Your Insight 💭")
     .navigationBarTitleDisplayMode(.inline)
     .trackScreen("InsightDetailView")
   }
@@ -79,7 +92,7 @@ public struct InsightDetailView: View {
     InsightDetailView(
       Insight(
         userID: "",
-        title: "",
+        title: "This is a title",
         content: "This is an example insight.\n It should show up in the detail view.",
         mood: .mindBlown
       )

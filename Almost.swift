@@ -2,6 +2,7 @@
 
 import Firebase
 import SwiftUI
+import TipKit
 
 @main
 public struct AlmostApp: App {
@@ -11,5 +12,8 @@ public struct AlmostApp: App {
     }
   }
   
-  public init() { FirebaseApp.configure() }
+  public init() {
+    FirebaseApp.configure()
+    try? Tips.configure()
+  }
 }

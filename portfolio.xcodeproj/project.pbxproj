@@ -49,26 +49,26 @@
 			membershipExceptions = (
 				Assets.xcassets,
 				"GoogleService-Info.plist",
-				RemoteConfig.plist,
+				previews/preview.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
 		6EC5D92A2E3158A5008B53B8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				AddInsightButton.swift,
 				AlmostView.swift,
-				Auth/AuthenticationButton.swift,
-				Auth/AuthenticationView.swift,
-				Firebase/preview.swift,
+				AuthenticationButton.swift,
+				AuthenticationView.swift,
+				EditInsightView.swift,
+				"Firebase/Insight+Firestore.swift",
 				Firebase/Settings.swift,
 				Firebase/trackScreen.swift,
 				Firebase/UserSession.swift,
-				Insight/Insight.swift,
-				"Insight/Insight+Firestore.swift",
-				Journey/AddInsightButton.swift,
-				Journey/EditInsightView.swift,
-				Journey/InsightDetailView.swift,
-				Journey/JourneyView.swift,
+				Insight.swift,
+				InsightDetailView.swift,
+				InsightsList.swift,
+				JourneyView.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
@@ -481,9 +481,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = KeepinOn;
+				INFOPLIST_KEY_CFBundleDisplayName = "Almost?";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UILaunchStoryboardName = resource/launch.storyboard;
@@ -510,9 +511,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = resource/previews;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = resource/info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = KeepinOn;
+				INFOPLIST_KEY_CFBundleDisplayName = "Almost?";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UILaunchStoryboardName = resource/launch.storyboard;

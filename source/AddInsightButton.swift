@@ -10,13 +10,14 @@ public struct AddInsightButton: View {
   
   public var body: some View {
     Button {
-      if let userID = session.userID {
-        insight = Insight(userID: userID, title: "", content: "", mood: .neutral)
-      }
+      guard let userID = session.userID else { return }
+      insight = Insight(userID: userID, title: "", content: "", mood: .neutral)
       addingInsight = true
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     } label: {
-      Label("Add Insight", systemImage: "plus.circle")
+      Label("Add Insight", systemImage: "plus.circle.fill")
     }
+    .tint(.accentColor)
     .sheet(isPresented: $addingInsight) {
       EditInsightView($insight)
     }

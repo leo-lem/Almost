@@ -3,38 +3,48 @@
 [![Firebase](https://img.shields.io/badge/Firebase-console-orange?logo=firebase)](https://console.firebase.google.com/project/dev-leolem-almost/overview)
 
 *A reflective tool to help you learn from your near misses.*  
-Currently being rebuilt as a Firebase-powered portfolio app.
+Now rebuilt as a Firebase-powered portfolio app.
 
 ## ✨ Features
 
 - Log daily “almosts” — things you meant to do but didn’t  
-- Reflect on what went wrong and how to improve  
-- Mark favorites for deeper review  
+- Reflect on what happened and how to grow from it  
+- Mark favorites for review  
 - Tag your mood to uncover emotional patterns  
-- Filter insights and observe your journey over time  
-- Remote Config to toggle features dynamically
+- Filter insights and explore your journey  
+- Remote Config to toggle features dynamically  
+- Subtle haptics, smooth animations, and dark mode support
 
-## 🔧 Tech
 
-- **SwiftUI** with modern `@Observable`-based architecture  
-- **Firebase** for:
-  - Auth (email, anonymous, etc.)
+## 🔧 Tech Stack
+
+- **SwiftUI** with modern `@Observable` architecture  
+- **Firebase**:
+  - Auth (anonymous & email)
   - Firestore (real-time sync)
   - Analytics
   - Remote Config  
-- Clean MV-like structure with `SessionState`, async streams, and preview/test support  
-- Planned: iCloud sync, reflection prompts, public/private sharing, streak logic
+- Clean MV-ish structure using `SessionState`, dependency injection, and `AsyncStream`  
+- Preview/test support, launch screen, and app icon variants (light, dark, tinted)
+
+Planned:
+- Reflection prompts  
+- Public/private insight sharing  
+- Streaks and reminders
 
 ## 🚧 Status
 
-The App Store version is a minimal stub.  
-A full rewrite is underway with real-time sync, analytics, and feature toggles already in place.
+The App Store version is a placeholder.  
+A full rewrite is in progress with sync, analytics, and feature flags already integrated, as well as polished UI and onboarding.  
+Next up: marketing.
+
+---
 
 ## 🛠️ Building
 
 You’ll need:
 
-- Firebase config (`GoogleService-Info.plist`)
+- `GoogleService-Info.plist` (Firebase config)
 - Xcode 15+
 
 ---
