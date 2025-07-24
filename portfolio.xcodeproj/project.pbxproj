@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		6E8275872E3142B300780973 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E8275862E3142B300780973 /* FirebaseAuth */; };
 		6E82758A2E3142E100780973 /* SwiftUIExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 6E8275892E3142E100780973 /* SwiftUIExtensions */; };
+		6EAEC8862E321A2D0031EDAF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */; };
+		6EAEC8882E321AAA0031EDAF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */; };
 		6EC7C8722A18439800C783F0 /* Almost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC7C8712A18439800C783F0 /* Almost.swift */; };
 		6EFD09B82E3000A300475D32 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B72E3000A300475D32 /* FirebaseCore */; };
 		6EFD09BA2E300CE900475D32 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B92E300CE900475D32 /* FirebaseFirestore */; };
@@ -53,13 +55,16 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AlmostView.swift,
+				Analytics/trackScreen.swift,
 				Auth/AuthenticationButton.swift,
 				Auth/AuthenticationView.swift,
 				Auth/UserSession.swift,
-				Insights/Insight.swift,
-				Insights/InsightDetailView.swift,
-				Insights/JourneyView.swift,
-				Insights/NewInsightView.swift,
+				Insight/Insight.swift,
+				"Insight/Insight+Firestore.swift",
+				Journey/EditInsightView.swift,
+				Journey/InsightDetailView.swift,
+				Journey/JourneyView.swift,
+				Journey/NewInsightView.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
@@ -86,6 +91,8 @@
 				6EFD09B82E3000A300475D32 /* FirebaseCore in Frameworks */,
 				6EFD09BA2E300CE900475D32 /* FirebaseFirestore in Frameworks */,
 				6E82758A2E3142E100780973 /* SwiftUIExtensions in Frameworks */,
+				6EAEC8882E321AAA0031EDAF /* FirebaseCrashlytics in Frameworks */,
+				6EAEC8862E321A2D0031EDAF /* FirebaseAnalytics in Frameworks */,
 				6E8275872E3142B300780973 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,7 +112,15 @@
 				6E10D4E72D66447E00EACE37 /* LICENSE */,
 				6E37D5FC2E314A3800F7D712 /* Almost?.app */,
 				6E37D5FD2E314A3800F7D712 /* AlmostUITests.xctest */,
+				6EAEC8842E321A2D0031EDAF /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		6EAEC8842E321A2D0031EDAF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,6 +165,8 @@
 				6EFD09B92E300CE900475D32 /* FirebaseFirestore */,
 				6E8275862E3142B300780973 /* FirebaseAuth */,
 				6E8275892E3142E100780973 /* SwiftUIExtensions */,
+				6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */,
+				6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */,
 			);
 			productName = KeepinOn;
 			productReference = 6E37D5FC2E314A3800F7D712 /* Almost?.app */;
@@ -581,6 +598,16 @@
 		6E8275892E3142E100780973 /* SwiftUIExtensions */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftUIExtensions;
+		};
+		6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EB5D4432E2E97900078D1AD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EB5D4432E2E97900078D1AD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		6EFD09B72E3000A300475D32 /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,7 +1,7 @@
 // Created by Leopold Lemmermann on 22.07.25.
 
 import FirebaseFirestore
-import Foundation
+import SwiftUI
 
 /// The heart of our reflection journey, insights enable users to grow.
 public struct Insight: Codable, Identifiable, Hashable {
@@ -13,19 +13,19 @@ public struct Insight: Codable, Identifiable, Hashable {
   /// What didn’t work — and what did you learn?/
   public var content: String
   /// Optional: user-selected emoji/mood tag/
-  public var mood: Mood?
+  public var mood: Mood
   /// Optional UX feature/
   public var isFavorite: Bool
   
   public init(
     timestamp: Date = .now,
-    title: String? = nil,
+    title: String,
     content: String,
-    mood: Mood? = nil,
+    mood: Mood,
     isFavorite: Bool = false
   ) {
     self.timestamp = timestamp
-    self.title = title
+    self.title = title.isEmpty ? nil : title
     self.content = content
     self.mood = mood
     self.isFavorite = isFavorite

@@ -14,7 +14,7 @@ public struct AlmostView: View {
           JourneyView(userID: userID)
             .sheet(isPresented: $addingInsight) {
               if case .signedIn = session.state {
-                NewInsightView()
+                NewInsightView(userID: userID)
               }
             }
         } else {
@@ -23,6 +23,15 @@ public struct AlmostView: View {
       }
       .navigationTitle("Almost? Your Journey!")
       .toolbar {
+        #if DEBUG
+        ToolbarItem {
+          Button("Crash") {
+            fatalError("Crash triggered for Firebase Crashlytics")
+          }
+          .foregroundStyle(.red)
+        }
+        #endif
+
         ToolbarItem(placement: .topBarLeading) {
           AuthenticationButton()
         }
@@ -36,6 +45,7 @@ public struct AlmostView: View {
     }
     .environment(session)
     .animation(.default, value: session.userID)
+    .trackScreen("AlmostView")
   }
 
   public init() {}

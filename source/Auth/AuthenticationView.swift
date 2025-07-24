@@ -60,6 +60,7 @@ public struct AuthenticationView: View {
     }
     .buttonStyle(.borderless)
     .presentationDetents([.medium])
+    .trackScreen("AuthenticationView")
   }
   
   public init() {}
