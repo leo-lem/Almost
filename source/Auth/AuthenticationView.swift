@@ -71,5 +71,5 @@ public struct AuthenticationView: View {
   
   Toggle("Sign in", isOn: $isPresented)
     .sheet(isPresented: $isPresented) { AuthenticationView() }
-    .environment(UserSession())
+    .preview()
 }

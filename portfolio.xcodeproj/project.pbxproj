@@ -59,15 +59,16 @@
 				AlmostView.swift,
 				Auth/AuthenticationButton.swift,
 				Auth/AuthenticationView.swift,
-				Firebase/RemoteSettings.swift,
+				Firebase/preview.swift,
+				Firebase/Settings.swift,
 				Firebase/trackScreen.swift,
 				Firebase/UserSession.swift,
 				Insight/Insight.swift,
 				"Insight/Insight+Firestore.swift",
+				Journey/AddInsightButton.swift,
 				Journey/EditInsightView.swift,
 				Journey/InsightDetailView.swift,
 				Journey/JourneyView.swift,
-				Journey/NewInsightView.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
@@ -76,6 +77,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6E8937042D662AF700379273 /* test */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E386F312D69E01F000963DD /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = test; sourceTree = "<group>"; };
 		6E8937072D662B0B00379273 /* resource */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E8937082D662B1300379273 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = resource; sourceTree = "<group>"; };
+		6EAEC89F2E323B0F0031EDAF /* AlmostTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = AlmostTests; sourceTree = "<group>"; };
 		6EC5D9202E3158A0008B53B8 /* source */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6EC5D92A2E3158A5008B53B8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = source; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -116,6 +118,7 @@
 				6E10D4E72D66447E00EACE37 /* LICENSE */,
 				6E37D5FC2E314A3800F7D712 /* Almost?.app */,
 				6E37D5FD2E314A3800F7D712 /* AlmostUITests.xctest */,
+				6EAEC89F2E323B0F0031EDAF /* AlmostTests */,
 				6EAEC8842E321A2D0031EDAF /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -157,7 +160,6 @@
 				6E48374128EC991100B67CA4 /* Sources */,
 				6E48374228EC991100B67CA4 /* Frameworks */,
 				6E48374328EC991100B67CA4 /* Resources */,
-				6EAEC8952E3232EF0031EDAF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -185,7 +187,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					6E386F242D69E001000963DD = {
@@ -238,26 +240,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		6EAEC8952E3232EF0031EDAF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6E386F212D69E001000963DD /* Sources */ = {

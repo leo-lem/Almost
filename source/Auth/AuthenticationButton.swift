@@ -7,7 +7,7 @@ public struct AuthenticationButton: View {
   @Environment(UserSession.self) private var session
 
   public var body: some View {
-    Group {
+    VStack {
       switch session.state {
       case .loading, .error:
         ProgressView().progressViewStyle(.circular)
@@ -37,5 +37,5 @@ public struct AuthenticationButton: View {
     Text("Hello")
       .toolbar { AuthenticationButton() }
   }
-  .environment(UserSession())
+  .preview()
 }

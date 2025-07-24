@@ -4,47 +4,33 @@ import SwiftUI
 import SwiftUIExtensions
 
 public struct AlmostView: View {
-  @State private var addingInsight = false
-  @Environment(UserSession.self) private var session
+  @State private var session = UserSession()
+  @State private var config = Settings()
 
   public var body: some View {
     NavigationStack {
       Group {
-        if let userID = session.userID {
-          JourneyView(userID: userID)
-            .sheet(isPresented: $addingInsight) {
-              if case .signedIn = session.state {
-                NewInsightView(userID: userID)
-              }
-            }
-        } else {
-          Text("Sign in to start your Journey!")
-        }
+        JourneyView()
       }
       .navigationTitle("Almost? Your Journey!")
       .toolbar {
-        #if DEBUG
+        ToolbarItem(placement: .topBarLeading) {
+          AuthenticationButton()
+        }
+
+#if DEBUG
         ToolbarItem {
           Button("Crash") {
             fatalError("Crash triggered for Firebase Crashlytics")
           }
           .foregroundStyle(.red)
         }
-        #endif
-
-        ToolbarItem(placement: .topBarLeading) {
-          AuthenticationButton()
-        }
-
-        ToolbarItem(placement: .primaryAction) {
-          Button("Add Insight") { addingInsight = true }
-            .buttonStyle(.borderedProminent)
-            .disabled(!session.canAddInsights)
-        }
+#endif
       }
     }
+    .environment(session)
+    .environment(config)
     .animation(.default, value: session.userID)
-    .trackScreen("AlmostView")
   }
 
   public init() {}
@@ -52,4 +38,5 @@ public struct AlmostView: View {
 
 #Preview {
   AlmostView()
+    .preview()
 }

@@ -6,6 +6,7 @@ import SwiftUI
 /// The heart of our reflection journey, insights enable users to grow.
 public struct Insight: Codable, Identifiable, Hashable {
   @DocumentID public var id: String?
+  public let userID: String
   public let timestamp: Date
 
   /// Optional: e.g. “Botched presentation”
@@ -18,12 +19,14 @@ public struct Insight: Codable, Identifiable, Hashable {
   public var isFavorite: Bool
   
   public init(
+    userID: String,
     timestamp: Date = .now,
     title: String,
     content: String,
     mood: Mood,
     isFavorite: Bool = false
   ) {
+    self.userID = userID
     self.timestamp = timestamp
     self.title = title.isEmpty ? nil : title
     self.content = content

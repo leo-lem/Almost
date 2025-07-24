@@ -9,14 +9,15 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : false,
     "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:features",
-        "identifier" : "FeaturesTest",
-        "name" : "FeaturesTest"
+        "containerPath" : "container:portfolio.xcodeproj",
+        "identifier" : "6EAEC89D2E323B0F0031EDAF",
+        "name" : "AlmostTests"
       }
     }
   ],

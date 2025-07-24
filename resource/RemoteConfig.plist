@@ -4,8 +4,6 @@
 <dict>
 	<key>favorites_enabled</key>
 	<true/>
-	<key>analytics_enabled</key>
-	<true/>
 	<key>mood_picker_enabled</key>
 	<true/>
 </dict>

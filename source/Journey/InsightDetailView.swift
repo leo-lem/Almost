@@ -4,14 +4,43 @@ import SwiftUI
 import SwiftUIExtensions
 
 public struct InsightDetailView: View {
-  public let userID: String?
-  @State public var insight: Insight
-  @State private var error: FirebaseError?
+  @State private var insight: Insight
   @Environment(\.dismiss) private var dismiss
+  @Environment(Settings.self) private var settings
+  @Environment(UserSession.self) private var session
 
   public var body: some View {
       VStack {
-        header
+        Text(insight.timestamp.formatted(date: .abbreviated, time: .omitted))
+          .font(.caption)
+          .foregroundColor(.gray)
+          .frame(maxWidth: .infinity, alignment: .center)
+
+        HStack {
+          if settings.moodEnabled {
+            Text(insight.mood.rawValue)
+              .font(.headline)
+              .padding()
+              .background(Color.secondary.opacity(0.2))
+              .clipShape(Capsule())
+          }
+
+          Spacer()
+
+          if settings.favoritesEnabled {
+            AsyncButton {
+              insight.isFavorite.toggle()
+              await insight.save()
+            } label: {
+              insight.isFavorite
+                ? Label("A Favorite!", systemImage: "star.fill")
+                : Label("Not a Favorite!", systemImage: "star")
+            }
+            .foregroundStyle(Color.accentColor)
+            .labelStyle(.stacked)
+            .buttonStyle(.bordered)
+          }
+        }
 
         ScrollView {
           Text(insight.content)
@@ -20,9 +49,8 @@ public struct InsightDetailView: View {
         }
 
         Spacer()
-
           NavigationLink {
-            EditInsightView($insight, userID: userID)
+            EditInsightView($insight)
           } label: {
             Label("Edit this insight", image: "pencil")
               .frame(maxWidth: .infinity)
@@ -30,14 +58,7 @@ public struct InsightDetailView: View {
           .tint(.yellow)
           .buttonStyle(.borderedProminent)
 
-          if let error {
-            Text(error.localizedDescription)
-              .font(.callout)
-              .foregroundStyle(.red)
-          }
-          AsyncButton {
-            do { try await insight.delete(userID, dismiss: dismiss) } catch {}
-          } label: {
+          AsyncButton { await insight.delete(dismiss: dismiss) } label: {
             Label("Delete this insight", systemImage: "trash")
               .frame(maxWidth: .infinity)
           }
@@ -49,45 +70,20 @@ public struct InsightDetailView: View {
       .navigationBarTitleDisplayMode(.inline)
       .trackScreen("InsightDetailView")
   }
-
-  @ViewBuilder
-  private var header: some View {
-    HStack(spacing: 8) {
-      Text(insight.mood.rawValue)
-        .font(.headline)
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(Color.secondary.opacity(0.1))
-        .clipShape(Capsule())
-
-      if insight.isFavorite {
-        Image(systemName: "star.fill")
-          .foregroundColor(.yellow)
-      }
-
-      Spacer()
-
-      Text(insight.timestamp.formatted(date: .abbreviated, time: .omitted))
-        .font(.caption)
-        .foregroundColor(.gray)
-    }
-  }
   
-  public init(_ insight: Insight, userID: String?) {
-    self.insight = insight
-    self.userID = userID
-  }
+  public init(_ insight: Insight) { self.insight = insight }
 }
 
 #Preview {
   NavigationStack {
     InsightDetailView(
       Insight(
+        userID: "",
         title: "",
         content: "This is an example insight.\n It should show up in the detail view.",
         mood: .mindBlown
-      ),
-      userID: nil
+      )
     )
   }
+  .preview()
 }

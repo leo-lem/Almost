@@ -10,18 +10,12 @@ public final class UserSession {
   public var userID: String?
 
   private let auth = Auth.auth()
-  private var listener: AuthStateDidChangeListenerHandle!
 
   public init() {
-    listener = auth.addStateDidChangeListener { _, user in
+    _ = auth.addStateDidChangeListener { _, user in
       self.state = if let user { .signedIn(user) } else { .signedOut }
       self.userID = user?.uid
     }
-  }
-
-  deinit {
-    // i cannot figure out how to do this with MainActor
-//    auth.removeStateDidChangeListener(self.listener)
   }
 }
 
