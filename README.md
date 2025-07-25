@@ -1,9 +1,11 @@
 # Almost?
 
+[![Download on the App Store](https://img.shields.io/badge/App%20Store-Download-blue?logo=apple)](https://apps.apple.com/de/app/keepinon/id6742201361?l=en-GB)
 [![Firebase](https://img.shields.io/badge/Firebase-console-orange?logo=firebase)](https://console.firebase.google.com/project/dev-leolem-almost/overview)
+[![App Store Connect](https://img.shields.io/badge/App%20Store%20Connect-Dashboard-green?logo=apple)](https://appstoreconnect.apple.com/apps/6742201361/distribution)
 
 *A reflective tool to help you learn from your near misses.*  
-Now rebuilt as a Firebase-powered portfolio app.
+All new and rebuilt with Firebase under the hood.
 
 ## ✨ Features
 
@@ -31,14 +33,6 @@ Planned:
 - Reflection prompts  
 - Public/private insight sharing  
 - Streaks and reminders
-
-## 🚧 Status
-
-The App Store version is a placeholder.  
-A full rewrite is in progress with sync, analytics, and feature flags already integrated, as well as polished UI and onboarding.  
-Next up: marketing.
-
----
 
 ## 🛠️ Building
 
