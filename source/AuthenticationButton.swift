@@ -1,8 +1,10 @@
 // Created by Leopold Lemmermann on 21.07.25.
+
 import SwiftUI
+import SwiftUIExtensions
 
 public struct AuthenticationButton: View {
-  @State private var signingIn = false
+  @State private var showingSettings = false
   @Environment(UserSession.self) private var session
   
   public var body: some View {
@@ -18,25 +20,35 @@ public struct AuthenticationButton: View {
             .font(.caption)
             .foregroundColor(.secondary)
         }
-        
-        Button("Sign Out", role: .destructive) {
+
+        Toggle(isOn: $showingSettings) {
+          Label("Settings", systemImage: "gearshape.fill")
+        }
+
+        Button(role: .destructive) {
           session.signOut()
+        } label: {
+          Label("Sign Out", systemImage: "xmark.circle.fill")
         }
       } label: {
         Label("Signed In", systemImage: "person.crop.circle.fill")
           .labelStyle(.iconOnly)
           .foregroundColor(.accentColor)
       }
-      
+      .sheet(isPresented: $showingSettings) {
+        NavigationStack {
+          SettingsView()
+        }
+      }
+
     case .signedOut:
-      Button {
-        signingIn = true
+      SheetLink {
+        AuthenticationView()
       } label: {
         Label("Sign In", systemImage: "person.crop.circle.badge.plus")
           .labelStyle(.iconOnly)
           .foregroundColor(.accentColor)
       }
-      .sheet(isPresented: $signingIn, content: AuthenticationView.init)
     }
   }
   

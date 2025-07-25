@@ -19,7 +19,9 @@ public struct AddInsightButton: View {
     }
     .tint(.accentColor)
     .sheet(isPresented: $addingInsight) {
-      EditInsightView($insight)
+      NavigationStack {
+        EditInsightView($insight)
+      }
     }
     .disabled(!session.canAddInsights)
   }

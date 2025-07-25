@@ -7,15 +7,19 @@ import SwiftUI
 @MainActor
 @Observable
 public final class Settings {
-  private let config = RemoteConfig.remoteConfig()
-  
-  public var analyticsEnabled: Bool {
-    UserDefaults.standard.bool(forKey: "isAnalyticsEnabled")
-  }
-  
   public var moodEnabled: Bool = true
   public var favoritesEnabled: Bool = true
-  
+
+  public var analyticsEnabled: Bool {
+    get { UserDefaults.standard.bool(forKey: "analyticsEnabled") }
+    set {
+      UserDefaults.standard.set(newValue, forKey: "analyticsEnabled")
+      Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
+    }
+  }
+
+  private let config = RemoteConfig.remoteConfig()
+
   public init() {
     config.setDefaults([
       "mood_picker_enabled": true as NSObject,
@@ -29,13 +33,7 @@ public final class Settings {
         self.favoritesEnabled = self.config["favorites_enabled"].boolValue
       }
     }
-    
-#if DEBUG
-    Analytics.setAnalyticsCollectionEnabled(true)
-#else
-    Analytics.setAnalyticsCollectionEnabled(
-      UserDefaults.standard.bool(forKey: "isAnalyticsEnabled")
-    )
-#endif
+
+    Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
   }
 }

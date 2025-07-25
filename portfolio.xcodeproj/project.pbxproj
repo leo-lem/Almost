@@ -69,6 +69,7 @@
 				InsightDetailView.swift,
 				InsightsList.swift,
 				JourneyView.swift,
+				SettingsView.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost? */;
 		};
