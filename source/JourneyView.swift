@@ -42,6 +42,7 @@ public struct JourneyView: View {
     .onAppear { updateInsights() }
     .onChange(of: fav) { updateInsights(fav: $1) }
     .onChange(of: session.userID) { updateInsights($1) }
+    .navigationTitle("Your Journey 🌱")
     .trackScreen("JourneyView")
   }
 

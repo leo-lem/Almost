@@ -10,14 +10,13 @@ public struct AlmostView: View {
   public var body: some View {
     NavigationStack {
       JourneyView()
-        .background(Color(uiColor: .systemBackground))
-        .foregroundStyle(.primary)
-        .navigationTitle("Your Journey 🌱")
         .toolbar {
           ToolbarItem(placement: .topBarLeading) { AuthenticationButton() }
         }
     }
     .animation(.default, value: session.userID)
+    .background(Color(uiColor: .systemBackground))
+    .foregroundStyle(.primary)
     .accentColor(.accent)
     .environment(session)
     .environment(config)
