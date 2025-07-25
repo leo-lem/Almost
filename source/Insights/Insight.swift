@@ -1,7 +1,7 @@
 // Created by Leopold Lemmermann on 22.07.25.
 
 import FirebaseFirestore
-import SwiftUI
+import Foundation
 
 /// The heart of our reflection journey, insights enable users to grow.
 public struct Insight: Codable, Identifiable, Hashable {
@@ -21,9 +21,9 @@ public struct Insight: Codable, Identifiable, Hashable {
   public init(
     userID: String,
     timestamp: Date = .now,
-    title: String,
-    content: String,
-    mood: Mood,
+    title: String = "",
+    content: String = "",
+    mood: Mood = .calm,
     isFavorite: Bool = false
   ) {
     self.userID = userID
@@ -32,26 +32,5 @@ public struct Insight: Codable, Identifiable, Hashable {
     self.content = content
     self.mood = mood
     self.isFavorite = isFavorite
-  }
-}
-
-/// The mood associated with the insight can provide helpful context.
-public enum Mood: String, Codable, CaseIterable, Sendable {
-  case sad = "😞"
-  case neutral = "😐"
-  case happy = "🙂"
-  case excited = "😄"
-  case mindBlown = "🤯"
-  case idea = "💡"
-  
-  var color: Color {
-    switch self {
-    case .sad: Color("MoodNegative")
-    case .neutral: Color("MoodNeutral")
-    case .happy: Color("MoodPositive")
-    case .excited: Color("MoodHigh")
-    case .mindBlown: Color("MoodInsight")
-    case .idea: Color("MoodInsight")
-    }
   }
 }

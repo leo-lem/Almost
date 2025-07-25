@@ -18,7 +18,7 @@ public struct InsightDetailView: View {
       
       if settings.moodEnabled {
         VStack {
-          Text(insight.mood.rawValue)
+          Text(insight.mood.emoji)
             .font(.system(size: 64))
             .frame(maxWidth: .infinity)
             .padding()
@@ -45,6 +45,7 @@ public struct InsightDetailView: View {
       if let title = insight.title {
         Text(title)
           .font(.largeTitle)
+          .foregroundStyle(insight.mood.color)
       }
       
       ScrollView {
@@ -55,7 +56,7 @@ public struct InsightDetailView: View {
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(
-        VStack(spacing: 0) {
+        VStack {
           Divider()
           Spacer()
           Divider()

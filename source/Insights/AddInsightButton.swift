@@ -5,13 +5,13 @@ import SwiftUIExtensions
 
 public struct AddInsightButton: View {
   @State private var addingInsight = false
-  @State private var insight = Insight(userID: "", title: "", content: "", mood: .neutral)
+  @State private var insight = Insight(userID: "")
   @Environment(UserSession.self) private var session
   
   public var body: some View {
     Button {
       guard let userID = session.userID else { return }
-      insight = Insight(userID: userID, title: "", content: "", mood: .neutral)
+      insight = Insight(userID: userID)
       addingInsight = true
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     } label: {

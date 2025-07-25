@@ -6,7 +6,7 @@ extension Insight {
       userID: "",
       title: "This is a title",
       content: "This is an example insight.\n It should show up in the detail view.",
-      mood: .mindBlown,
+      mood: .mindblown,
       isFavorite: .random()
     )
   }

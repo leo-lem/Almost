@@ -17,8 +17,11 @@ public struct EditInsightView: View {
             Text("How did you feel?")
               .font(.headline)
             
-            Text(insight.mood.rawValue)
+            Text(insight.mood.emoji)
               .font(.system(size: 64))
+
+            Text(insight.mood.rawValue)
+              .font(.caption)
           }
           .frame(maxWidth: .infinity)
           .padding()
@@ -27,7 +30,7 @@ public struct EditInsightView: View {
           
           Picker("Mood", selection: $insight.mood) {
             ForEach(Mood.allCases, id: \.self) { mood in
-              Text(mood.rawValue).tag(mood)
+              Text(mood.emoji).tag(mood)
             }
           }
           .pickerStyle(.segmented)

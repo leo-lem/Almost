@@ -70,6 +70,7 @@
 				Insights/InsightDetailView.swift,
 				Insights/InsightRowView.swift,
 				Insights/InsightsList.swift,
+				Insights/Mood.swift,
 				JourneyView.swift,
 				SettingsView.swift,
 			);
