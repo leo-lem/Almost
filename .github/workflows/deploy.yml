@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: ["main"]
-    paths: ["web/**"]
+    paths: ["resource/web/**"]
 permissions:
   pages: write
   id-token: write
