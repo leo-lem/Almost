@@ -12,4 +12,4 @@ jobs:
   deploy:
     uses: leo-lem/leo-lem/.github/workflows/deploy-pages.yml@main
     with:
-      path: web
+      path: resource/web
