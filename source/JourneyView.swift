@@ -8,43 +8,34 @@ import TipKit
 public struct JourneyView: View {
   @FirestoreQuery(collectionPath: "insights") var insights: [Insight]
   @AppStorage("fav") private var fav = false
+
   @Environment(UserSession.self) private var session
   @Environment(Settings.self) private var settings
-  
+
   public var body: some View {
-    List {
-      InsightsList(insights: insights, placeholder: Text(
-        session.userID == nil
-        ? "Sign in to start your Journey!"
-        : fav
-        ? "No favorite insights yet."
-        : "Add an insight to start your journey")
-      )
-      
-      Section {
-        AddInsightButton()
-          .listRowSeparator(.hidden)
-          .frame(maxWidth: .infinity, alignment: .center)
-          .popoverTip(AddInsightTip())
-      } header: {
-        if !insights.isEmpty {
-          Text(" ")
-        }
+    VStack {
+      List {
+        InsightsList(insights: insights, placeholder: placeholder)
       }
-    }
-    .toolbar {
-      ToolbarItem(placement: .topBarTrailing) {
+      .scrollContentBackground(.hidden)
+      .toolbar {
         if settings.favoritesEnabled {
-          Toggle(isOn: $fav) {
-            Image(systemName: fav ? "star.fill" : "star")
+          ToolbarItem(placement: .topBarTrailing) {
+            Toggle(isOn: $fav) {
+              Label("Favorites only", systemImage: fav ? "star.fill" : "star")
+            }
+            .toggleStyle(.button)
+            .labelStyle(.iconOnly)
+            .popoverTip(SwitchViewTip())
           }
-          .toggleStyle(.button)
-          .labelStyle(.iconOnly)
-          .popoverTip(SwitchViewTip())
         }
       }
+
+      Spacer()
+
+      AddInsightButton()
+        .popoverTip(AddInsightTip())
     }
-    .scrollContentBackground(.hidden)
     .background(Color.background)
     .animation(.easeInOut(duration: 0.3), value: insights)
     .animation(.default, value: fav)
@@ -53,15 +44,25 @@ public struct JourneyView: View {
     .onChange(of: session.userID) { updateInsights($1) }
     .trackScreen("JourneyView")
   }
-  
+
   public init() {}
-  
+
+  private var placeholder: Text {
+    if session.userID == nil {
+      Text("Sign in to start your Journey!")
+    } else if fav {
+      Text("No favorite insights yet.")
+    } else {
+      Text("Add an insight to start your journey")
+    }
+  }
+
   private func updateInsights(_ userID: String? = nil, fav: Bool? = nil) {
     $insights.predicates = [
       .where("userID", isEqualTo: userID ?? session.userID ?? ""),
       .order(by: "timestamp", descending: true)
     ]
-    
+
     if fav ?? self.fav {
       $insights.predicates += [.where("isFavorite", isEqualTo: true)]
     }

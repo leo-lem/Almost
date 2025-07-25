@@ -17,10 +17,10 @@ public struct AlmostView: View {
           ToolbarItem(placement: .topBarLeading) { AuthenticationButton() }
         }
     }
+    .animation(.default, value: session.userID)
     .accentColor(.accent)
     .environment(session)
     .environment(config)
-    .animation(.default, value: session.userID)
   }
   
   public init() {}

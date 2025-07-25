@@ -18,12 +18,16 @@ public struct AddInsightButton: View {
       Label("Add Insight", systemImage: "plus.circle.fill")
     }
     .tint(.accentColor)
+    .disabled(!session.canAddInsights)
+    .font(.title2.bold())
+    .foregroundStyle(Color.background)
+    .padding()
+    .background(Color.accentColor, in: .capsule)
     .sheet(isPresented: $addingInsight) {
       NavigationStack {
         EditInsightView($insight)
       }
     }
-    .disabled(!session.canAddInsights)
   }
   
   public init() {}

@@ -24,7 +24,7 @@ public struct InsightRowView: View {
       }
 
       if settings.moodEnabled {
-        Text(insight.mood.rawValue)
+        Text(insight.mood.emoji)
           .padding(.horizontal, 8)
           .padding(.vertical, 4)
           .background(insight.mood.color.opacity(0.2))
