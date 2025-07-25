@@ -3,7 +3,7 @@
 import SwiftUI
 
 public extension View {
-  func preview() -> some View {
+  func firebase() -> some View {
     self
       .accentColor(.accent)
       .environment(UserSession())

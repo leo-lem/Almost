@@ -22,18 +22,19 @@ struct SettingsView: View {
 
       Section {
         Link(destination: URL(string: "https://almost.leolem.dev")!) {
-          Label("Find out more", systemImage: "safari")
+          Label("Find out more about Almost", systemImage: "safari")
         }
         .labelStyle(.external(color: .accent, transfer: true))
+        .foregroundStyle(.accent)
 
         Link(destination: URL(string: "https://almost.leolem.dev/privacy")!) {
-          Label("Privacy Policy", systemImage: "lock.shield")
+          Label("Privacy Stuff", systemImage: "lock.shield")
         }
         .labelStyle(.external(color: .indigo, transfer: true))
         .foregroundStyle(.indigo)
 
         Link(destination: URL(string: "https://leolem.dev")!) {
-          Label("My Personal Site", systemImage: "person.circle")
+          Label("About Me", systemImage: "person.circle")
         }
         .labelStyle(.external(color: .green, transfer: true))
         .foregroundStyle(.green)
@@ -44,6 +45,7 @@ struct SettingsView: View {
     .navigationTitle("Settings")
     .navigationBarTitleDisplayMode(.inline)
     .presentationDetents([.medium])
+    .trackScreen("SettingsView")
   }
 }
 
@@ -54,5 +56,5 @@ struct SettingsView: View {
         SettingsView()
       }
     }
-    .preview()
+    .firebase()
 }

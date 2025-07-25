@@ -81,8 +81,8 @@ private struct AddInsightTip: Tip {
 }
 
 #Preview {
-  NavigationView {
+  NavigationStack {
     JourneyView()
   }
-  .preview()
+  .firebase()
 }

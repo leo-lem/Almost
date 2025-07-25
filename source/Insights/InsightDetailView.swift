@@ -51,6 +51,7 @@ public struct InsightDetailView: View {
         Text(insight.content)
           .font(.body)
           .multilineTextAlignment(.center)
+          .padding(.vertical)
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(
@@ -89,14 +90,7 @@ public struct InsightDetailView: View {
 
 #Preview {
   NavigationStack {
-    InsightDetailView(
-      Insight(
-        userID: "",
-        title: "This is a title",
-        content: "This is an example insight.\n It should show up in the detail view.",
-        mood: .mindBlown
-      )
-    )
+    InsightDetailView(.example)
   }
-  .preview()
+  .firebase()
 }

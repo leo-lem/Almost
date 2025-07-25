@@ -28,5 +28,5 @@ public struct AlmostView: View {
 
 #Preview {
   AlmostView()
-    .preview()
+    .firebase()
 }

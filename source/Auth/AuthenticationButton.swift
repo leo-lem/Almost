@@ -60,5 +60,5 @@ public struct AuthenticationButton: View {
     Text("Hello")
       .toolbar { AuthenticationButton() }
   }
-  .preview()
+  .firebase()
 }

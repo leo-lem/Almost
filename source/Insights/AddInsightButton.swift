@@ -31,5 +31,5 @@ public struct AddInsightButton: View {
 
 #Preview {
   AddInsightButton()
-    .preview()
+    .firebase()
 }

@@ -12,7 +12,7 @@ public struct EditInsightView: View {
   public var body: some View {
     Form {
       if settings.moodEnabled {
-        Section("Mood") {
+        Section {
           VStack(spacing: 8) {
             Text("How did you feel?")
               .font(.headline)
@@ -32,11 +32,13 @@ public struct EditInsightView: View {
           }
           .pickerStyle(.segmented)
           .padding(.top)
+        } header: {
+          Label("Mood", systemImage: "face.smiling")
         }
       }
       
       if settings.favoritesEnabled {
-        Section("Mark as Favorite") {
+        Section {
           Toggle(isOn: $insight.isFavorite) {
             Label(
               insight.isFavorite ? "Marked as Favorite" : "Highlight this insight",
@@ -45,13 +47,15 @@ public struct EditInsightView: View {
           }
           .toggleStyle(.switch)
           .tint(.accentColor)
+        } header: {
+          Label("Mark as Favorite", systemImage: "sparkles")
         }
       }
       
       Section {
-        TextField("What did you learn?", text: $insight.content)
-          .frame(minHeight: 200)
-        
+        TextEditor(text: $insight.content)
+          .frame(minHeight: 150)
+
         TextField("Optional title (e.g., what went wrong)", text: Binding {
           insight.title ?? ""
         } set: {
@@ -59,6 +63,9 @@ public struct EditInsightView: View {
         })
         .textContentType(.none)
         .font(.headline)
+        .foregroundStyle(insight.mood.color)
+      } header: {
+        Label("What did you learn?", systemImage: "doc.fill")
       }
     }
     .navigationTitle("Almost Did It?")
@@ -68,8 +75,9 @@ public struct EditInsightView: View {
           await insight.save(dismiss: dismiss)
           UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         } label: {
-          Text("Save Almost")
+          Text("Save Almost 💭")
         }
+        .foregroundStyle(insight.mood.color)
       }
     }
     .trackScreen("EditInsightView")
@@ -79,15 +87,10 @@ public struct EditInsightView: View {
 }
 
 #Preview {
-  @Previewable @State var insight = Insight(
-    userID: "",
-    title: "I fucked up",
-    content: "I will be better in the future.",
-    mood: .excited
-  )
-  
+  @Previewable @State var insight = Insight.example
+
   NavigationStack {
     EditInsightView($insight)
   }
-  .preview()
+  .firebase()
 }
