@@ -31,7 +31,7 @@ public struct InsightRowView: View {
           .clipShape(Capsule())
       }
 
-      Text(insight.title ?? insight.content)
+      Text((insight.title ?? insight.content).prefix(100))
         .font(.headline)
         .lineLimit(1)
         .multilineTextAlignment(.leading)

@@ -24,7 +24,7 @@ public enum Mood: String, Codable, CaseIterable, Sendable {
     case .overwhelmed: .Mood.overwhelmed
     case .angry: .Mood.angry
     case .calm: .Mood.calm
-    case .mindblown: .Mood.angry
+    case .mindblown: .Mood.mindblown
     }
   }
 }
