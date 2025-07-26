@@ -1,0 +1,24 @@
+name: Deploy Firebase
+
+on:
+  push:
+    branches: ["main", "111-post-launch-fixes"]
+    paths: ["resource/firebase/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: firebase
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install -g firebase-tools
+      - name: Deploy Firestore rules and indexes
+        run: firebase deploy --only firestore:rules,firestore:indexes --force
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        working-directory: ./resource/firebase
