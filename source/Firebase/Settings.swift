@@ -40,11 +40,11 @@ public final class Settings {
           self.moodEnabled = self.config["mood_picker_enabled"].boolValue
         }
 
-        if !self.defaults.exists("favorites_enabled") {
+        if !self.defaults.exists("favoritesEnabled") {
           self.favoritesEnabled = self.config["favorites_enabled"].boolValue
         }
 
-        if !self.defaults.exists("analytics_enabled") {
+        if !self.defaults.exists("analyticsEnabled") {
           self.analyticsEnabled = self.config["analytics_enabled"].boolValue
         }
       }

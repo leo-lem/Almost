@@ -100,7 +100,9 @@ public extension UserSession {
   func deleteAccount(dismiss: DismissAction? = nil) async {
     guard let user = auth.currentUser else { return }
     do {
-      try await user.delete()
+      try await Task { try await Task.detached {
+        try await user.delete()
+      }.value }.value
 
       Analytics.logEvent("account_deleted", parameters: [:])
       dismiss?()
