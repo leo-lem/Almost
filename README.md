@@ -28,7 +28,7 @@ All new and rebuilt with Firebase under the hood.
   - Analytics
   - Remote Config
 - Clean MV-ish architecture:
-  - Feature modules and navigation via `@Dependency`
+  - Feature modules and navigation via `@Environment`
   - Central `SessionState` abstraction
 - Launch screen via Storyboard and app icon variants (light, dark, tinted)
 - Remote configuration toggles (e.g., favorites, mood tags, analytics opt-in)
