@@ -22,7 +22,7 @@ struct SettingsView: View {
       } header: {
         Label("Features", systemImage: "puzzlepiece.extension")
       } footer: {
-        Text("Requires restart of app")
+        Text("Requires app restart")
           .foregroundStyle(.yellow)
       }
 

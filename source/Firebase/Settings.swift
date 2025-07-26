@@ -44,7 +44,7 @@ public final class Settings {
           self.favoritesEnabled = self.config["favorites_enabled"].boolValue
         }
 
-        if !self.defaults.exists("favorites_enabled") {
+        if !self.defaults.exists("analytics_enabled") {
           self.analyticsEnabled = self.config["analytics_enabled"].boolValue
         }
       }
