@@ -21,26 +21,28 @@ All new and rebuilt with Firebase under the hood.
 
 ## 🔧 Tech Stack
 
-- **SwiftUI** with modern `@Observable` architecture  
+- **SwiftUI** with modern `@Observable`-based architecture
 - **Firebase**:
-  - Auth (anonymous & email)
+  - Authentication (anonymous and email/password)
   - Firestore (real-time sync)
   - Analytics
-  - Remote Config  
-- Clean MV-ish structure using `SessionState`, dependency injection, and `AsyncStream`  
-- Preview/test support, launch screen, and app icon variants (light, dark, tinted)
-
-Planned:
-- Reflection prompts  
-- Public/private insight sharing  
-- Streaks and reminders
+  - Remote Config
+- Clean MV-ish architecture:
+  - Feature modules and navigation via `@Dependency`
+  - Central `SessionState` abstraction
+- Launch screen via Storyboard and app icon variants (light, dark, tinted)
+- Remote configuration toggles (e.g., favorites, mood tags, analytics opt-in)
+- Responsive UI with TipKit, haptics, and custom styling
 
 ## 🛠️ Building
 
 You’ll need:
 
-- `GoogleService-Info.plist` (Firebase config)
-- Xcode 15+
+- `GoogleService-Info.plist` for Firebase (place in [resource/firebase](resource/firebase))
+- Xcode 15 or newer
+- macOS with Swift 6.0+
+
+No additional setup needed — simply open `portfolio.xcodeproj`, choose the `Almost?` scheme, and build.
 
 ---
 
