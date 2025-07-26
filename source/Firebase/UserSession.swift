@@ -31,7 +31,11 @@ public extension UserSession {
   var errorMessage: String? {
     if case let .error(message) = state { message } else { nil }
   }
-  
+
+  var hasAccount: Bool {
+    if case let .signedIn(user) = state { !user.isAnonymous } else { false }
+  }
+
   var canAddInsights: Bool {
     if case .signedIn = state { true } else { false }
   }
@@ -88,6 +92,20 @@ public extension UserSession {
       try auth.signOut()
       
       Analytics.logEvent("sign_out", parameters: [:])
+    } catch {
+      state = .error(error.localizedDescription)
+    }
+  }
+
+  func deleteAccount(dismiss: DismissAction? = nil) async {
+    guard let user = auth.currentUser else { return }
+    do {
+      try await Task { try await Task.detached {
+        try await user.delete()
+      }.value }.value
+
+      Analytics.logEvent("account_deleted", parameters: [:])
+      dismiss?()
     } catch {
       state = .error(error.localizedDescription)
     }
