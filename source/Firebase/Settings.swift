@@ -7,11 +7,17 @@ import SwiftUI
 @MainActor
 @Observable
 public final class Settings {
-  public var moodEnabled: Bool = true
-  public var favoritesEnabled: Bool = true
+  public var moodEnabled: Bool {
+    get { defaults.exists("moodEnabled") ? defaults.bool(forKey: "moodEnabled") : true }
+    set { UserDefaults.standard.set(newValue, forKey: "moodEnabled") }
+  }
+  public var favoritesEnabled: Bool {
+    get { defaults.exists("favoritesEnabled") ? defaults.bool(forKey: "favoritesEnabled") : true }
+    set { UserDefaults.standard.set(newValue, forKey: "favoritesEnabled") }
+  }
 
   public var analyticsEnabled: Bool {
-    get { UserDefaults.standard.bool(forKey: "analyticsEnabled") }
+    get { defaults.exists("analyticsEnabled") ? defaults.bool(forKey: "analyticsEnabled") : true }
     set {
       UserDefaults.standard.set(newValue, forKey: "analyticsEnabled")
       Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
@@ -19,21 +25,33 @@ public final class Settings {
   }
 
   private let config = RemoteConfig.remoteConfig()
+  private let defaults = UserDefaults.standard
 
   public init() {
     config.setDefaults([
-      "mood_picker_enabled": true as NSObject,
-      "favorites_enabled": true as NSObject,
-      "analytics_enabled": true as NSObject
+      "mood_picker_enabled": moodEnabled as NSObject,
+      "favorites_enabled": favoritesEnabled as NSObject,
+      "analytics_enabled": analyticsEnabled as NSObject
     ])
-    
+
     config.fetchAndActivate { _, _ in
       Task { @MainActor in
-        self.moodEnabled = self.config["mood_picker_enabled"].boolValue
-        self.favoritesEnabled = self.config["favorites_enabled"].boolValue
+        if !self.defaults.exists("moodEnabled") {
+          self.moodEnabled = self.config["mood_picker_enabled"].boolValue
+        }
+
+        if !self.defaults.exists("favoritesEnabled") {
+          self.favoritesEnabled = self.config["favorites_enabled"].boolValue
+        }
+
+        if !self.defaults.exists("analyticsEnabled") {
+          self.analyticsEnabled = self.config["analytics_enabled"].boolValue
+        }
       }
     }
-
-    Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
   }
+}
+
+extension UserDefaults {
+  public func exists(_ key: String) -> Bool { object(forKey: key) != nil }
 }
