@@ -2,7 +2,7 @@ name: Deploy Firebase
 
 on:
   push:
-    branches: ["main", "111-post-launch-fixes"]
+    branches: ["main"]
     paths: ["resource/firebase/**"]
   workflow_dispatch:
 permissions:
