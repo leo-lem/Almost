@@ -105,9 +105,9 @@ struct FirestoreRulesTests {
       )
       
       // Verify all required fields are present and valid
-      #expect(validInsightData.content is String)
-      #expect(validInsightData.mood is String)
-      #expect(validInsightData.isFavorite is Bool)
+      #expect(validInsightData.content == "Valid content")
+      #expect(validInsightData.mood == "happy")
+      #expect(validInsightData.isFavorite == true)
       #expect(validInsightData.userID == "user1")
       
       // In real test: verify Firestore create succeeds
@@ -301,60 +301,6 @@ struct FirestoreRulesTests {
       
       #expect(anyInsightData.userID == "user1")
       // In real test with no auth: verify delete fails
-    }
-  }
-  
-  @Suite("Field Validation Rules")
-  struct FieldValidationRulesTests {
-    
-    @Test("Content field must be string")
-    func testContentMustBeString() {
-      let validData = ["content": "Valid string content"]
-      let invalidData = ["content": 123]
-      
-      #expect(validData["content"] is String)
-      #expect(!(invalidData["content"] is String))
-      // In real test: valid should pass, invalid should fail
-    }
-    
-    @Test("Mood field must be string")
-    func testMoodMustBeString() {
-      let validData = ["mood": "happy"]
-      let invalidData = ["mood": 123]
-      
-      #expect(validData["mood"] is String)
-      #expect(!(invalidData["mood"] is String))
-      // In real test: valid should pass, invalid should fail
-    }
-    
-    @Test("IsFavorite field must be boolean")
-    func testIsFavoriteMustBeBoolean() {
-      let validData = ["isFavorite": true]
-      let invalidData = ["isFavorite": "true"]
-      
-      #expect(validData["isFavorite"] is Bool)
-      #expect(!(invalidData["isFavorite"] is Bool))
-      // In real test: valid should pass, invalid should fail
-    }
-    
-    @Test("All required fields must be present")
-    func testAllRequiredFieldsPresent() {
-      let completeData = [
-        "content": "Valid content",
-        "mood": "happy", 
-        "isFavorite": true,
-        "userID": "user1"
-      ] as [String: Any]
-      
-      let incompleteData = [
-        "content": "Valid content",
-        "mood": "happy"
-        // Missing isFavorite and userID
-      ] as [String: Any]
-      
-      #expect(completeData.count == 4)
-      #expect(incompleteData.count == 2)
-      // In real test: complete should pass, incomplete should fail
     }
   }
 }

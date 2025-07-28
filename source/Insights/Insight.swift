@@ -4,7 +4,7 @@ import FirebaseFirestore
 import Foundation
 
 /// The heart of our reflection journey, insights enable users to grow.
-public struct Insight: Codable, Identifiable, Hashable {
+public struct Insight: Codable, Identifiable {
   @DocumentID public var id: String?
   public let userID: String
   public let timestamp: Date
@@ -32,5 +32,17 @@ public struct Insight: Codable, Identifiable, Hashable {
     self.content = content
     self.mood = mood
     self.isFavorite = isFavorite
+  }
+}
+
+extension Insight: Hashable {
+  public func hash(into hasher: inout Hasher) {
+    id?.hash(into: &hasher)
+    userID.hash(into: &hasher)
+    timestamp.hash(into: &hasher)
+    title?.hash(into: &hasher)
+    content.hash(into: &hasher)
+    mood.hash(into: &hasher)
+    isFavorite.hash(into: &hasher)
   }
 }
