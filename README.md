@@ -38,7 +38,7 @@ All new and rebuilt with Firebase under the hood.
 
 You’ll need:
 
-- `GoogleService-Info.plist` for Firebase (place in [resource/firebase](resource/firebase))
+- If you want to use your own Firebase, you will need a [GoogleService-Info.plist]() for Firebase (place in [resource/firebase](resource/firebase))
 - Xcode 15 or newer
 - macOS with Swift 6.0+
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1640"
+   LastUpgradeVersion = "2600"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6E48374428EC991100B67CA4"
-               BuildableName = "Almost?.app"
-               BlueprintName = "Almost?"
+               BuildableName = "Almost.app"
+               BlueprintName = "Almost"
                ReferencedContainer = "container:portfolio.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,8 +34,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E48374428EC991100B67CA4"
-            BuildableName = "Almost?.app"
-            BlueprintName = "Almost?"
+            BuildableName = "Almost.app"
+            BlueprintName = "Almost"
             ReferencedContainer = "container:portfolio.xcodeproj">
          </BuildableReference>
          <BuildableReference
@@ -48,13 +48,26 @@
       </CodeCoverageTargets>
       <TestPlans>
          <TestPlanReference
-            reference = "container:test/Unit.xctestplan"
-            default = "YES">
+            reference = "container:test/CI.xctestplan">
          </TestPlanReference>
          <TestPlanReference
-            reference = "container:test/Full.xctestplan">
+            reference = "container:test/Full.xctestplan"
+            default = "YES">
          </TestPlanReference>
       </TestPlans>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6E3EFF7F2E379C0000A27249"
+               BuildableName = "AlmostTests.xctest"
+               BlueprintName = "AlmostTests"
+               ReferencedContainer = "container:portfolio.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -72,8 +85,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E48374428EC991100B67CA4"
-            BuildableName = "Almost?.app"
-            BlueprintName = "Almost?"
+            BuildableName = "Almost.app"
+            BlueprintName = "Almost"
             ReferencedContainer = "container:portfolio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -88,8 +101,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E48374428EC991100B67CA4"
-            BuildableName = "Almost?.app"
-            BlueprintName = "Almost?"
+            BuildableName = "Almost.app"
+            BlueprintName = "Almost"
             ReferencedContainer = "container:portfolio.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

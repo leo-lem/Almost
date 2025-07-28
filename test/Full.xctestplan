@@ -15,14 +15,14 @@
     {
       "target" : {
         "containerPath" : "container:portfolio.xcodeproj",
-        "identifier" : "6E386F242D69E001000963DD",
+        "identifier" : "6EB7972C2E379A9A00FC8693",
         "name" : "AlmostUITests"
       }
     },
     {
       "target" : {
         "containerPath" : "container:portfolio.xcodeproj",
-        "identifier" : "6EAEC89D2E323B0F0031EDAF",
+        "identifier" : "6E3EFF7F2E379C0000A27249",
         "name" : "AlmostTests"
       }
     }
