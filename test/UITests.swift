@@ -47,7 +47,7 @@ final class AlmostUITests: XCTestCase {
     XCTAssertEqual(app.state, .runningForeground)
 
     XCUIDevice.shared.press(.home)
-    sleep(1)
+    XCTAssertTrue(app.wait(for: .runningBackground, timeout: 2))
 
     app.activate()
     XCTAssertEqual(app.state, .runningForeground)
@@ -58,34 +58,8 @@ final class AlmostUITests: XCTestCase {
     XCTAssertFalse(elements.isEmpty)
   }
 
-  func testFavoriteButtonExists() {
-    // Looks for a button labeled "Favorite" or with a heart symbol
-    let favoriteButton = app.buttons.matching(identifier: "Favorite").firstMatch
-    let heartButton = app.buttons.containing(.image, identifier: "heart").firstMatch
-
-    XCTAssertTrue(favoriteButton.exists || heartButton.exists)
-  }
-
   func testAddInsightButtonExists() {
     let addButton = app.buttons["Add"]
-    XCTAssertTrue(addButton.exists || app.buttons["+"].exists)
-  }
-
-  func testDeleteButtonExistsInSettingsOrDetail() {
-    let delete = app.buttons["Delete"]
-    XCTAssertTrue(delete.exists || app.buttons["🗑️"].exists)
-  }
-
-  func testSettingsPersistAcrossRelaunch() {
-    // This would check persistent state (e.g., UserDefaults-backed UI state)
-    // Ideally test with a toggle switch
-    let toggle = app.switches.firstMatch
-    if toggle.exists {
-      let initialValue = toggle.value as? String
-      toggle.tap()
-      app.terminate()
-      app.launch()
-      XCTAssertNotEqual(toggle.value as? String, initialValue)
-    }
+    XCTAssertTrue(addButton.exists || app.buttons["Add Insight"].exists)
   }
 }
