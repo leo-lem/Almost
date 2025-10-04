@@ -56,6 +56,7 @@
 		6E8937082D662B1300379273 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				AppIcon.icon,
 				Assets.xcassets,
 				"firebase/GoogleService-Info.plist",
 				launch.storyboard,
