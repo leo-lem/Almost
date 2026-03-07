@@ -29,7 +29,16 @@ public struct AuthenticationView: View {
                 await session.signIn(email: email, password: password, dismiss: dismiss)
               }
             }
-          
+
+          AsyncButton {
+            await session.signUp(email: email, password: password, dismiss: dismiss)
+          } label: {
+            Label("Create Account", systemImage: "person.badge.plus")
+          }
+          .disabled(email.isEmpty || password.isEmpty)
+          .labelStyle(.iconOnly)
+          .buttonStyle(.borderless)
+
           AsyncButton {
             await session.signIn(email: email, password: password, dismiss: dismiss)
           } label: {
@@ -45,36 +54,10 @@ public struct AuthenticationView: View {
             .font(.footnote)
             .foregroundStyle(.red)
         }
-        
-        AsyncButton {
-          await session.signUp(email: email, password: password, dismiss: dismiss)
-        } label: {
-          Label("Create Account", systemImage: "person.badge.plus")
-            .frame(maxWidth: .infinity, alignment: .center)
-        }
-        .disabled(email.isEmpty || password.isEmpty)
-        .buttonStyle(.borderless)
-      }
-      
-      Section{
-        AsyncButton {
-          await session.signInAnonymously(dismiss: dismiss)
-        } label: {
-          Label("Try Anonymously", systemImage: "wand.and.stars")
-            .frame(maxWidth: .infinity, alignment: .center)
-        }
-        .buttonStyle(.bordered)
-      } header: {
-        Text("Or continue without an account")
-      } footer: {
-        Text("Anonymous sessions are temporary and won't sync across devices.")
-          .font(.footnote)
-          .foregroundStyle(.secondary)
-          .multilineTextAlignment(.center)
       }
     }
     .formStyle(.automatic)
-    .presentationDetents([.medium])
+    .presentationDetents([.fraction(0.3)])
     .animation(.default, value: session.state)
     .trackScreen("AuthenticationView")
   }

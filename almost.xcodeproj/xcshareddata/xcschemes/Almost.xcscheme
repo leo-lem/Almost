@@ -18,7 +18,7 @@
                BlueprintIdentifier = "6E48374428EC991100B67CA4"
                BuildableName = "Almost.app"
                BlueprintName = "Almost"
-               ReferencedContainer = "container:portfolio.xcodeproj">
+               ReferencedContainer = "container:almost.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -36,14 +36,14 @@
             BlueprintIdentifier = "6E48374428EC991100B67CA4"
             BuildableName = "Almost.app"
             BlueprintName = "Almost"
-            ReferencedContainer = "container:portfolio.xcodeproj">
+            ReferencedContainer = "container:almost.xcodeproj">
          </BuildableReference>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6E01ED4A291BD92000B73AB0"
             BuildableName = "KeepinOnWidgetsExtension.appex"
             BlueprintName = "KeepinOnWidgetsExtension"
-            ReferencedContainer = "container:portfolio.xcodeproj">
+            ReferencedContainer = "container:almost.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
       <TestPlans>
@@ -64,7 +64,7 @@
                BlueprintIdentifier = "6E3EFF7F2E379C0000A27249"
                BuildableName = "AlmostTests.xctest"
                BlueprintName = "AlmostTests"
-               ReferencedContainer = "container:portfolio.xcodeproj">
+               ReferencedContainer = "container:almost.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -87,7 +87,7 @@
             BlueprintIdentifier = "6E48374428EC991100B67CA4"
             BuildableName = "Almost.app"
             BlueprintName = "Almost"
-            ReferencedContainer = "container:portfolio.xcodeproj">
+            ReferencedContainer = "container:almost.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -103,7 +103,7 @@
             BlueprintIdentifier = "6E48374428EC991100B67CA4"
             BuildableName = "Almost.app"
             BlueprintName = "Almost"
-            ReferencedContainer = "container:portfolio.xcodeproj">
+            ReferencedContainer = "container:almost.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
