@@ -1,137 +1,163 @@
-// Created by Leopold Lemmermann on 27.07.25.
+// Created by Leopold Lemmermann on 07.03.26.
 
-import FirebaseFirestore
-import Testing
 import Foundation
-import SwiftUI
+import Testing
 @testable import Almost
 
-@Suite("Model Tests")
+@Suite("Model Logic Tests")
 struct ModelTests {
-  @Suite("Insight Tests")
-  struct InsightTests {
-    @Test("Insight with empty title should set title to nil")
-    func testInsightEmptyTitleHandling() {
-      let insight = Insight(userID: "test-user", title: "")
-      #expect(insight.title == nil)
-    }
-    
-    @Test("Insight should be Hashable and Equatable")
-    func testInsightHashableEquatable() {
-      let now = Date.now
+  @Suite("Almost Logic")
+  struct AlmostLogicTests {
+    @Test("Overlap score weights shared axes correctly")
+    func testOverlapScore() {
+      let first = Almost(
+        userId: "test-user",
+        text: "Packed late and almost forgot my passport.",
+        failureModes: [.forgetting, .poorPreparation],
+        triggers: [.rushedMorning, .noChecklist],
+        contexts: [.beforeLeaving, .atHome],
+        states: [.rushed]
+      )
 
-      let insight1 = Insight(
-        userID: "test-user",
-        timestamp: now,
-        title: "Same Title",
-        content: "Same content",
-        mood: .happy
+      let second = Almost(
+        userId: "test-user",
+        text: "Rushed out and almost forgot my laptop.",
+        failureModes: [.forgetting],
+        triggers: [.rushedMorning],
+        contexts: [.beforeLeaving, .commuting],
+        states: [.rushed]
       )
-      
-      let insight2 = Insight(
-        userID: "test-user",
-        timestamp: now,
-        title: "Same Title",
-        content: "Same content",
-        mood: .happy
+
+      // forgetting = 3
+      // rushedMorning = 2
+      // beforeLeaving = 2
+      // rushed = 1
+      // total = 8
+      #expect(first.overlapScore(with: second) == 8)
+    }
+
+    @Test("Relatedness uses minimum overlap threshold")
+    func testIsRelated() {
+      let first = Almost(
+        userId: "test-user",
+        text: "Packed late and almost forgot my passport.",
+        failureModes: [.forgetting],
+        triggers: [.rushedMorning],
+        contexts: [.beforeLeaving],
+        states: [.rushed]
       )
-      
-      let insight3 = Insight(
-        userID: "different-user",
-        timestamp: now,
-        title: "Same Title",
-        content: "Same content",
-        mood: .happy
+
+      let related = Almost(
+        userId: "test-user",
+        text: "Rushed out and almost forgot my laptop.",
+        failureModes: [.forgetting],
+        triggers: [.noChecklist],
+        contexts: [.beforeLeaving],
+        states: [.rushed]
       )
-      
-      #expect(insight1 == insight2)
-      #expect(insight1 != insight3)
-      #expect(insight1.hashValue == insight2.hashValue)
+
+      let unrelated = Almost(
+        userId: "test-user",
+        text: "Stayed up late and almost overslept.",
+        failureModes: [.lateness],
+        triggers: [.lateNight],
+        contexts: [.bedtime],
+        states: [.tired]
+      )
+
+      #expect(first.isRelated(to: related))
+      #expect(!first.isRelated(to: unrelated))
     }
   }
-  
-  @Suite("Mood Tests")
-  struct MoodTests {
-    
-    @Test("Mood enum cases")
-    func testMoodCases() {
-      let allMoods: [Mood] = [.happy, .disappointed, .overwhelmed, .angry, .calm, .mindblown]
-      #expect(Mood.allCases.count == 6)
-      #expect(Set(Mood.allCases) == Set(allMoods))
-    }
-    
-    @Test("Mood emoji mapping", arguments: [
-      (Mood.happy, "😊"),
-      (Mood.disappointed, "😞"),
-      (Mood.overwhelmed, "😩"),
-      (Mood.angry, "😡"),
-      (Mood.calm, "😌"),
-      (Mood.mindblown, "🤯")
-    ])
-    func testMoodEmojis(mood: Mood, expectedEmoji: String) {
-      #expect(mood.emoji == expectedEmoji)
+
+  @Suite("Pattern Logic")
+  struct PatternLogicTests {
+    @Test("Pattern shared values are the intersection across all almosts")
+    func testPatternSharedValues() {
+      let pattern: Pattern = [
+        Almost(
+          userId: "test-user",
+          text: "Forgot passport before leaving.",
+          failureModes: [.forgetting, .poorPreparation],
+          triggers: [.rushedMorning, .noChecklist],
+          contexts: [.beforeLeaving, .atHome],
+          states: [.rushed]
+        ),
+        Almost(
+          userId: "test-user",
+          text: "Forgot laptop before commuting.",
+          failureModes: [.forgetting],
+          triggers: [.rushedMorning],
+          contexts: [.beforeLeaving, .commuting],
+          states: [.rushed]
+        ),
+        Almost(
+          userId: "test-user",
+          text: "Forgot headphones before train.",
+          failureModes: [.forgetting, .poorPreparation],
+          triggers: [.noChecklist, .rushedMorning],
+          contexts: [.beforeLeaving, .commuting],
+          states: [.rushed]
+        )
+      ]
+
+      #expect(pattern.sharedFailureModes == [.forgetting])
+      #expect(pattern.sharedTriggers == [.rushedMorning])
+      #expect(pattern.sharedContexts == [.beforeLeaving])
+      #expect(pattern.sharedStates == [.rushed])
     }
 
-    @Test("Test that each mood has a distinct color")
-    func testAllMoodColors() {
-      let moods = Mood.allCases
-      let colors = moods.map { $0.color }
+    @Test("Pattern score sums pairwise overlap")
+    func testPatternScore() {
+      let first = Almost(
+        userId: "test-user",
+        text: "Forgot passport before leaving.",
+        failureModes: [.forgetting],
+        triggers: [.rushedMorning],
+        contexts: [.beforeLeaving],
+        states: [.rushed]
+      )
 
-      #expect(colors.count == moods.count)
+      let second = Almost(
+        userId: "test-user",
+        text: "Forgot laptop before commuting.",
+        failureModes: [.forgetting],
+        triggers: [.rushedMorning],
+        contexts: [.beforeLeaving],
+        states: [.rushed]
+      )
+
+      let third = Almost(
+        userId: "test-user",
+        text: "Stayed up late and almost overslept.",
+        failureModes: [.lateness],
+        triggers: [.lateNight],
+        contexts: [.bedtime],
+        states: [.tired]
+      )
+
+      let pattern: Pattern = [first, second, third]
+
+      // first-second = 8
+      // first-third = 0
+      // second-third = 0
+      #expect(pattern.score == 8)
     }
 
-    @Test("Mood color mapping", arguments: [
-      (Mood.happy, Color.Mood.happy),
-       (Mood.disappointed, Color.Mood.disappointed),
-       (Mood.overwhelmed, Color.Mood.overwhelmed),
-      (Mood.angry, Color.Mood.angry),
-      (Mood.calm, Color.Mood.calm),
-      (Mood.mindblown, Color.Mood.mindblown)
-    ])
-    func testMoodColors(mood: Mood, expectedColor: Color) {
-      #expect(mood.color == expectedColor)
-    }
-    
-    @Test("Mood raw value encoding")
-    func testMoodRawValues() {
-      #expect(Mood.happy.rawValue == "happy")
-      #expect(Mood.disappointed.rawValue == "disappointed")
-      #expect(Mood.overwhelmed.rawValue == "overwhelmed")
-      #expect(Mood.angry.rawValue == "angry")
-      #expect(Mood.calm.rawValue == "calm")
-      #expect(Mood.mindblown.rawValue == "mindblown")
-    }
-    
-    @Test("Mood initialization from raw value")
-    func testMoodFromRawValue() {
-      #expect(Mood(rawValue: "happy") == .happy)
-      #expect(Mood(rawValue: "disappointed") == .disappointed)
-      #expect(Mood(rawValue: "invalid") == nil)
-    }
-    
-    @Test("Mood is Codable")
-    func testMoodCodable() throws {
-      let mood = Mood.happy
-      
-      let encoder = JSONEncoder()
-      let data = try encoder.encode(mood)
-      
-      let decoder = JSONDecoder()
-      let decodedMood = try decoder.decode(Mood.self, from: data)
-      
-      #expect(decodedMood == mood)
-    }
-    
-    @Test("Mood is Sendable")
-    func testMoodSendable() {
-      // This test verifies that Mood conforms to Sendable
-      // which is important for concurrent access
-      let mood = Mood.happy
-      
-      Task {
-        let taskMood = mood
-        #expect(taskMood == .happy)
-      }
+    @Test("Pattern createdAtRange spans earliest to latest")
+    func testPatternCreatedAtRange() {
+      let now = Date.now
+      let earlier = now.addingTimeInterval(-3600)
+      let later = now.addingTimeInterval(3600)
+
+      let pattern: Pattern = [
+        Almost(userId: "test-user", text: "A", createdAt: now),
+        Almost(userId: "test-user", text: "B", createdAt: earlier),
+        Almost(userId: "test-user", text: "C", createdAt: later)
+      ]
+
+      #expect(pattern.createdAtRange?.lowerBound == earlier)
+      #expect(pattern.createdAtRange?.upperBound == later)
     }
   }
 }
