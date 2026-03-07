@@ -14,7 +14,7 @@ public struct AlmostView: View {
           ToolbarItem(placement: .topBarLeading) { AuthenticationButton() }
         }
     }
-    .animation(.default, value: session.userID)
+    .animation(.default, value: session.userId)
     .background(Color(uiColor: .systemBackground))
     .foregroundStyle(.primary)
     .accentColor(.accent)

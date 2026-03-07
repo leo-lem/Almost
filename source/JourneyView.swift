@@ -41,7 +41,7 @@ public struct JourneyView: View {
     .animation(.default, value: fav)
     .onAppear { updateInsights() }
     .onChange(of: fav) { updateInsights(fav: $1) }
-    .onChange(of: session.userID) { updateInsights($1) }
+    .onChange(of: session.userId) { updateInsights($1) }
     .navigationTitle("Your Journey 🌱")
     .trackScreen("JourneyView")
   }
@@ -49,7 +49,7 @@ public struct JourneyView: View {
   public init() {}
 
   private var placeholder: Text {
-    if session.userID == nil {
+    if session.userId == nil {
       Text("Sign in to start your Journey!")
     } else if fav {
       Text("No favorite insights yet.")
@@ -60,7 +60,7 @@ public struct JourneyView: View {
 
   private func updateInsights(_ userID: String? = nil, fav: Bool? = nil) {
     $insights.predicates = [
-      .where("userID", isEqualTo: userID ?? session.userID ?? ""),
+      .where("userID", isEqualTo: userID ?? session.userId ?? ""),
       .order(by: "timestamp", descending: true)
     ]
 

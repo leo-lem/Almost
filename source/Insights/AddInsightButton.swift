@@ -10,15 +10,15 @@ public struct AddInsightButton: View {
   
   public var body: some View {
     Button {
-      guard let userID = session.userID else { return }
+      guard let userID = session.userId else { return }
       insight = Insight(userID: userID)
       addingInsight = true
       UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     } label: {
       Label("Add Insight", systemImage: "plus.circle.fill")
     }
-    .tint(.accentColor)
-    .disabled(!session.canAddInsights)
+    .tint(session.user == nil ? .gray : .accentColor)
+    .disabled(session.user == nil)
     .font(.title2.bold())
     .foregroundStyle(Color.background)
     .padding()

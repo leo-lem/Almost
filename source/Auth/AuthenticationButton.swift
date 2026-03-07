@@ -9,13 +9,22 @@ public struct AuthenticationButton: View {
   
   public var body: some View {
     switch session.state {
-    case .loading, .error:
+    case .loading:
       ProgressView()
         .progressViewStyle(.circular)
-      
-    case let .signedIn(user):
+
+    case .signedOut, .error:
+      SheetLink {
+        AuthenticationView()
+      } label: {
+        Label("Sign In", systemImage: "person.crop.circle.badge.plus")
+          .labelStyle(.iconOnly)
+          .foregroundColor(.accentColor)
+      }
+
+    case .signedIn:
       Menu {
-        if let email = user.email {
+        if let email = session.user?.email {
           Text(email)
             .font(.caption)
             .foregroundColor(.secondary)
@@ -39,15 +48,6 @@ public struct AuthenticationButton: View {
         NavigationStack {
           SettingsView()
         }
-      }
-
-    case .signedOut:
-      SheetLink {
-        AuthenticationView()
-      } label: {
-        Label("Sign In", systemImage: "person.crop.circle.badge.plus")
-          .labelStyle(.iconOnly)
-          .foregroundColor(.accentColor)
       }
     }
   }
