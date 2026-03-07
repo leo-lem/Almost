@@ -26,18 +26,12 @@ public struct AuthenticationView: View {
             .submitLabel(.go)
             .onSubmit {
               Task {
-                await session.signIn(email: email, password: password, dismiss: nil)
-
-                if case let .error(problem) = session.state {
-                  assertionFailure("Unexpected session state: \(session.state). Expected .signedIn, but got \(problem)")
-                } else {
-                  dismiss()
-                }
+                await session.signIn(email: email, password: password, dismiss: dismiss)
               }
             }
 
           AsyncButton {
-            await session.signUp(email: email, password: password, dismiss: nil)
+            await session.signUp(email: email, password: password, dismiss: dismiss)
           } label: {
             Label("Create Account", systemImage: "person.badge.plus")
           }
@@ -46,7 +40,7 @@ public struct AuthenticationView: View {
           .buttonStyle(.borderless)
 
           AsyncButton {
-            await session.signIn(email: email, password: password, dismiss: nil)
+            await session.signIn(email: email, password: password, dismiss: dismiss)
           } label: {
             Label("Sign In", systemImage: "arrow.right.circle.fill")
           }

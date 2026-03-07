@@ -255,7 +255,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6E48374028EC991100B67CA4 /* Build configuration list for PBXProject "portfolio" */;
+			buildConfigurationList = 6E48374028EC991100B67CA4 /* Build configuration list for PBXProject "almost" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -531,7 +531,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 2.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DBUILDING_FOR_PREVIEWS";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.leolem.keepinon;
@@ -561,7 +561,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 2.1;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.leolem.keepinon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -668,7 +668,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6E48374028EC991100B67CA4 /* Build configuration list for PBXProject "portfolio" */ = {
+		6E48374028EC991100B67CA4 /* Build configuration list for PBXProject "almost" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6E48375128EC991200B67CA4 /* Debug */,
