@@ -53,15 +53,6 @@
 			);
 			target = 6E3EFF7F2E379C0000A27249 /* AlmostTests */;
 		};
-		6E4585992F5C076A004010AA /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				availability.swift,
-				rule.swift,
-				tags.swift,
-			);
-			target = 6E48374428EC991100B67CA4 /* Almost */;
-		};
 		6E8937082D662B1300379273 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -106,7 +97,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		6E4585962F5C0759004010AA /* experiment */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E4585992F5C076A004010AA /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = experiment; sourceTree = "<group>"; };
+		6E4585962F5C0759004010AA /* experiment */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = experiment; sourceTree = "<group>"; };
 		6E8937042D662AF700379273 /* test */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E3EFF8C2E379C0A00A27249 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 6EB797392E379AAF00FC8693 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = test; sourceTree = "<group>"; };
 		6E8937072D662B0B00379273 /* resource */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6E8937082D662B1300379273 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = resource; sourceTree = "<group>"; };
 		6EC5D9202E3158A0008B53B8 /* source */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (6EC5D92A2E3158A5008B53B8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = source; sourceTree = "<group>"; };
@@ -527,7 +518,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Almost?";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_UILaunchStoryboardName = launch.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = launch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
@@ -557,7 +548,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Almost?";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_UILaunchStoryboardName = launch.storyboard;
+				INFOPLIST_KEY_UILaunchStoryboardName = launch;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
