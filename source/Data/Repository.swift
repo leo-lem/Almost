@@ -5,7 +5,7 @@ import FirebaseFirestore
 
 @MainActor
 @Observable
-public final class AppRepository {
+public final class Repository {
   public private(set) var almosts: [Almost] = []
   public private(set) var adjustments: [Adjustment] = []
 
@@ -18,7 +18,7 @@ public final class AppRepository {
   public init() {}
 }
 
-public extension AppRepository {
+public extension Repository {
   var activeAdjustments: [Adjustment] {
     adjustments
       .filter { $0.state == .active }
@@ -41,7 +41,7 @@ public extension AppRepository {
   }
 }
 
-public extension AppRepository {
+public extension Repository {
   func save<T: Storable>(_ storable: T) async throws {
     guard let userId else { return saveLocally(storable) }
 
@@ -106,7 +106,7 @@ public extension AppRepository {
   }
 }
 
-extension AppRepository {
+extension Repository {
   public func updateSync(for userId: String?) {
     self.userId = userId
 

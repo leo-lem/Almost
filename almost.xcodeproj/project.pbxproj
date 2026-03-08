@@ -48,6 +48,7 @@
 		6E3EFF8C2E379C0A00A27249 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				IntelligenceTests.swift,
 				ModelTests.swift,
 			);
 			target = 6E3EFF7F2E379C0000A27249 /* AlmostTests */;
@@ -59,7 +60,6 @@
 				Assets.xcassets,
 				"firebase/GoogleService-Info.plist",
 				launch.storyboard,
-				"previews/Insight+example.swift",
 				"previews/View+firebase.swift",
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost */;
@@ -75,28 +75,25 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				AlmostView.swift,
+				"Analytics/Analytics+logFailableEvent.swift",
+				"Analytics/Analytics+logFailure.swift",
+				Analytics/trackScreen.swift,
+				Auth/Authentication.swift,
 				Auth/AuthenticationButton.swift,
 				Auth/AuthenticationView.swift,
-				Auth/Settings.swift,
-				Auth/UserSession.swift,
-				Data/AppRepository.swift,
 				"Data/Model+Storable.swift",
+				Data/Repository.swift,
 				Data/Storable.swift,
-				"Firebase/Analytics+logFailableEvent.swift",
-				"Firebase/Insight+Firestore.swift",
-				Firebase/trackScreen.swift,
-				Insights/AddInsightButton.swift,
-				Insights/EditInsightView.swift,
-				Insights/Insight.swift,
-				Insights/InsightDetailView.swift,
-				Insights/InsightRowView.swift,
-				Insights/InsightsList.swift,
-				Insights/Mood.swift,
+				"Intelligence/Adjustment+Intelligence.swift",
+				"Intelligence/Almost+Intelligence.swift",
+				Intelligence/Intelligence.swift,
+				"Intelligence/Pattern+Intelligence.swift",
 				JourneyView.swift,
 				Model/Adjustment.swift,
 				Model/Almost.swift,
 				Model/Pattern.swift,
-				SettingsView.swift,
+				Settings/Settings.swift,
+				Settings/SettingsView.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost */;
 		};

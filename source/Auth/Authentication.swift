@@ -6,7 +6,7 @@ import SwiftUI
 
 @MainActor
 @Observable
-public final class UserSession {
+public final class Authentication {
   public var user: User?
 
   /// Stored separately because Firebase's `User` object has not reliably triggered
@@ -35,7 +35,7 @@ public final class UserSession {
   }
 }
 
-public extension UserSession {
+public extension Authentication {
   var syncAvailable: Bool { user != nil }
   var hasAccount: Bool { !(user?.isAnonymous ?? false) }
 

@@ -5,7 +5,7 @@ import SwiftUIExtensions
 
 struct SettingsView: View {
   @Environment(Settings.self) private var settings
-  @Environment(UserSession.self) private var session
+  @Environment(Authentication.self) private var session
   @Environment(\.dismiss) private var dismiss
 
   @State private var deleteAccountAlertIsPresented: Bool = false

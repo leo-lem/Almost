@@ -6,30 +6,20 @@ import SwiftUIExtensions
 import TipKit
 
 public struct JourneyView: View {
-  @FirestoreQuery(collectionPath: "insights") var insights: [Insight]
-  @AppStorage("fav") private var fav = false
-
-  @Environment(UserSession.self) private var session
+  @Environment(Authentication.self) private var session
   @Environment(Settings.self) private var settings
 
   public var body: some View {
     VStack {
       List {
-        InsightsList(insights: insights, placeholder: placeholder)
+        
       }
       .scrollContentBackground(.hidden)
 
       Spacer()
-
-      AddInsightButton()
         .popoverTip(AddInsightTip())
     }
     .background(Color.background)
-    .animation(.easeInOut(duration: 0.3), value: insights)
-    .animation(.default, value: fav)
-    .onAppear { updateInsights() }
-    .onChange(of: fav) { updateInsights(fav: $1) }
-    .onChange(of: session.userId) { updateInsights($1) }
     .navigationTitle("Your Journey 🌱")
     .trackScreen("JourneyView")
   }
@@ -39,21 +29,8 @@ public struct JourneyView: View {
   private var placeholder: Text {
     if session.userId == nil {
       Text("Sign in to start your Journey!")
-    } else if fav {
-      Text("No favorite insights yet.")
     } else {
       Text("Add an insight to start your journey")
-    }
-  }
-
-  private func updateInsights(_ userID: String? = nil, fav: Bool? = nil) {
-    $insights.predicates = [
-      .where("userID", isEqualTo: userID ?? session.userId ?? ""),
-      .order(by: "timestamp", descending: true)
-    ]
-
-    if fav ?? self.fav {
-      $insights.predicates += [.where("isFavorite", isEqualTo: true)]
     }
   }
 }

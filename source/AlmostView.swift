@@ -4,10 +4,11 @@ import SwiftUI
 import SwiftUIExtensions
 
 public struct AlmostView: View {
-  @State private var session = UserSession()
-  @State private var repo = AppRepository()
+  @State private var session = Authentication()
   @State private var config = Settings()
-  
+  @State private var repo = Repository()
+  @State private var ai = Intelligence()
+
   public var body: some View {
     NavigationStack {
       JourneyView()
@@ -22,9 +23,9 @@ public struct AlmostView: View {
     .environment(session)
     .environment(config)
     .environment(repo)
-    .onChange(of: config.localOnly ? nil : session.userId, initial: true) {
-      repo.updateSync(for: $1)
-    }
+    .onChange(of: config.localOnly ? nil : session.userId, initial: true) { repo.updateSync(for: $1) }
+    .environment(ai)
+    .onChange(of: config.aiEnabled, initial: true) { ai.updateAIEnabled($1) }
   }
   
   public init() {}

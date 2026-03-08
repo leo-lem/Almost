@@ -57,9 +57,4 @@ final class AlmostUITests: XCTestCase {
     let elements = app.descendants(matching: .any).allElementsBoundByAccessibilityElement
     XCTAssertFalse(elements.isEmpty)
   }
-
-  func testAddInsightButtonExists() {
-    let addButton = app.buttons["Add"]
-    XCTAssertTrue(addButton.exists || app.buttons["Add Insight"].exists)
-  }
 }
