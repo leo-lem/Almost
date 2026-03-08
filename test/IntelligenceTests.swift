@@ -44,7 +44,7 @@ struct IntelligenceTests {
 
       #expect(
         nonEmptyPredictions >= 1,
-        "Expected at least 1 of \(cases.count) safe representative almosts to receive some predicted tags, got \(nonEmptyPredictions)."
+        "Expected at least 1 of \(cases.count) representative almosts to receive some predicted tags, got \(nonEmptyPredictions)."
       )
     }
 
