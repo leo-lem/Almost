@@ -1,27 +1,18 @@
 // Created by Leopold Lemmermann on 08.03.26.
 
+import FoundationModels
 import Testing
 @testable import Almost
-
-@MainActor
-private func requireFoundationModels() -> Intelligence? {
-  let intelligence = Intelligence()
-  intelligence.updateAIEnabled(true)
-  guard intelligence.isAvailable else {
-    print("Skipping: Foundation Models unavailable in this runtime")
-    return nil
-  }
-  return intelligence
-}
 
 @Suite("Intelligence Tests")
 struct IntelligenceTests {
   @Suite("Tag Prediction")
   struct TagPredictionTests {
-    @Test("Predicts useful tags for representative almosts")
+    @Test("Predicts useful tags for representative almosts", .enabled(if: SystemLanguageModel.default.isAvailable))
     @MainActor
     func testPredictTags() async throws {
-      guard let intelligence = requireFoundationModels() else { return }
+      let intelligence = Intelligence()
+      intelligence.updateAIEnabled(true)
 
       let cases: [(Almost, expectedFailures: Set<Almost.Failure>, expectedTriggers: Set<Almost.Trigger>, expectedContexts: Set<Almost.Context>, expectedStates: Set<Almost.State>)] = [
         (
@@ -91,10 +82,11 @@ struct IntelligenceTests {
 
   @Suite("Adjustment Suggestion")
   struct AdjustmentSuggestionTests {
-    @Test("Suggests an adjustment for representative patterns")
+    @Test("Suggests an adjustment for representative patterns", .enabled(if: SystemLanguageModel.default.isAvailable))
     @MainActor
     func testSuggestAdjustment() async throws {
-      guard let intelligence = requireFoundationModels() else { return }
+      let intelligence = Intelligence()
+      intelligence.updateAIEnabled(true)
 
       let pattern1: Pattern = [
         Almost(

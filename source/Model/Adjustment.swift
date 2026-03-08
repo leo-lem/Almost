@@ -7,10 +7,8 @@ public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
   public let createdAt: Date
   public let almosts: [Almost.ID]
 
-  private var normalizedText: String?
-  public var text: String? {
-    get { normalizedText }
-    set { normalizedText = Self.normalize(newValue) }
+  private var text: String? {
+    didSet { text = Self.normalize(text) }
   }
 
   public var state: State
@@ -26,7 +24,7 @@ public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
     self.createdAt = createdAt
     self.almosts = almosts
     
-    self.normalizedText = Self.normalize(text)
+    self.text = Self.normalize(text)
     self.state = state
   }
 }
