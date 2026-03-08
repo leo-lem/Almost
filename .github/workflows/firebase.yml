@@ -16,9 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+      - name: Verify authentication
+        run: gcloud auth list
       - run: npm install -g firebase-tools
       - name: Deploy Firestore rules and indexes
         run: firebase deploy --only firestore:rules,firestore:indexes --force
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         working-directory: ./resource/firebase
