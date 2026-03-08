@@ -4,6 +4,7 @@ import SwiftUI
 import SwiftUIExtensions
 
 public struct AuthenticationButton: View {
+  @State private var signingIn = false
   @State private var showingSettings = false
 
   @Environment(Authentication.self) private var session
@@ -11,16 +12,7 @@ public struct AuthenticationButton: View {
   public var body: some View {
     if !session.syncAvailable {
       Label("No Connection", systemImage: "xmark.circle")
-        .labelStyle(.iconOnly)
         .foregroundColor(.yellow.opacity(0.7))
-    } else if !session.hasAccount {
-      SheetLink {
-        AuthenticationView()
-      } label: {
-        Label("Sign In", systemImage: "person.crop.circle.badge.plus")
-          .labelStyle(.iconOnly)
-          .foregroundColor(.accentColor)
-      }
     } else {
       Menu {
         if let email = session.user?.email {
@@ -34,21 +26,24 @@ public struct AuthenticationButton: View {
           Label("Settings", systemImage: "gearshape.fill")
         }
 
-        Button(role: .destructive) {
-          try? session.signOut()
-        } label: {
-          Label("Sign Out", systemImage: "xmark.circle.fill")
+        if session.hasAccount {
+          Button(role: .destructive) {
+            try? session.signOut()
+          } label: {
+            Label("Sign Out", systemImage: "xmark.circle.fill")
+          }
+        } else {
+          Toggle(isOn: $signingIn) {
+            Label("Sign In", systemImage: "person.crop.circle.badge.plus")
+          }
         }
       } label: {
         Label("Signed In", systemImage: "person.crop.circle.fill")
-          .labelStyle(.iconOnly)
-          .foregroundColor(.accentColor)
       }
-      .sheet(isPresented: $showingSettings) {
-        NavigationStack {
-          SettingsView()
-        }
-      }
+      .labelStyle(.iconOnly)
+      .foregroundColor(.accent)
+      .sheet(isPresented: $showingSettings) { SettingsView().embedInNavigationStack() }
+      .sheet(isPresented: $signingIn) { AuthenticationView() }
     }
   }
   

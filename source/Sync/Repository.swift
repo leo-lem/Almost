@@ -19,29 +19,6 @@ public final class Repository {
 }
 
 public extension Repository {
-  var activeAdjustments: [Adjustment] {
-    adjustments
-      .filter { $0.state == .active }
-      .sorted { $0.createdAt > $1.createdAt }
-  }
-
-  var suggestedAdjustments: [Adjustment] {
-    adjustments
-      .filter { $0.state == .suggested }
-      .sorted { $0.createdAt > $1.createdAt }
-  }
-
-  func almosts(with ids: [Almost.ID]) -> [Almost] {
-    let idSet = Set(ids)
-    return almosts.filter { idSet.contains($0.id) }
-  }
-
-  func adjustments(containing almostId: Almost.ID) -> [Adjustment] {
-    adjustments.filter { $0.almosts.contains(almostId) }
-  }
-}
-
-public extension Repository {
   func save<T: Storable>(_ storable: T) async throws {
     guard let userId else { return saveLocally(storable) }
 
