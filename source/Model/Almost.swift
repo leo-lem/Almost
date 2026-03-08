@@ -41,9 +41,17 @@ extension Almost {
     case state
 
     init?<T>(_ value: T) throws where T: Hashable, T: Codable, T: Sendable {
-      let tag = Self.init(rawValue: String(describing: value))
-      if tag == nil { return nil }
-      self = tag!
+      if T.self == Failure.self {
+        self = .failure
+      } else if T.self == Trigger.self {
+        self = .trigger
+      } else if T.self == Context.self {
+        self = .context
+      } else if T.self == State.self {
+        self = .state
+      } else {
+        return nil
+      }
     }
   }
 
