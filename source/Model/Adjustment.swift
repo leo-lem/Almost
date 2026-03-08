@@ -7,7 +7,7 @@ public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
   public let createdAt: Date
   public let almosts: [Almost.ID]
 
-  private var text: String? {
+  public var text: String? {
     didSet { text = Self.normalize(text) }
   }
 
