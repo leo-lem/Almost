@@ -50,7 +50,7 @@ public struct AlmostRow: View {
         Spacer()
 
         Button { isEditing.toggle() } label: {
-          Label("Edit", systemImage: isEditing ? "checkmark.circle" : "pencil")
+          Label(isEditing ? "Done" : "Edit", systemImage: isEditing ? "checkmark.circle" : "pencil")
             .labelStyle(.iconOnly)
         }
       }
