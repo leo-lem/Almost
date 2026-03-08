@@ -7,9 +7,7 @@ public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
   public let createdAt: Date
   public let almosts: [Almost.ID]
 
-  public var text: String? {
-    didSet { text = Self.normalize(text) }
-  }
+  public var text: String?
 
   public var state: State
 
@@ -24,7 +22,7 @@ public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
     self.createdAt = createdAt
     self.almosts = almosts
     
-    self.text = Self.normalize(text)
+    self.text = text
     self.state = state
   }
 }
@@ -40,11 +38,4 @@ public extension Adjustment {
 
 public extension Adjustment {
   var isActive: Bool { state == .active }
-}
-
-private extension Adjustment {
-  private static func normalize(_ text: String?) -> String? {
-    let trimmed = text?.trimmingCharacters(in: .whitespacesAndNewlines)
-    return (trimmed?.isEmpty == false) ? trimmed : nil
-  }
 }

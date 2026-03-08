@@ -34,6 +34,27 @@ public struct Almost: Codable, Identifiable, Hashable, Sendable {
 }
 
 extension Almost {
+  public enum Tag: String, Codable, CaseIterable, Sendable {
+    case failure
+    case trigger
+    case context
+    case state
+
+    init?<T>(_ value: T) throws where T: Hashable, T: Codable, T: Sendable {
+      if T.self == Failure.self {
+        self = .failure
+      } else if T.self == Trigger.self {
+        self = .trigger
+      } else if T.self == Context.self {
+        self = .context
+      } else if T.self == State.self {
+        self = .state
+      } else {
+        return nil
+      }
+    }
+  }
+
   @Generable
   public enum Failure: String, Codable, CaseIterable, Sendable {
     case lateness

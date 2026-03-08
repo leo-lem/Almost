@@ -12,6 +12,7 @@ public struct AlmostView: View {
   public var body: some View {
     NavigationStack {
       JourneyView()
+        .background(Color.background)
         .toolbar {
           ToolbarItem(placement: .topBarLeading) { AuthenticationButton() }
         }

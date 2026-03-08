@@ -1,50 +1,113 @@
 // Created by Leopold Lemmermann on 23.07.25.
 
-import FirebaseFirestore
 import SwiftUI
 import SwiftUIExtensions
-import TipKit
 
 public struct JourneyView: View {
-  @Environment(Authentication.self) private var session
-  @Environment(Settings.self) private var settings
+  @State private var showAllAdjustments = false
+  @State private var activeLimitAlertIsPresented = false
+
+  @Environment(Repository.self) private var repo
 
   public var body: some View {
     VStack {
-      List {
-        
-      }
-      .scrollContentBackground(.hidden)
+      ScrollView {
+        VStack(alignment: .leading) {
+          adjustments
 
-      Spacer()
-        .popoverTip(AddInsightTip())
+          if repo.orderedAdjustments.count > 2 {
+            Button { showAllAdjustments.toggle() } label: {
+              Label(
+                showAllAdjustments ? "Show fewer adjustments" : "Show all adjustments",
+                systemImage: showAllAdjustments ? "chevron.up" : "chevron.down"
+              )
+              .font(.subheadline.weight(.medium))
+              .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.plain)
+          }
+
+          review
+        }
+        .padding()
+        .background(.accent.opacity(0.25), in: RoundedRectangle(cornerRadius: 20))
+
+        if !repo.recentAlmosts.isEmpty {
+          Section {
+            ForEach(repo.recentAlmosts.prefix(3), id: \.id) { almost in
+              AlmostRow(almost: Binding { almost } set: { newValue in
+                Task { try? await repo.save(newValue) }
+              })
+            }
+          } header: {
+            Text("Recent Almosts")
+              .font(.headline)
+          }
+        }
+      }
+
+      QuickCaptureBar()
     }
-    .background(Color.background)
-    .navigationTitle("Your Journey 🌱")
+    .padding()
+    .navigationTitle("Journey")
     .trackScreen("JourneyView")
   }
 
   public init() {}
 
-  private var placeholder: Text {
-    if session.userId == nil {
-      Text("Sign in to start your Journey!")
-    } else {
-      Text("Add an insight to start your journey")
+  private var review: some View {
+    NavigationLink { ReviewView() } label: {
+      HStack {
+        VStack(alignment: .leading) {
+          Text("Review patterns")
+            .font(.headline)
+          Text("\(repo.openPatterns.count) new patterns")
+            .foregroundStyle(.secondary)
+        }
+
+        Spacer()
+
+        Image(systemName: "chevron.right")
+          .foregroundStyle(.tertiary)
+      }
+      .padding()
+      .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
     }
   }
-}
 
-private struct SwitchViewTip: Tip {
-  var title: Text { Text("Filter by Favorites") }
-  var message: Text { Text("Toggle here to show only your marked insights.") }
-  var image: Image? { Image(systemName: "slider.horizontal.3") }
-}
+  private var adjustments: some View {
+    ForEach(
+      repo.orderedAdjustments.prefix(showAllAdjustments ? repo.orderedAdjustments.count : 2),
+      id: \.id
+    ) { adjustment in
+      NavigationLink { ReviewView(adjustment: adjustment) } label: {
+        AdjustmentCard(
+          Binding { adjustment } set: { newValue in
+            Task { try? await repo.save(newValue) }
+          }
+        ) {
+          var updated = adjustment
 
-private struct AddInsightTip: Tip {
-  var title: Text { Text("Create Your First Insight") }
-  var message: Text { Text("Tap here to reflect on something you nearly accomplished.") }
-  var image: Image? { Image(systemName: "plus.circle") }
+          if updated.state.next == .active, !repo.canActivate(updated) {
+            return activeLimitAlertIsPresented = true
+          }
+          updated.state = updated.state.next
+          Task { try? await repo.save(updated) }
+        }
+      }
+    }
+    .replaceIfEmpty {
+      Text("Capture a few almosts and review a pattern to create your first adjustment.")
+        .padding()
+        .foregroundStyle(.secondary)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+    }
+    .alert("Only two active adjustments", isPresented: $activeLimitAlertIsPresented) {
+      Button("OK", role: .cancel) {}
+    } message: {
+      Text("Stabilize or archive an active adjustment.")
+    }
+  }
 }
 
 #Preview {

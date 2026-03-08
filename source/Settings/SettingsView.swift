@@ -6,6 +6,7 @@ import SwiftUIExtensions
 struct SettingsView: View {
   @Environment(Settings.self) private var settings
   @Environment(Authentication.self) private var session
+  @Environment(Repository.self) private var repo
   @Environment(\.dismiss) private var dismiss
 
   @State private var deleteAccountAlertIsPresented: Bool = false
@@ -16,9 +17,9 @@ struct SettingsView: View {
         Toggle(isOn: Binding { settings.aiEnabled } set: { settings.aiEnabled = $0}) {
           Label("Enable AI", systemImage: "brain")
         }
-        Toggle(isOn: Binding { settings.localOnly } set: { settings.localOnly = $0}) {
-          Label("Local only mode [This is not recommended, you might lose data]", systemImage: "internaldrive")
-        }
+//        Toggle(isOn: Binding { settings.localOnly } set: { settings.localOnly = $0}) {
+//          Label("Local only mode [May lose data]", systemImage: "internaldrive")
+//        }
       } header: {
         Label("Features", systemImage: "puzzlepiece.extension")
       } footer: {
@@ -50,13 +51,13 @@ struct SettingsView: View {
 
       Section {
         Link(destination: URL(string: "https://almost.leolem.dev")!) {
-          Label("Find out more about Almost", systemImage: "safari")
+          Label("Find out more", systemImage: "safari")
         }
         .labelStyle(.external(color: .accent, transfer: true))
         .foregroundStyle(.accent)
 
         Link(destination: URL(string: "https://almost.leolem.dev/privacy")!) {
-          Label("Privacy Stuff", systemImage: "lock.shield")
+          Label("Privacy Policy", systemImage: "lock.shield")
         }
         .labelStyle(.external(color: .indigo, transfer: true))
         .foregroundStyle(.indigo)
@@ -69,6 +70,31 @@ struct SettingsView: View {
       } header: {
         Label("Links", systemImage: "link")
       }
+
+#if DEBUG
+      Section {
+        AsyncButton {
+          for almost in Almost.previewData {
+            try? await repo.save(almost)
+          }
+        } label: {
+          Label("Add Preview Almosts", systemImage: "wand.and.stars")
+        }
+
+        AsyncButton(role: .destructive) {
+          for almost in repo.almosts {
+            try? await repo.delete(almost)
+          }
+          for adjustment in repo.adjustments {
+            try? await repo.delete(adjustment)
+          }
+        } label: {
+          Label("Clear Preview Data", systemImage: "trash")
+        }
+      } header: {
+        Label("Development", systemImage: "hammer")
+      }
+#endif
     }
     .navigationTitle("Settings")
     .navigationBarTitleDisplayMode(.inline)
