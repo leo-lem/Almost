@@ -37,7 +37,7 @@ struct SettingsView: View {
           }
           .foregroundStyle(.red)
           .alert("Are you sure you want to delete your account?", isPresented: $deleteAccountAlertIsPresented) {
-            AsyncButton(role: .destructive) { await session.deleteAccount(dismiss: dismiss) } label: {
+            AsyncButton(role: .destructive) { try? await session.deleteAccount() } label: {
               Label("Delete Account", systemImage: "trash")
             }
           } message: {

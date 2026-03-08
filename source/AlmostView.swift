@@ -5,6 +5,7 @@ import SwiftUIExtensions
 
 public struct AlmostView: View {
   @State private var session = UserSession()
+  @State private var repo = AppRepository()
   @State private var config = Settings()
   
   public var body: some View {
@@ -20,6 +21,7 @@ public struct AlmostView: View {
     .accentColor(.accent)
     .environment(session)
     .environment(config)
+    .onChange(of: session.userId, initial: true) { repo.updateSync(for: $1) }
   }
   
   public init() {}

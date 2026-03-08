@@ -1,24 +1,36 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /insights/{insightId} {
-      function isValidInsight() {
-        return request.resource.data.content is string &&
-               request.resource.data.mood is string &&
-               request.resource.data.isFavorite is bool;
+    function isSignedInAs(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      match /almosts/{almostId} {
+        function isValidAlmost() {
+          return request.resource.data.text is string &&
+                 request.resource.data.createdAt is timestamp &&
+                 request.resource.data.failureModes is list &&
+                 request.resource.data.triggers is list &&
+                 request.resource.data.contexts is list &&
+                 request.resource.data.states is list;
+        }
+
+        allow read, delete: if isSignedInAs(userId);
+        allow create, update: if isSignedInAs(userId) && isValidAlmost();
       }
 
-      allow read, delete: if request.auth != null &&
-                          resource.data.userID == request.auth.uid;
+      match /adjustments/{adjustmentId} {
+        function isValidAdjustment() {
+          return request.resource.data.text is string &&
+                 request.resource.data.createdAt is timestamp &&
+                 request.resource.data.almosts is list &&
+                 request.resource.data.state is string;
+        }
 
-      allow create: if request.auth != null &&
-                    request.auth.uid == request.resource.data.userID &&
-                    isValidInsight();
-
-      allow update: if request.auth != null &&
-                    request.auth.uid == request.resource.data.userID &&
-                    request.resource.data.userID == resource.data.userID &&
-                    isValidInsight();
+        allow read, delete: if isSignedInAs(userId);
+        allow create, update: if isSignedInAs(userId) && isValidAdjustment();
+      }
     }
   }
 }

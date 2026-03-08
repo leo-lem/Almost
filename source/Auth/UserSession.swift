@@ -16,18 +16,20 @@ public final class UserSession {
   private let auth = Auth.auth()
 
   /// Initialise and sign in anonymously.
-  public init() async {
+  public init() {
     user = auth.currentUser
-    userId = auth.currentUser?.uid
+    userId = user?.uid
 
     _ = auth.addStateDidChangeListener { _, user in
       self.user = user
       self.userId = user?.uid
     }
 
-    if auth.currentUser == nil {
-      _ = try? await Analytics.logFailableEvent("connect_sync") {
-        try await auth.signInAnonymously()
+    Task {
+      if user == nil {
+        _ = try? await Analytics.logFailableEvent("connect_sync") {
+          try await auth.signInAnonymously()
+        }
       }
     }
   }
@@ -59,7 +61,7 @@ public extension UserSession {
     guard let user else { return }
 
     try await Analytics.logFailableEvent("delete_account") {
-      try await Task { try await user.delete() }.value
+      try await user.delete()
     }
   }
 }

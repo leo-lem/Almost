@@ -1,121 +1,21 @@
 // Created by Leopold Lemmermann on 07.03.26.
 
 import FirebaseAnalytics
-@preconcurrency import FirebaseFirestore
+import FirebaseFirestore
 
 @MainActor
 @Observable
 public final class AppRepository {
   public private(set) var almosts: [Almost] = []
   public private(set) var adjustments: [Adjustment] = []
-  public private(set) var isSyncing = false
 
-  private let firestore = Firestore.firestore()
-  private let session: UserSession
-
+  private var userId: String?
   private var almostsListener: ListenerRegistration?
   private var adjustmentsListener: ListenerRegistration?
 
-  public init(session: UserSession) {
-    self.session = session
-  }
+  private let firestore = Firestore.firestore()
 
-  func stop() {
-    detachListeners()
-  }
-}
-
-public extension AppRepository {
-  private var userId: String {
-    
-  }
-}
-
-public extension AppRepository {
-  func save(_ almost: Almost) async throws {
-    guard let userId else { return }
-
-    do {
-      var data = try Firestore.Encoder().encode(almost)
-      data.removeValue(forKey: "id")
-
-      try await firestore
-        .collection("users")
-        .document(userId)
-        .collection("almosts")
-        .document(almost.id)
-        .setData(data)
-
-      Analytics.logEvent("almost_saved", parameters: [
-        "failure_modes_count": almost.failureModes.count,
-        "triggers_count": almost.triggers.count,
-        "contexts_count": almost.contexts.count,
-        "states_count": almost.states.count
-      ])
-    } catch {
-      lastErrorMessage = error.localizedDescription
-
-      Analytics.logEvent("almost_save_failure", parameters: [
-        "message": error.localizedDescription
-      ])
-    }
-  }
-
-  func delete(_ almost: Almost) async {
-    do {
-      try await firestore
-        .collection("almosts")
-        .document(almost.id)
-        .delete()
-
-      Analytics.logEvent("almost_deleted", parameters: [:])
-    } catch {
-      lastErrorMessage = error.localizedDescription
-
-      Analytics.logEvent("almost_delete_failure", parameters: [
-        "message": error.localizedDescription
-      ])
-    }
-  }
-
-  func save(_ adjustment: Adjustment) async {
-    guard let userId else { return }
-
-    do {
-      try firestore
-        .collection("adjustments")
-        .document(adjustment.id)
-        .setData(from: Adjustment.Record(adjustment, userId: userId))
-
-      Analytics.logEvent("adjustment_saved", parameters: [
-        "state": adjustment.state.rawValue,
-        "almosts_count": adjustment.almosts.count
-      ])
-    } catch {
-      lastErrorMessage = error.localizedDescription
-
-      Analytics.logEvent("adjustment_save_failure", parameters: [
-        "message": error.localizedDescription
-      ])
-    }
-  }
-
-  func delete(_ adjustment: Adjustment) async {
-    do {
-      try await firestore
-        .collection("adjustments")
-        .document(adjustment.id)
-        .delete()
-
-      Analytics.logEvent("adjustment_deleted", parameters: [:])
-    } catch {
-      lastErrorMessage = error.localizedDescription
-
-      Analytics.logEvent("adjustment_delete_failure", parameters: [
-        "message": error.localizedDescription
-      ])
-    }
-  }
+  public init() {}
 }
 
 public extension AppRepository {
@@ -141,79 +41,126 @@ public extension AppRepository {
   }
 }
 
-private extension AppRepository {
-  func detachListeners() {
+public extension AppRepository {
+  func save<T: Storable>(_ storable: T) async throws {
+    guard let userId else { return saveLocally(storable) }
+
+    try await Analytics.logFailableEvent("save_\(T.analyticsName)", parameters: storable.parameters) {
+      var data = try Firestore.Encoder().encode(storable)
+      data.removeValue(forKey: "id")
+
+      try await firestore
+        .collection("users")
+        .document(userId)
+        .collection(T.collectionName)
+        .document(storable.id)
+        .setData(data)
+    }
+  }
+
+  func delete<T: Storable>(_ storable: T) async throws {
+    guard let userId else { return deleteLocally(storable) }
+
+    try await Analytics.logFailableEvent("delete_\(T.analyticsName)") {
+      try await firestore
+        .collection("users")
+        .document(userId)
+        .collection(T.collectionName)
+        .document(storable.id)
+        .delete()
+    }
+  }
+
+  private func saveLocally<T: Storable>(_ storable: T) {
+    switch storable {
+    case let almost as Almost:
+      if let index = almosts.firstIndex(where: { $0.id == almost.id }) {
+        almosts[index] = almost
+      } else {
+        almosts.insert(almost, at: 0)
+      }
+
+    case let adjustment as Adjustment:
+      if let index = adjustments.firstIndex(where: { $0.id == adjustment.id }) {
+        adjustments[index] = adjustment
+      } else {
+        adjustments.insert(adjustment, at: 0)
+      }
+
+    default:
+      assertionFailure("Unsupported storable type: \(T.self)")
+    }
+  }
+
+  private func deleteLocally<T: Storable>(_ storable: T) {
+    switch storable {
+    case let almost as Almost:
+      almosts.removeAll { $0.id == almost.id }
+
+    case let adjustment as Adjustment:
+      adjustments.removeAll { $0.id == adjustment.id }
+
+    default:
+      assertionFailure("Unsupported storable type: \(T.self)")
+    }
+  }
+}
+
+extension AppRepository {
+  public func updateSync(for userId: String?) {
+    self.userId = userId
+
+    detachListeners()
+
+    guard let userId else {
+      almosts = []
+      adjustments = []
+      return
+    }
+
+    almostsListener = firestore
+      .collection("users")
+      .document(userId)
+      .collection("almosts")
+      .order(by: "createdAt", descending: true)
+      .addSnapshotListener { [weak self] snapshot, error in
+        guard error == nil, let snapshot else { return }
+
+        self?.almosts = snapshot.documents.compactMap { document in
+          do {
+            var data = document.data()
+            data["id"] = document.documentID
+            return try Firestore.Decoder().decode(Almost.self, from: data)
+          } catch {
+            return nil
+          }
+        }
+      }
+
+    adjustmentsListener = firestore
+      .collection("users")
+      .document(userId)
+      .collection("adjustments")
+      .order(by: "createdAt", descending: true)
+      .addSnapshotListener { [weak self] snapshot, error in
+        guard error == nil, let snapshot else { return }
+
+        self?.adjustments = snapshot.documents.compactMap { document in
+          do {
+            var data = document.data()
+            data["id"] = document.documentID
+            return try Firestore.Decoder().decode(Adjustment.self, from: data)
+          } catch {
+            return nil
+          }
+        }
+      }
+  }
+
+  private func detachListeners() {
     almostsListener?.remove()
     adjustmentsListener?.remove()
     almostsListener = nil
     adjustmentsListener = nil
-  }
-
-  func attachAlmostsListener(for userId: String) {
-    isSyncing = true
-
-    almostsListener = firestore
-      .collection("almosts")
-      .whereField("userId", isEqualTo: userId)
-      .order(by: "createdAt", descending: true)
-      .addSnapshotListener { [weak self] snapshot, error in
-        guard let self else { return }
-
-        if let error {
-          self.lastErrorMessage = error.localizedDescription
-          self.isSyncing = false
-          return
-        }
-
-        guard let snapshot else {
-          self.isSyncing = false
-          return
-        }
-
-        self.almosts = snapshot.documents.compactMap { document in
-          do {
-            let record = try document.data(as: Almost.Record.self)
-            return record.domain(id: document.documentID)
-          } catch {
-            return nil
-          }
-        }
-
-        self.isSyncing = false
-      }
-  }
-
-  func attachAdjustmentsListener(for userId: String) {
-    isSyncing = true
-
-    adjustmentsListener = firestore
-      .collection("adjustments")
-      .whereField("userId", isEqualTo: userId)
-      .order(by: "createdAt", descending: true)
-      .addSnapshotListener { [weak self] snapshot, error in
-        guard let self else { return }
-
-        if let error {
-          self.lastErrorMessage = error.localizedDescription
-          self.isSyncing = false
-          return
-        }
-
-        guard let snapshot else {
-          self.isSyncing = false
-          return
-        }
-
-        self.adjustments = snapshot.documents.compactMap { document in
-          do {
-            let record = try document.data(as: Adjustment.Record.self)
-            return record.domain(id: document.documentID)
-          } catch {
-            return nil
-          }
-        }
-
-        self.isSyncing = false
-      }
   }
 }

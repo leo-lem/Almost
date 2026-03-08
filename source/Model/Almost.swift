@@ -7,7 +7,7 @@ public struct Almost: Codable, Identifiable, Hashable, Sendable {
   public let createdAt: Date
 
   public var text: String
-  public var failureModes: Set<Failure>
+  public var failures: Set<Failure>
   public var triggers: Set<Trigger>
   public var contexts: Set<Context>
   public var states: Set<State>
@@ -16,7 +16,7 @@ public struct Almost: Codable, Identifiable, Hashable, Sendable {
     id: String = UUID().uuidString,
     createdAt: Date = .now,
     text: String,
-    failureModes: Set<Failure> = [],
+    failures: Set<Failure> = [],
     triggers: Set<Trigger> = [],
     contexts: Set<Context> = [],
     states: Set<State> = []
@@ -25,7 +25,7 @@ public struct Almost: Codable, Identifiable, Hashable, Sendable {
     self.createdAt = createdAt
 
     self.text = text
-    self.failureModes = failureModes
+    self.failures = failures
     self.triggers = triggers
     self.contexts = contexts
     self.states = states
@@ -85,7 +85,7 @@ public extension Almost {
   static let minimumPatternOverlapScore = 4
 
   func overlapScore(with other: Self) -> Int {
-    let sharedFailures = failureModes.intersection(other.failureModes).count
+    let sharedFailures = failures.intersection(other.failures).count
     let sharedTriggers = triggers.intersection(other.triggers).count
     let sharedContexts = contexts.intersection(other.contexts).count
     let sharedStates = states.intersection(other.states).count
