@@ -21,6 +21,7 @@ public struct AlmostView: View {
     .accentColor(.accent)
     .environment(session)
     .environment(config)
+    .environment(repo)
     .onChange(of: config.localOnly ? nil : session.userId, initial: true) {
       repo.updateSync(for: $1)
     }
