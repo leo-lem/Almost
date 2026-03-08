@@ -14,9 +14,7 @@ public extension Analytics {
       Analytics.logEvent(label, parameters: parameters)
       return result
     } catch {
-      var parameters = parameters
-      parameters["error"] = error.localizedDescription
-      Analytics.logEvent("\(label)_failed", parameters: parameters)
+      Analytics.logFailure("\(label)_failed", parameters: parameters, error: error)
       throw error
     }
   }
@@ -31,10 +29,7 @@ public extension Analytics {
       Analytics.logEvent(label, parameters: parameters)
       return result
     } catch {
-      var parameters = parameters
-      parameters["error"] = error.localizedDescription
-      Analytics.logEvent("\(label)_failed", parameters: parameters)
-
+      Analytics.logFailure("\(label)_failed", parameters: parameters, error: error)
       throw error
     }
   }

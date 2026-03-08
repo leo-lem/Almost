@@ -7,21 +7,24 @@ public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
   public let createdAt: Date
   public let almosts: [Almost.ID]
 
-  public var text: String
+  public var text: String? {
+    didSet { text = Self.normalize(text) }
+  }
+
   public var state: State
 
   public init(
     id: String = UUID().uuidString,
     createdAt: Date = .now,
     almosts: [Almost.ID] = [],
-    text: String,
+    text: String?,
     state: State = .suggested
   ) {
     self.id = id
     self.createdAt = createdAt
     self.almosts = almosts
     
-    self.text = text
+    self.text = Self.normalize(text)
     self.state = state
   }
 }
@@ -32,5 +35,16 @@ public extension Adjustment {
     case active
     case stabilized
     case archived
+  }
+}
+
+public extension Adjustment {
+  var isActive: Bool { state == .active }
+}
+
+private extension Adjustment {
+  private static func normalize(_ text: String?) -> String? {
+    let trimmed = text?.trimmingCharacters(in: .whitespacesAndNewlines)
+    return (trimmed?.isEmpty == false) ? trimmed : nil
   }
 }

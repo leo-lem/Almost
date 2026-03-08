@@ -9,7 +9,7 @@ public struct AuthenticationView: View {
   @State private var error: Error?
 
   @Environment(\.dismiss) private var dismiss
-  @Environment(UserSession.self) private var session
+  @Environment(Authentication.self) private var session
 
   public var body: some View {
     Form {

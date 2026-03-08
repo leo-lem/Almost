@@ -10,7 +10,7 @@ service cloud.firestore {
         function isValidAlmost() {
           return request.resource.data.text is string &&
                  request.resource.data.createdAt is timestamp &&
-                 request.resource.data.failureModes is list &&
+                 request.resource.data.failures is list &&
                  request.resource.data.triggers is list &&
                  request.resource.data.contexts is list &&
                  request.resource.data.states is list;

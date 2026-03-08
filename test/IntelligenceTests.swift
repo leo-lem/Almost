@@ -1,0 +1,172 @@
+// Created by Leopold Lemmermann on 08.03.26.
+
+import FoundationModels
+import Testing
+@testable import Almost
+
+@Suite("Intelligence Tests")
+struct IntelligenceTests {
+  @Suite("Tag Prediction")
+  struct TagPredictionTests {
+    @Test("Predict tags generates useful output for representative almosts", .enabled(if: SystemLanguageModel.default.isAvailable))
+    @MainActor
+    func testPredictTags() async throws {
+      let intelligence = Intelligence()
+      intelligence.updateAIEnabled(true)
+
+      let cases: [Almost] = [
+        Almost(text: "Left home too late and almost missed my train."),
+        Almost(text: "Forgot my charger before leaving for university."),
+        Almost(text: "Skipped lunch and felt too tired to focus at work."),
+        Almost(text: "Tried to do too many tasks at once and nearly forgot one."),
+        Almost(text: "Stayed up too late and had trouble waking up on time.")
+      ]
+
+      var nonEmptyPredictions = 0
+
+      for input in cases {
+        let result = await intelligence.predictTags(for: input)
+
+        #expect(result.id == input.id)
+        #expect(result.createdAt == input.createdAt)
+        #expect(result.text == input.text)
+
+        let hasAnyTags =
+        !result.failures.isEmpty ||
+        !result.triggers.isEmpty ||
+        !result.contexts.isEmpty ||
+        !result.states.isEmpty
+
+        if hasAnyTags {
+          nonEmptyPredictions += 1
+        }
+      }
+
+      #expect(
+        nonEmptyPredictions >= 1,
+        "Expected at least 1 of \(cases.count) representative almosts to receive some predicted tags, got \(nonEmptyPredictions)."
+      )
+    }
+
+    @Test("Returns input unchanged when AI is disabled")
+    @MainActor
+    func testPredictTagsDisabledFallback() async {
+      let intelligence = Intelligence()
+      intelligence.updateAIEnabled(false)
+
+      let input = Almost(
+        text: "Packed late and almost forgot my passport.",
+        failures: [],
+        triggers: [],
+        contexts: [],
+        states: []
+      )
+
+      let result = await intelligence.predictTags(for: input)
+
+      #expect(result == input)
+    }
+  }
+
+  @Suite("Adjustment Suggestion")
+  struct AdjustmentSuggestionTests {
+    @Test("Suggests an adjustment for representative patterns", .enabled(if: SystemLanguageModel.default.isAvailable))
+    @MainActor
+    func testSuggestAdjustment() async throws {
+      let intelligence = Intelligence()
+      intelligence.updateAIEnabled(true)
+
+      let pattern1: Pattern = [
+        Almost(
+          id: "a1",
+          text: "Packed for the trip at the last minute and almost forgot my passport on the kitchen table.",
+          failures: [.forgetting, .poorPreparation],
+          triggers: [.rushedMorning],
+          contexts: [.atHome, .beforeLeaving],
+          states: [.rushed]
+        ),
+        Almost(
+          id: "a2",
+          text: "Rushed out the door without checking my bag and almost arrived at university without my laptop.",
+          failures: [.forgetting],
+          triggers: [.rushedMorning, .noChecklist],
+          contexts: [.beforeLeaving, .commuting],
+          states: [.rushed]
+        ),
+        Almost(
+          id: "a3",
+          text: "Forgot to charge my headphones and almost had no audio for the train ride to campus.",
+          failures: [.forgetting, .poorPreparation],
+          triggers: [.noChecklist],
+          contexts: [.commuting],
+          states: [.rushed]
+        )
+      ]
+
+      let pattern2: Pattern = [
+        Almost(
+          id: "b1",
+          text: "Stayed on my phone too long at night and almost overslept for my morning run.",
+          failures: [.lateness],
+          triggers: [.lateNight],
+          contexts: [.bedtime, .workout],
+          states: [.tired]
+        ),
+        Almost(
+          id: "b2",
+          text: "Watched videos too late and almost slept through my alarm before work.",
+          failures: [.lateness],
+          triggers: [.lateNight],
+          contexts: [.bedtime, .workday],
+          states: [.tired]
+        )
+      ]
+
+      for pattern in [pattern1, pattern2] {
+        let result = await intelligence.suggestAdjustment(for: pattern)
+
+        #expect(result.state == .suggested)
+        #expect(result.almosts == pattern.map(\.id))
+
+        if let text = result.text {
+          #expect(!text.isEmpty)
+          #expect(text.count <= 120)
+        }
+      }
+    }
+
+    @Test("Returns fallback adjustment when AI is disabled")
+    @MainActor
+    func testSuggestAdjustmentDisabledFallback() async {
+      let intelligence = Intelligence()
+      intelligence.updateAIEnabled(false)
+
+      let pattern: Pattern = [
+        Almost(id: "a1", text: "Packed late and almost forgot my passport.")
+      ]
+
+      let result = await intelligence.suggestAdjustment(for: pattern)
+
+      #expect(result.state == .suggested)
+      #expect(result.almosts == ["a1"])
+      #expect(result.text == nil)
+    }
+
+    @Test("Returns fallback adjustment for invalid pattern")
+    @MainActor
+    func testSuggestAdjustmentInvalidPatternFallback() async {
+      let intelligence = Intelligence()
+      intelligence.updateAIEnabled(true)
+
+      let pattern: Pattern = [
+        Almost(id: "a1", text: "Single entry should not form a valid pattern.")
+      ]
+
+      let result = await intelligence.suggestAdjustment(for: pattern)
+
+      #expect(result.state == .suggested)
+      #expect(result.almosts == ["a1"])
+      #expect(result.text == nil)
+    }
+  }
+}

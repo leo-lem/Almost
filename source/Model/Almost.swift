@@ -1,6 +1,7 @@
 // Created by Leopold Lemmermann on 07.03.26.
 
 import Foundation
+import FoundationModels
 
 public struct Almost: Codable, Identifiable, Hashable, Sendable {
   public let id: String
@@ -32,8 +33,9 @@ public struct Almost: Codable, Identifiable, Hashable, Sendable {
   }
 }
 
-public extension Almost {
-  enum Failure: String, Codable, CaseIterable, Sendable {
+extension Almost {
+  @Generable
+  public enum Failure: String, Codable, CaseIterable, Sendable {
     case lateness
     case forgetting
     case poorPreparation
@@ -44,7 +46,8 @@ public extension Almost {
     case lowEnergy
   }
 
-  enum Trigger: String, Codable, CaseIterable, Sendable {
+  @Generable
+  public enum Trigger: String, Codable, CaseIterable, Sendable {
     case rushedMorning
     case lateNight
     case transition
@@ -57,7 +60,8 @@ public extension Almost {
     case noBuffer
   }
 
-  enum Context: String, Codable, CaseIterable, Sendable {
+  @Generable
+  public enum Context: String, Codable, CaseIterable, Sendable {
     case atHome
     case beforeLeaving
     case commuting
@@ -70,7 +74,8 @@ public extension Almost {
     case studySession
   }
 
-  enum State: String, Codable, CaseIterable, Sendable {
+  @Generable
+  public enum State: String, Codable, CaseIterable, Sendable {
     case tired
     case rushed
     case stressed

@@ -6,7 +6,7 @@ import SwiftUIExtensions
 public struct AuthenticationButton: View {
   @State private var showingSettings = false
 
-  @Environment(UserSession.self) private var session
+  @Environment(Authentication.self) private var session
   
   public var body: some View {
     if !session.syncAvailable {

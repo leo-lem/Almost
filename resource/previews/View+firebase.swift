@@ -6,7 +6,9 @@ public extension View {
   func firebase() -> some View {
     self
       .accentColor(.accent)
-      .environment(UserSession())
+      .environment(Authentication())
       .environment(Settings())
+      .environment(Repository())
+      .environment(Intelligence())
   }
 }
