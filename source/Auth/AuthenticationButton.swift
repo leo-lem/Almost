@@ -5,15 +5,15 @@ import SwiftUIExtensions
 
 public struct AuthenticationButton: View {
   @State private var showingSettings = false
+
   @Environment(UserSession.self) private var session
   
   public var body: some View {
-    switch session.state {
-    case .loading:
-      ProgressView()
-        .progressViewStyle(.circular)
-
-    case .signedOut, .error:
+    if !session.syncAvailable {
+      Label("No Connection", systemImage: "xmark.circle")
+        .labelStyle(.iconOnly)
+        .foregroundColor(.yellow.opacity(0.7))
+    } else if !session.hasAccount {
       SheetLink {
         AuthenticationView()
       } label: {
@@ -21,13 +21,13 @@ public struct AuthenticationButton: View {
           .labelStyle(.iconOnly)
           .foregroundColor(.accentColor)
       }
-
-    case .signedIn:
+    } else {
       Menu {
         if let email = session.user?.email {
           Text(email)
             .font(.caption)
             .foregroundColor(.secondary)
+            .lineLimit(1)
         }
 
         Toggle(isOn: $showingSettings) {
@@ -35,7 +35,7 @@ public struct AuthenticationButton: View {
         }
 
         Button(role: .destructive) {
-          session.signOut()
+          try? session.signOut()
         } label: {
           Label("Sign Out", systemImage: "xmark.circle.fill")
         }

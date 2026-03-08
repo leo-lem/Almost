@@ -12,7 +12,7 @@
 		6EAEC8862E321A2D0031EDAF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */; };
 		6EAEC8882E321AAA0031EDAF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */; };
 		6EAEC88F2E322F060031EDAF /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC88E2E322F060031EDAF /* FirebaseRemoteConfig */; };
-		6EC7C8722A18439800C783F0 /* Almost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC7C8712A18439800C783F0 /* Almost.swift */; };
+		6EC7C8722A18439800C783F0 /* AlmostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC7C8712A18439800C783F0 /* AlmostApp.swift */; };
 		6EFD09B82E3000A300475D32 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B72E3000A300475D32 /* FirebaseCore */; };
 		6EFD09BA2E300CE900475D32 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B92E300CE900475D32 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
@@ -41,14 +41,13 @@
 		6E37D5FC2E314A3800F7D712 /* Almost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Almost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E3EFF802E379C0000A27249 /* AlmostTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlmostTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EB7972D2E379A9A00FC8693 /* AlmostUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlmostUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EC7C8712A18439800C783F0 /* Almost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Almost.swift; sourceTree = "<group>"; };
+		6EC7C8712A18439800C783F0 /* AlmostApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlmostApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		6E3EFF8C2E379C0A00A27249 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				FirestoreRulesTests.swift,
 				ModelTests.swift,
 			);
 			target = 6E3EFF7F2E379C0000A27249 /* AlmostTests */;
@@ -78,10 +77,14 @@
 				AlmostView.swift,
 				Auth/AuthenticationButton.swift,
 				Auth/AuthenticationView.swift,
+				Auth/Settings.swift,
+				Auth/UserSession.swift,
+				Data/AppRepository.swift,
+				"Data/Model+Storable.swift",
+				Data/Storable.swift,
+				"Firebase/Analytics+logFailableEvent.swift",
 				"Firebase/Insight+Firestore.swift",
-				Firebase/Settings.swift,
 				Firebase/trackScreen.swift,
-				Firebase/UserSession.swift,
 				Insights/AddInsightButton.swift,
 				Insights/EditInsightView.swift,
 				Insights/Insight.swift,
@@ -90,6 +93,9 @@
 				Insights/InsightsList.swift,
 				Insights/Mood.swift,
 				JourneyView.swift,
+				Model/Adjustment.swift,
+				Model/Almost.swift,
+				Model/Pattern.swift,
 				SettingsView.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost */;
@@ -139,7 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				6E10D4E82D66447E00EACE37 /* README.md */,
-				6EC7C8712A18439800C783F0 /* Almost.swift */,
+				6EC7C8712A18439800C783F0 /* AlmostApp.swift */,
 				6EC5D9202E3158A0008B53B8 /* source */,
 				6E10D4E62D66446600EACE37 /* extensions */,
 				6E8937072D662B0B00379273 /* resource */,
@@ -307,7 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6EC7C8722A18439800C783F0 /* Almost.swift in Sources */,
+				6EC7C8722A18439800C783F0 /* AlmostApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

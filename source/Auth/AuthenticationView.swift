@@ -6,12 +6,14 @@ import SwiftUIExtensions
 public struct AuthenticationView: View {
   @State private var email = ""
   @State private var password = ""
+  @State private var error: Error?
+
   @Environment(\.dismiss) private var dismiss
   @Environment(UserSession.self) private var session
-  
+
   public var body: some View {
     Form {
-      Section("Welcome!") {
+      Section {
         TextField("Email", text: $email)
           .keyboardType(.emailAddress)
           .textContentType(.emailAddress)
@@ -26,12 +28,18 @@ public struct AuthenticationView: View {
             .submitLabel(.go)
             .onSubmit {
               Task {
-                await session.signIn(email: email, password: password, dismiss: dismiss)
+                do {
+                  try await session.signIn(email: email, password: password)
+                  dismiss()
+                } catch { self.error = error }
               }
             }
 
           AsyncButton {
-            await session.signUp(email: email, password: password, dismiss: dismiss)
+            do {
+              try await session.signUp(email: email, password: password)
+              dismiss()
+            } catch { self.error = error }
           } label: {
             Label("Create Account", systemImage: "person.badge.plus")
           }
@@ -40,7 +48,10 @@ public struct AuthenticationView: View {
           .buttonStyle(.borderless)
 
           AsyncButton {
-            await session.signIn(email: email, password: password, dismiss: dismiss)
+            do {
+              try await session.signIn(email: email, password: password)
+              dismiss()
+            } catch { self.error = error }
           } label: {
             Label("Sign In", systemImage: "arrow.right.circle.fill")
           }
@@ -48,8 +59,10 @@ public struct AuthenticationView: View {
           .disabled(email.isEmpty || password.isEmpty)
           .buttonStyle(.borderedProminent)
         }
-        
-        if let message = session.errorMessage {
+      } header: {
+        Text("Welcome!")
+      } footer: {
+        if let message = error?.localizedDescription {
           Text(message)
             .font(.footnote)
             .foregroundStyle(.red)
@@ -57,8 +70,8 @@ public struct AuthenticationView: View {
       }
     }
     .formStyle(.automatic)
-    .presentationDetents([.fraction(0.3)])
-    .animation(.default, value: session.state)
+    .presentationDetents([.fraction(0.2)])
+    .scrollDisabled(true)
     .trackScreen("AuthenticationView")
   }
   

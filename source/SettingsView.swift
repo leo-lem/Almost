@@ -13,11 +13,11 @@ struct SettingsView: View {
   var body: some View {
     Form {
       Section {
-        Toggle(isOn: Binding { settings.moodEnabled } set: { settings.moodEnabled = $0}) {
-          Label("Enable Moods", systemImage: "face.smiling")
+        Toggle(isOn: Binding { settings.aiEnabled } set: { settings.aiEnabled = $0}) {
+          Label("Enable AI", systemImage: "brain")
         }
-        Toggle(isOn: Binding { settings.favoritesEnabled } set: { settings.favoritesEnabled = $0}) {
-          Label("Enable Favorites", systemImage: "star.fill")
+        Toggle(isOn: Binding { settings.localOnly } set: { settings.localOnly = $0}) {
+          Label("Local only mode [This is not recommended, you might lose data]", systemImage: "internaldrive")
         }
       } header: {
         Label("Features", systemImage: "puzzlepiece.extension")
@@ -37,7 +37,7 @@ struct SettingsView: View {
           }
           .foregroundStyle(.red)
           .alert("Are you sure you want to delete your account?", isPresented: $deleteAccountAlertIsPresented) {
-            AsyncButton(role: .destructive) { await session.deleteAccount(dismiss: dismiss) } label: {
+            AsyncButton(role: .destructive) { try? await session.deleteAccount() } label: {
               Label("Delete Account", systemImage: "trash")
             }
           } message: {

@@ -18,18 +18,6 @@ public struct JourneyView: View {
         InsightsList(insights: insights, placeholder: placeholder)
       }
       .scrollContentBackground(.hidden)
-      .toolbar {
-        if settings.favoritesEnabled {
-          ToolbarItem(placement: .topBarTrailing) {
-            Toggle(isOn: $fav) {
-              Label("Favorites only", systemImage: fav ? "star.fill" : "star")
-            }
-            .toggleStyle(.button)
-            .labelStyle(.iconOnly)
-            .popoverTip(SwitchViewTip())
-          }
-        }
-      }
 
       Spacer()
 
