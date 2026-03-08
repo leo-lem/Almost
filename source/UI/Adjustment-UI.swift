@@ -5,7 +5,7 @@ import SwiftUI
 public extension Adjustment {
   var defaultText: String {
     get { text ?? "" }
-    set { text = newValue }
+    set { text = newValue.isEmpty ? nil : newValue }
   }
 
   var relativeTimestamp: String {

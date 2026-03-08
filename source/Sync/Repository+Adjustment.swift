@@ -30,8 +30,8 @@ private extension Adjustment.State {
     switch self {
     case .active: 0
     case .suggested: 1
-    case .archived: 2
-    case .stabilized: 3
+    case .stabilized: 2
+    case .archived: 3
     }
   }
 }

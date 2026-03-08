@@ -3,7 +3,7 @@
 import SwiftUI
 import SwiftUIExtensions
 
-public struct PatternCard: View {
+public struct PatternView: View {
   @Environment(Repository.self) private var repo
   @Environment(Intelligence.self) private var ai
 
@@ -74,7 +74,7 @@ public struct PatternCard: View {
   }
 }
 
-private extension PatternCard {
+private extension PatternView {
   var hasBeenAdded: Bool {
     repo.adjustments.contains { $0.id == adjustment.id}
   }
@@ -82,7 +82,9 @@ private extension PatternCard {
   func binding(for id: Almost.ID) -> Binding<Almost> {
     Binding {
       pattern.first { $0.id == id }!
-    } set: { _ in }
+    } set: { newValue in
+      Task { try? await repo.save(newValue) }
+    }
   }
 
   func suggestIfNeeded() async {
@@ -130,7 +132,7 @@ private extension PatternCard {
   ]
 
   VStack {
-    PatternCard(pattern: pattern)
+    PatternView(pattern: pattern)
   }
   .padding()
   .firebase()

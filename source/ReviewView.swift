@@ -12,7 +12,7 @@ public struct ReviewView: View {
     ScrollView {
       VStack(alignment: .leading) {
         ForEach(displayedPatterns, id: \.createdAtRange) { pattern in
-          PatternCard(
+          PatternView(
             pattern: pattern,
             adjustment: adjustmentFor(pattern)
           )
