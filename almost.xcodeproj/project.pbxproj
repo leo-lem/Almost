@@ -48,7 +48,6 @@
 		6E3EFF8C2E379C0A00A27249 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				FirestoreRulesTests.swift,
 				ModelTests.swift,
 			);
 			target = 6E3EFF7F2E379C0000A27249 /* AlmostTests */;

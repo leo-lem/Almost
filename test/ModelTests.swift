@@ -11,18 +11,16 @@ struct ModelTests {
     @Test("Overlap score weights shared axes correctly")
     func testOverlapScore() {
       let first = Almost(
-        userId: "test-user",
         text: "Packed late and almost forgot my passport.",
-        failureModes: [.forgetting, .poorPreparation],
+        failures: [.forgetting, .poorPreparation],
         triggers: [.rushedMorning, .noChecklist],
         contexts: [.beforeLeaving, .atHome],
         states: [.rushed]
       )
 
       let second = Almost(
-        userId: "test-user",
         text: "Rushed out and almost forgot my laptop.",
-        failureModes: [.forgetting],
+        failures: [.forgetting],
         triggers: [.rushedMorning],
         contexts: [.beforeLeaving, .commuting],
         states: [.rushed]
@@ -39,27 +37,24 @@ struct ModelTests {
     @Test("Relatedness uses minimum overlap threshold")
     func testIsRelated() {
       let first = Almost(
-        userId: "test-user",
         text: "Packed late and almost forgot my passport.",
-        failureModes: [.forgetting],
+        failures: [.forgetting],
         triggers: [.rushedMorning],
         contexts: [.beforeLeaving],
         states: [.rushed]
       )
 
       let related = Almost(
-        userId: "test-user",
         text: "Rushed out and almost forgot my laptop.",
-        failureModes: [.forgetting],
+        failures: [.forgetting],
         triggers: [.noChecklist],
         contexts: [.beforeLeaving],
         states: [.rushed]
       )
 
       let unrelated = Almost(
-        userId: "test-user",
         text: "Stayed up late and almost overslept.",
-        failureModes: [.lateness],
+        failures: [.lateness],
         triggers: [.lateNight],
         contexts: [.bedtime],
         states: [.tired]
@@ -72,65 +67,27 @@ struct ModelTests {
 
   @Suite("Pattern Logic")
   struct PatternLogicTests {
-    @Test("Pattern shared values are the intersection across all almosts")
-    func testPatternSharedValues() {
-      let pattern: Pattern = [
-        Almost(
-          userId: "test-user",
-          text: "Forgot passport before leaving.",
-          failureModes: [.forgetting, .poorPreparation],
-          triggers: [.rushedMorning, .noChecklist],
-          contexts: [.beforeLeaving, .atHome],
-          states: [.rushed]
-        ),
-        Almost(
-          userId: "test-user",
-          text: "Forgot laptop before commuting.",
-          failureModes: [.forgetting],
-          triggers: [.rushedMorning],
-          contexts: [.beforeLeaving, .commuting],
-          states: [.rushed]
-        ),
-        Almost(
-          userId: "test-user",
-          text: "Forgot headphones before train.",
-          failureModes: [.forgetting, .poorPreparation],
-          triggers: [.noChecklist, .rushedMorning],
-          contexts: [.beforeLeaving, .commuting],
-          states: [.rushed]
-        )
-      ]
-
-      #expect(pattern.sharedFailureModes == [.forgetting])
-      #expect(pattern.sharedTriggers == [.rushedMorning])
-      #expect(pattern.sharedContexts == [.beforeLeaving])
-      #expect(pattern.sharedStates == [.rushed])
-    }
-
     @Test("Pattern score sums pairwise overlap")
     func testPatternScore() {
       let first = Almost(
-        userId: "test-user",
         text: "Forgot passport before leaving.",
-        failureModes: [.forgetting],
+        failures: [.forgetting],
         triggers: [.rushedMorning],
         contexts: [.beforeLeaving],
         states: [.rushed]
       )
 
       let second = Almost(
-        userId: "test-user",
         text: "Forgot laptop before commuting.",
-        failureModes: [.forgetting],
+        failures: [.forgetting],
         triggers: [.rushedMorning],
         contexts: [.beforeLeaving],
         states: [.rushed]
       )
 
       let third = Almost(
-        userId: "test-user",
         text: "Stayed up late and almost overslept.",
-        failureModes: [.lateness],
+        failures: [.lateness],
         triggers: [.lateNight],
         contexts: [.bedtime],
         states: [.tired]
@@ -151,9 +108,9 @@ struct ModelTests {
       let later = now.addingTimeInterval(3600)
 
       let pattern: Pattern = [
-        Almost(userId: "test-user", text: "A", createdAt: now),
-        Almost(userId: "test-user", text: "B", createdAt: earlier),
-        Almost(userId: "test-user", text: "C", createdAt: later)
+        Almost(createdAt: now, text: "A"),
+        Almost(createdAt: earlier, text: "B"),
+        Almost(createdAt: later, text: "C")
       ]
 
       #expect(pattern.createdAtRange?.lowerBound == earlier)
