@@ -20,7 +20,8 @@ public struct QuickCaptureBar: View {
           .onSubmit { Task { await submit() } }
 
         AsyncButton { await submit() } label: {
-          Label("Waiting…", systemImage: isSubmitting ? "hourglass" : "plus.circle.fill")
+          Label(isSubmitting ? "Submitting…" : "Add almost",
+                systemImage: isSubmitting ? "hourglass" : "plus.circle.fill")
             .labelStyle(.iconOnly)
         }
         .disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isSubmitting)
