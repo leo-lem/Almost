@@ -10,27 +10,6 @@ public struct InsightRowView: View {
 
   public var body: some View {
     HStack(spacing: 12) {
-      if settings.favoritesEnabled {
-        AsyncButton {
-          insight.isFavorite.toggle()
-          await insight.save()
-          UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-        } label: {
-          Image(systemName: insight.isFavorite ? "star.fill" : "star")
-            .foregroundStyle(.yellow)
-        }
-        .buttonStyle(.plain)
-        .popoverTip(FavoriteTip())
-      }
-
-      if settings.moodEnabled {
-        Text(insight.mood.emoji)
-          .padding(.horizontal, 8)
-          .padding(.vertical, 4)
-          .background(insight.mood.color.opacity(0.2))
-          .clipShape(Capsule())
-      }
-
       Text((insight.title ?? insight.content).prefix(100))
         .font(.headline)
         .lineLimit(1)

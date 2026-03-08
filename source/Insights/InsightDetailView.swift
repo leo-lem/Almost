@@ -16,32 +16,6 @@ public struct InsightDetailView: View {
         .foregroundColor(.gray)
         .frame(maxWidth: .infinity, alignment: .center)
       
-      if settings.moodEnabled {
-        VStack {
-          Text(insight.mood.emoji)
-            .font(.system(size: 64))
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(insight.mood.color.opacity(0.2))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-        }
-      }
-      
-      if settings.favoritesEnabled {
-        AsyncButton {
-          insight.isFavorite.toggle()
-          await insight.save()
-          UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        } label: {
-          Label(
-            insight.isFavorite ? "Marked as Favorite" : "Mark as Favorite",
-            systemImage: insight.isFavorite ? "star.fill" : "star"
-          )
-          .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.bordered)
-      }
-      
       if let title = insight.title {
         Text(title)
           .font(.largeTitle)

@@ -11,50 +11,6 @@ public struct EditInsightView: View {
   
   public var body: some View {
     Form {
-      if settings.moodEnabled {
-        Section {
-          VStack(spacing: 8) {
-            Text("How did you feel?")
-              .font(.headline)
-            
-            Text(insight.mood.emoji)
-              .font(.system(size: 64))
-
-            Text(insight.mood.rawValue)
-              .font(.caption)
-          }
-          .frame(maxWidth: .infinity)
-          .padding()
-          .background(insight.mood.color.opacity(0.2))
-          .clipShape(RoundedRectangle(cornerRadius: 16))
-          
-          Picker("Mood", selection: $insight.mood) {
-            ForEach(Mood.allCases, id: \.self) { mood in
-              Text(mood.emoji).tag(mood)
-            }
-          }
-          .pickerStyle(.segmented)
-          .padding(.top)
-        } header: {
-          Label("Mood", systemImage: "face.smiling")
-        }
-      }
-      
-      if settings.favoritesEnabled {
-        Section {
-          Toggle(isOn: $insight.isFavorite) {
-            Label(
-              insight.isFavorite ? "Marked as Favorite" : "Highlight this insight",
-              systemImage: insight.isFavorite ? "star.fill" : "star"
-            )
-          }
-          .toggleStyle(.switch)
-          .tint(.accentColor)
-        } header: {
-          Label("Mark as Favorite", systemImage: "sparkles")
-        }
-      }
-      
       Section {
         TextEditor(text: $insight.content)
           .frame(minHeight: 150)
