@@ -82,6 +82,7 @@
 				Auth/UserSession.swift,
 				Data/AppRepository.swift,
 				Data/FirestoreBacked.swift,
+				"Firebase/Analytics+logFailableEvent.swift",
 				"Firebase/Insight+Firestore.swift",
 				Firebase/trackScreen.swift,
 				Insights/AddInsightButton.swift,

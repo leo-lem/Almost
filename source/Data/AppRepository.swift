@@ -2,8 +2,6 @@
 
 import FirebaseAnalytics
 @preconcurrency import FirebaseFirestore
-import Foundation
-import Observation
 
 @MainActor
 @Observable
@@ -11,15 +9,16 @@ public final class AppRepository {
   public private(set) var almosts: [Almost] = []
   public private(set) var adjustments: [Adjustment] = []
   public private(set) var isSyncing = false
-  public private(set) var lastErrorMessage: String?
 
   private let firestore = Firestore.firestore()
+  private let session: UserSession
 
-  private var userId: String?
   private var almostsListener: ListenerRegistration?
   private var adjustmentsListener: ListenerRegistration?
 
-  public init() {}
+  public init(session: UserSession) {
+    self.session = session
+  }
 
   func stop() {
     detachListeners()
@@ -27,32 +26,25 @@ public final class AppRepository {
 }
 
 public extension AppRepository {
-  func setUserId(_ userId: String?) {
-    guard self.userId != userId else { return }
-
-    self.userId = userId
-    detachListeners()
-
-    almosts = []
-    adjustments = []
-    lastErrorMessage = nil
-
-    guard let userId else { return }
-
-    attachAlmostsListener(for: userId)
-    attachAdjustmentsListener(for: userId)
+  private var userId: String {
+    
   }
 }
 
 public extension AppRepository {
-  func save(_ almost: Almost) async {
+  func save(_ almost: Almost) async throws {
     guard let userId else { return }
 
     do {
-      try firestore
+      var data = try Firestore.Encoder().encode(almost)
+      data.removeValue(forKey: "id")
+
+      try await firestore
+        .collection("users")
+        .document(userId)
         .collection("almosts")
         .document(almost.id)
-        .setData(from: Almost.Record(almost, userId: userId))
+        .setData(data)
 
       Analytics.logEvent("almost_saved", parameters: [
         "failure_modes_count": almost.failureModes.count,
