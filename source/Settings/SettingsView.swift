@@ -32,6 +32,16 @@ struct SettingsView: View {
           Label("Enable Analytics", systemImage: "chart.bar.xaxis")
         }
 
+        Toggle(isOn: Binding { settings.showRecentAlmosts } set: { settings.showRecentAlmosts = $0}) {
+          Label("Show Recent Almosts", systemImage: "clock")
+        }
+
+        Stepper(
+          "Max Active Adjustments: \(settings.maxAdjustments)",
+          value: Binding { settings.maxAdjustments } set: { settings.maxAdjustments = $0 },
+          in: 1...10
+        )
+
         if session.hasAccount {
           Button(role: .destructive) { deleteAccountAlertIsPresented = true } label: {
             Label("Delete Account", systemImage: "trash")
