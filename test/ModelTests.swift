@@ -60,8 +60,8 @@ struct ModelTests {
         states: [.tired]
       )
 
-      #expect(first.isRelated(to: related))
-      #expect(!first.isRelated(to: unrelated))
+      #expect(first.isRelated(to: related, minimumScore: 4))
+      #expect(!first.isRelated(to: unrelated, minimumScore: 4))
     }
   }
 

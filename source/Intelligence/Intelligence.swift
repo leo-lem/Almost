@@ -7,20 +7,18 @@ import FoundationModels
 @MainActor
 @Observable
 public final class Intelligence {
-  private var aiEnabled = true
+  private let config: Settings,
+              model = SystemLanguageModel.default
 
-  private let model = SystemLanguageModel.default
-
-  public init() {}
+  public init(_ config: Settings) {
+    self.config = config
+  }
 }
 
 public extension Intelligence {
+  var isEnabled: Bool { config.aiEnabled }
   var isAvailable: Bool { model.availability == .available }
-  var canUseAI: Bool { aiEnabled && isAvailable }
-
-  func updateAIEnabled(_ aiEnabled: Bool) {
-    self.aiEnabled = aiEnabled
-  }
+  var usable: Bool { isEnabled && isAvailable }
 }
 
 public extension Intelligence {
@@ -37,7 +35,7 @@ public extension Intelligence {
       """) async -> Almost {
     var almost = almost
 
-    if canUseAI {
+    if usable {
       do {
         let response = try await LanguageModelSession(model: model, instructions: instructions)
           .respond(to: """
@@ -82,7 +80,7 @@ public extension Intelligence {
       """) async -> Adjustment {
     var suggestion = Adjustment(almosts: pattern.map(\.id), text: nil, state: .suggested)
 
-    if canUseAI, pattern.isValid {
+    if usable, pattern.isValid {
       do {
         let response = try await LanguageModelSession(model: model, instructions: instructions)
           .respond(to: """

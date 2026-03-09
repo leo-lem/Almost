@@ -4,7 +4,7 @@ import SwiftUI
 import SwiftUIExtensions
 
 struct SettingsView: View {
-  @Environment(Settings.self) private var settings
+  @Environment(Settings.self) private var config
   @Environment(Authentication.self) private var session
   @Environment(Repository.self) private var repo
   @Environment(\.dismiss) private var dismiss
@@ -14,99 +14,88 @@ struct SettingsView: View {
   var body: some View {
     Form {
       Section {
-        Toggle(isOn: Binding { settings.aiEnabled } set: { settings.aiEnabled = $0}) {
-          Label("Enable AI", systemImage: "brain")
-        }
-//        Toggle(isOn: Binding { settings.localOnly } set: { settings.localOnly = $0}) {
-//          Label("Local only mode [May lose data]", systemImage: "internaldrive")
-//        }
+        Toggle(.enableAi, systemImage: "brain",
+               isOn: Binding { config.aiEnabled } set: { config.aiEnabled = $0 })
+        Toggle(.localOnlyMode, systemImage: "internaldrive",
+               isOn: Binding { config.localOnly } set: { config.localOnly = $0 })
       } header: {
-        Label("Features", systemImage: "puzzlepiece.extension")
-      } footer: {
-        Text("Requires app restart")
-          .foregroundStyle(.yellow)
+        Label(.features, systemImage: "puzzlepiece.extension")
       }
 
       Section {
-        Toggle(isOn: Binding { settings.analyticsEnabled } set: { settings.analyticsEnabled = $0}) {
-          Label("Enable Analytics", systemImage: "chart.bar.xaxis")
-        }
+        Toggle(.enableAnalytics, systemImage: "chart.bar.xaxis",
+               isOn: Binding { config.analyticsEnabled } set: { config.analyticsEnabled = $0})
 
-        Toggle(isOn: Binding { settings.showRecentAlmosts } set: { settings.showRecentAlmosts = $0}) {
-          Label("Show Recent Almosts", systemImage: "clock")
-        }
+        Toggle(.recentAlmosts, systemImage: "clock",
+               isOn: Binding { config.showRecentAlmosts } set: { config.showRecentAlmosts = $0})
 
         Stepper(
-          "Max Active Adjustments: \(settings.maxAdjustments)",
-          value: Binding { settings.maxAdjustments } set: { settings.maxAdjustments = $0 },
-          in: 1...10
+          .activeAdjustments(config.maxActiveAdjustments),
+          value: Binding { config.maxActiveAdjustments } set: { config.maxActiveAdjustments = $0 },
+          in: 1...8
         )
 
         if session.hasAccount {
-          Button(role: .destructive) { deleteAccountAlertIsPresented = true } label: {
-            Label("Delete Account", systemImage: "trash")
+          Button(.deleteAccount, systemImage: "trash", role: .destructive) {
+            deleteAccountAlertIsPresented = true
           }
           .foregroundStyle(.red)
-          .alert("Are you sure you want to delete your account?", isPresented: $deleteAccountAlertIsPresented) {
-            AsyncButton(role: .destructive) { try? await session.deleteAccount() } label: {
-              Label("Delete Account", systemImage: "trash")
+          .alert(.areYouSureYouWantToDeleteYourAccount, isPresented: $deleteAccountAlertIsPresented) {
+            AsyncButton("Delete Account", systemImage: "trash", role: .destructive) {
+              try? await session.deleteAccount()
             }
           } message: {
-            Text("You will lose all your data!")
+            Text(.youWillLoseAllYourData)
           }
         }
       } header: {
-        Label("Preferences", systemImage: "gear")
+        Label(.preferences, systemImage: "gear")
       }
 
       Section {
         Link(destination: URL(string: "https://almost.leolem.dev")!) {
-          Label("Find out more", systemImage: "safari")
+          Label(.findOutMore, systemImage: "safari")
         }
         .labelStyle(.external(color: .accent, transfer: true))
         .foregroundStyle(.accent)
 
         Link(destination: URL(string: "https://almost.leolem.dev/privacy")!) {
-          Label("Privacy Policy", systemImage: "lock.shield")
+          Label(.privacyPolicy, systemImage: "lock.shield")
         }
         .labelStyle(.external(color: .indigo, transfer: true))
         .foregroundStyle(.indigo)
 
         Link(destination: URL(string: "https://leolem.dev")!) {
-          Label("About Me", systemImage: "person.circle")
+          Label(.aboutMe, systemImage: "person.circle")
         }
         .labelStyle(.external(color: .green, transfer: true))
         .foregroundStyle(.green)
       } header: {
-        Label("Links", systemImage: "link")
+        Label(.links, systemImage: "link")
       }
 
 #if DEBUG
       Section {
-        AsyncButton {
+        AsyncButton("Add Preview Almosts", systemImage: "wand.and.stars") {
           for almost in Almost.previewData {
             try? await repo.save(almost)
           }
-        } label: {
-          Label("Add Preview Almosts", systemImage: "wand.and.stars")
         }
 
-        AsyncButton(role: .destructive) {
+        AsyncButton("Clear Preview Data", systemImage: "trash", role: .destructive) {
           for almost in repo.almosts {
             try? await repo.delete(almost)
           }
           for adjustment in repo.adjustments {
             try? await repo.delete(adjustment)
           }
-        } label: {
-          Label("Clear Preview Data", systemImage: "trash")
         }
       } header: {
-        Label("Development", systemImage: "hammer")
+        Label(.development, systemImage: "hammer")
       }
 #endif
     }
-    .navigationTitle("Settings")
+    .navigationTitle(.settings)
     .navigationBarTitleDisplayMode(.inline)
     .presentationDetents([.fraction(0.7)])
     .trackScreen("SettingsView")

@@ -5,11 +5,11 @@ import Foundation
 public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
   public let id: String
   public let createdAt: Date
-  public let almosts: [Almost.ID]
+  public let almosts: Set<Almost.ID>
 
   public var text: String?
 
-  public var state: State
+  public private(set) var state: State
 
   public init(
     id: String = UUID().uuidString,
@@ -20,11 +20,21 @@ public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
   ) {
     self.id = id
     self.createdAt = createdAt
-    self.almosts = almosts
+    self.almosts = Set(almosts)
     
     self.text = text
     self.state = state
   }
+}
+
+public extension Adjustment {
+  init(_ pattern: Pattern) {
+    self.init(almosts: pattern.map(\.id), text: nil)
+  }
+
+  var isActive: Bool { state == .active }
+
+  mutating func nextState() { self.state = state.next }
 }
 
 public extension Adjustment {
@@ -36,6 +46,13 @@ public extension Adjustment {
   }
 }
 
-public extension Adjustment {
-  var isActive: Bool { state == .active }
+public extension Adjustment.State {
+  var next: Self {
+    switch self {
+    case .suggested: .active
+    case .active: .stabilized
+    case .stabilized: .archived
+    case .archived: .suggested
+    }
+  }
 }

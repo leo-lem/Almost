@@ -2,37 +2,24 @@
 
 import SwiftUI
 
-public extension Almost.Tag {
-  var symbol: String {
-    switch self {
-    case .failure: "exclamationmark.triangle.fill"
-    case .trigger: "bolt.fill"
-    case .context: "square.grid.2x2.fill"
-    case .state: "heart.fill"
-    }
-  }
-
-  var color: Color {
-    switch self {
-    case .failure: .orange
-    case .trigger: .mint
-    case .context: .blue
-    case .state: .pink
-    }
-  }
-}
-
 public extension Almost {
-  var relativeTimestamp: String {
-    RelativeDateTimeFormatter().localizedString(for: createdAt, relativeTo: .now)
+  protocol Tagged: Hashable, CaseIterable, RawRepresentable<String>  {
+    static var category: String { get }
+    static var symbol: String { get }
+    static var color: Color { get }
+    var label: String { get }
   }
 }
 
-public protocol Labeled {
-  var label: String { get }
+public extension Almost.Tagged {
+  var symbol: String { Self.symbol }
+  var color: Color { Self.color }
 }
 
-extension Almost.Failure: Labeled {
+extension Almost.Failure: Almost.Tagged {
+  public static let category = "Failures",
+                    symbol = "exclamationmark.triangle.fill",
+                    color = Color.orange
   public var label: String {
     switch self {
     case .lateness: "Lateness"
@@ -47,7 +34,10 @@ extension Almost.Failure: Labeled {
   }
 }
 
-extension Almost.Trigger: Labeled {
+extension Almost.Trigger: Almost.Tagged  {
+  public static let category = "Triggers",
+                    symbol = "bolt.fill",
+                    color = Color.mint
   public var label: String {
     switch self {
     case .rushedMorning: "Rushed morning"
@@ -64,7 +54,10 @@ extension Almost.Trigger: Labeled {
   }
 }
 
-extension Almost.Context: Labeled {
+extension Almost.Context: Almost.Tagged  {
+  public static let category = "Contexts",
+                    symbol = "square.grid.2x2.fill",
+                    color = Color.blue
   public var label: String {
     switch self {
     case .atHome: "At home"
@@ -81,7 +74,10 @@ extension Almost.Context: Labeled {
   }
 }
 
-extension Almost.State: Labeled {
+extension Almost.State: Almost.Tagged  {
+  public static let category = "States",
+                    symbol = "heart.fill",
+                    color = Color.pink
   public var label: String {
     switch self {
     case .tired: "Tired"
