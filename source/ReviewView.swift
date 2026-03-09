@@ -12,10 +12,7 @@ public struct ReviewView: View {
     ScrollView {
       VStack(alignment: .leading) {
         ForEach(displayedPatterns, id: \.createdAtRange) { pattern in
-          PatternView(
-            pattern: pattern,
-            adjustment: adjustmentFor(pattern)
-          )
+          PatternView(pattern: pattern, adjustment: adjustmentFor(pattern))
         }
         .replaceIfEmpty {
           Text("No new patterns. Add more almosts…")
@@ -37,21 +34,15 @@ public struct ReviewView: View {
 
 private extension ReviewView {
   var displayedPatterns: [Pattern] {
-    if let adjustment {
-      let pattern = repo.almosts(with: adjustment.almosts)
-      return pattern.count >= 2 ? [pattern] : []
-    }
+    if let adjustment { return [repo.pattern(for: adjustment)] }
 
     return repo.openPatterns
   }
 
   func adjustmentFor(_ pattern: Pattern) -> Adjustment? {
-    if let adjustment {
-      return adjustment
-    }
+    if let adjustment { return adjustment }
 
-    let ids = Set(pattern.map(\.id))
-    return repo.adjustments.first { Set($0.almosts) == ids }
+    return repo.adjustments.first { Set($0.almosts) == Set(pattern.map(\.id)) }
   }
 }
 

@@ -4,11 +4,16 @@ import SwiftUI
 
 public extension View {
   func firebase() -> some View {
-    self
+    let auth = Authentication(),
+        config = Settings(),
+        repo = Repository(auth, config),
+        ai = Intelligence(config)
+
+    return self
       .accentColor(.accent)
-      .environment(Authentication())
-      .environment(Settings())
-      .environment(Repository())
-      .environment(Intelligence())
+      .environment(auth)
+      .environment(config)
+      .environment(repo)
+      .environment(ai)
   }
 }

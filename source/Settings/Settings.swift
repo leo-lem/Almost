@@ -1,3 +1,5 @@
+// Created by Leopold Lemmermann on 25.07.25.
+
 import FirebaseAnalytics
 import FirebaseRemoteConfig
 import SwiftUI
@@ -6,7 +8,7 @@ import SwiftUI
 @Observable
 public final class Settings {
   public var analyticsEnabled: Bool {
-    get { defaults.exists("analyticsEnabled") ? defaults.bool(forKey: "analyticsEnabled") : true }
+    get { defaults.bool("analyticsEnabled", default: true) }
     set {
       defaults.set(newValue, forKey: "analyticsEnabled")
       Analytics.setAnalyticsCollectionEnabled(newValue)
@@ -14,22 +16,22 @@ public final class Settings {
   }
 
   public var aiEnabled: Bool {
-    get { defaults.exists("aiEnabled") ? defaults.bool(forKey: "aiEnabled") : true }
+    get { defaults.bool("aiEnabled", default: true)}
     set { defaults.set(newValue, forKey: "aiEnabled") }
   }
 
   public var localOnly: Bool {
-    get { defaults.exists("localOnly") ? defaults.bool(forKey: "localOnly") : false }
+    get { defaults.bool("localOnly", default: false) }
     set { defaults.set(newValue, forKey: "localOnly") }
   }
 
-  public var maxAdjustments: Int {
-    get { defaults.exists("maxAdjustments") ? defaults.integer(forKey: "maxAdjustments") : 2 }
-    set { defaults.set(newValue, forKey: "maxAdjustments") }
+  public var maxActiveAdjustments: Int {
+    get { defaults.int("maxActiveAdjustments", default: 2) }
+    set { defaults.set(newValue, forKey: "maxActiveAdjustments") }
   }
 
   public var showRecentAlmosts: Bool {
-    get { defaults.exists("showRecentAlmosts") ? defaults.bool(forKey: "showRecentAlmosts") : true }
+    get { defaults.bool("showRecentAlmosts", default: true) }
     set { defaults.set(newValue, forKey: "showRecentAlmosts") }
   }
 
@@ -40,7 +42,9 @@ public final class Settings {
     config.setDefaults([
       "analytics_enabled": analyticsEnabled as NSObject,
       "ai_enabled": aiEnabled as NSObject,
-      "local_only": localOnly as NSObject
+      "local_only": localOnly as NSObject,
+      "max_active_adjustments": maxActiveAdjustments as NSObject,
+      "show_recent_almosts": showRecentAlmosts as NSObject
     ])
 
     Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
@@ -58,11 +62,29 @@ public final class Settings {
         if !self.defaults.exists("localOnly") {
           self.localOnly = self.config["local_only"].boolValue
         }
+
+        if !self.defaults.exists("maxActiveAdjustments") {
+          self.maxActiveAdjustments = self.config["max_active_adjustments"].numberValue.intValue
+        }
+
+        if !self.defaults.exists("showRecentAlmosts") {
+          self.showRecentAlmosts = self.config["show_recent_almosts"].boolValue
+        }
       }
     }
   }
 }
 
-extension UserDefaults {
-  public func exists(_ key: String) -> Bool { object(forKey: key) != nil }
+private extension UserDefaults {
+  func exists(_ key: String) -> Bool {
+    object(forKey: key) != nil
+  }
+
+  func bool(_ key: String, default defaultValue: Bool) -> Bool {
+    exists(key) ? bool(forKey: key) : defaultValue
+  }
+
+  func int(_ key: String, default defaultValue: Int) -> Int {
+    exists(key) ? integer(forKey: key) : defaultValue
+  }
 }

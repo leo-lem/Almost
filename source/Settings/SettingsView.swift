@@ -37,8 +37,8 @@ struct SettingsView: View {
         }
 
         Stepper(
-          "Max Active Adjustments: \(settings.maxAdjustments)",
-          value: Binding { settings.maxAdjustments } set: { settings.maxAdjustments = $0 },
+          "Max Active Adjustments: \(settings.maxActiveAdjustments)",
+          value: Binding { settings.maxActiveAdjustments } set: { settings.maxActiveAdjustments = $0 },
           in: 1...10
         )
 

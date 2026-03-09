@@ -75,6 +75,10 @@
 		6EC5D92A2E3158A5008B53B8 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				" lib/CapsuleLabelStyle.swift",
+				" lib/Date+relative.swift",
+				" lib/String?+empty.swift",
+				" lib/View+cardStyle.swift",
 				AlmostView.swift,
 				"Analytics/Analytics+logFailableEvent.swift",
 				"Analytics/Analytics+logFailure.swift",
@@ -99,14 +103,13 @@
 				"Sync/Repository+Almost.swift",
 				"Sync/Repository+Pattern.swift",
 				Sync/Storable.swift,
-				"UI/Adjustment-UI.swift",
-				UI/AdjustmentCard.swift,
-				"UI/Almost+UI.swift",
-				UI/AlmostRow.swift,
-				UI/CapsuleLabelStyle.swift,
-				UI/PatternView.swift,
-				UI/QuickCaptureBar.swift,
-				UI/TagMenu.swift,
+				"Views/Adjustment+UI.swift",
+				Views/AdjustmentCard.swift,
+				"Views/Almost+UI.swift",
+				Views/AlmostRow.swift,
+				Views/PatternView.swift,
+				Views/QuickCaptureBar.swift,
+				Views/TagMenu.swift,
 			);
 			target = 6E48374428EC991100B67CA4 /* Almost */;
 		};

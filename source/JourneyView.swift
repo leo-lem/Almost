@@ -8,37 +8,40 @@ public struct JourneyView: View {
   @State private var activeLimitAlertIsPresented = false
 
   @Environment(Repository.self) private var repo
-  @Environment(Settings.self) private var settings
 
   public var body: some View {
-    VStack {
-      ScrollView {
-        VStack(alignment: .leading) {
+    ZStack(alignment: .bottom) {
+      List {
+        VStack {
           adjustments
 
-          if repo.orderedAdjustments.count > 2 {
-            Button { showAllAdjustments.toggle() } label: {
-              Label(
-                showAllAdjustments ? "Show fewer adjustments" : "Show all adjustments",
-                systemImage: showAllAdjustments ? "chevron.up" : "chevron.down"
-              )
-              .font(.subheadline.weight(.medium))
-              .frame(maxWidth: .infinity, alignment: .leading)
-            }
+          if repo.orderedAdjustments.count > repo.maxActiveAdjustments {
+            Button(
+              showAllAdjustments ? "Show fewer adjustments" : "Show all adjustments",
+              systemImage: showAllAdjustments ? "chevron.up" : "chevron.down"
+            ) { showAllAdjustments.toggle() }
             .buttonStyle(.plain)
+            .font(.subheadline.weight(.medium))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
           }
 
-          review
+          NavigationLink { ReviewView() } label: {
+            VStack(alignment: .leading) {
+              Text("Review patterns")
+                .font(.headline)
+              Text("\(repo.openPatterns.count) new patterns")
+                .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity)
+            .cardStyle(.accent.opacity(0.25))
+          }
         }
-        .padding()
-        .background(.accent.opacity(0.25), in: RoundedRectangle(cornerRadius: 20))
 
-        if settings.showRecentAlmosts, !repo.recentAlmosts.isEmpty {
+        if !repo.recentAlmosts.isEmpty {
           Section {
             ForEach(repo.recentAlmosts.prefix(3), id: \.id) { almost in
-              AlmostRow(almost: Binding { almost } set: { newValue in
-                Task { try? await repo.save(newValue) }
-              })
+              AlmostRow(repo.binding(for: almost.id))
             }
           } header: {
             Text("Recent Almosts")
@@ -46,55 +49,23 @@ public struct JourneyView: View {
           }
         }
       }
+      .listStyle(.plain)
 
       QuickCaptureBar()
+        .padding()
     }
-    .padding()
-    .navigationTitle("Journey")
+    .navigationTitle("You Journey of Almost?")
     .trackScreen("JourneyView")
   }
 
   public init() {}
+}
 
-  private var review: some View {
-    NavigationLink { ReviewView() } label: {
-      HStack {
-        VStack(alignment: .leading) {
-          Text("Review patterns")
-            .font(.headline)
-          Text("\(repo.openPatterns.count) new patterns")
-            .foregroundStyle(.secondary)
-        }
-
-        Spacer()
-
-        Image(systemName: "chevron.right")
-          .foregroundStyle(.tertiary)
-      }
-      .padding()
-      .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
-    }
-  }
-
-  private var adjustments: some View {
-    ForEach(
-      repo.orderedAdjustments.prefix(showAllAdjustments ? repo.orderedAdjustments.count : 2),
-      id: \.id
-    ) { adjustment in
+private extension JourneyView {
+  var adjustments: some View {
+    ForEach(showAllAdjustments ? repo.orderedAdjustments : repo.topAdjustments, id: \.id) { adjustment in
       NavigationLink { ReviewView(adjustment: adjustment) } label: {
-        AdjustmentCard(
-          Binding { adjustment } set: { newValue in
-            Task { try? await repo.save(newValue) }
-          }
-        ) {
-          var updated = adjustment
-
-          if updated.state.next == .active, !repo.canActivate(updated, limit: settings.maxAdjustments) {
-            return activeLimitAlertIsPresented = true
-          }
-          updated.state = updated.state.next
-          Task { try? await repo.save(updated) }
-        }
+        AdjustmentCard(repo.binding(for: adjustment.id))
       }
     }
     .replaceIfEmpty {
@@ -102,11 +73,6 @@ public struct JourneyView: View {
         .padding()
         .foregroundStyle(.secondary)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
-    }
-    .alert("Only \(settings.maxAdjustments) active adjustment\(settings.maxAdjustments == 1 ? "" : "s")", isPresented: $activeLimitAlertIsPresented) {
-      Button("OK", role: .cancel) {}
-    } message: {
-      Text("Stabilize or archive an active adjustment.")
     }
   }
 }

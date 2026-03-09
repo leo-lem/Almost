@@ -4,10 +4,10 @@ import SwiftUI
 import SwiftUIExtensions
 
 public struct AlmostView: View {
-  @State private var session = Authentication()
-  @State private var config = Settings()
-  @State private var repo = Repository()
-  @State private var ai = Intelligence()
+  @State private var auth: Authentication
+  @State private var config: Settings
+  @State private var repo: Repository
+  @State private var ai: Intelligence
 
   public var body: some View {
     NavigationStack {
@@ -16,20 +16,26 @@ public struct AlmostView: View {
         .toolbar {
           ToolbarItem(placement: .topBarLeading) { AuthenticationButton() }
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
-    .animation(.default, value: session.userId)
     .background(Color(uiColor: .systemBackground))
     .foregroundStyle(.primary)
     .accentColor(.accent)
-    .environment(session)
+    .environment(auth)
     .environment(config)
     .environment(repo)
-    .onChange(of: config.localOnly ? nil : session.userId, initial: true) { repo.updateSync(for: $1) }
     .environment(ai)
-    .onChange(of: config.aiEnabled, initial: true) { ai.updateAIEnabled($1) }
   }
   
-  public init() {}
+  public init(
+    _ auth: Authentication = Authentication(),
+    _ config: Settings = Settings()
+  ) {
+    self.auth = auth
+    self.config = config
+    self.repo = Repository(auth, config)
+    self.ai = Intelligence(config)
+  }
 }
 
 #Preview {

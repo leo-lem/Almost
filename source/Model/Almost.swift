@@ -34,27 +34,6 @@ public struct Almost: Codable, Identifiable, Hashable, Sendable {
 }
 
 extension Almost {
-  public enum Tag: String, Codable, CaseIterable, Sendable {
-    case failure
-    case trigger
-    case context
-    case state
-
-    init?<T>(_ value: T) throws where T: Hashable, T: Codable, T: Sendable {
-      if T.self == Failure.self {
-        self = .failure
-      } else if T.self == Trigger.self {
-        self = .trigger
-      } else if T.self == Context.self {
-        self = .context
-      } else if T.self == State.self {
-        self = .state
-      } else {
-        return nil
-      }
-    }
-  }
-
   @Generable
   public enum Failure: String, Codable, CaseIterable, Sendable {
     case lateness
@@ -104,28 +83,5 @@ extension Almost {
     case hungry
     case overwhelmed
     case calm
-  }
-}
-
-public extension Almost {
-  static let minimumPatternOverlapScore = 4
-
-  func overlapScore(with other: Self) -> Int {
-    let sharedFailures = failures.intersection(other.failures).count
-    let sharedTriggers = triggers.intersection(other.triggers).count
-    let sharedContexts = contexts.intersection(other.contexts).count
-    let sharedStates = states.intersection(other.states).count
-
-    return sharedFailures * 3
-      + sharedTriggers * 2
-      + sharedContexts * 2
-      + sharedStates
-  }
-
-  func isRelated(
-    to other: Self,
-    minimumScore: Int = Self.minimumPatternOverlapScore
-  ) -> Bool {
-    overlapScore(with: other) >= minimumScore
   }
 }

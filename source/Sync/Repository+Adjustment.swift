@@ -6,18 +6,17 @@ public extension Repository {
   var orderedAdjustments: [Adjustment] {
     adjustments
       .sorted {
-        if $0.state != $1.state {
-          return $0.state.displayOrder < $1.state.displayOrder
-        }
-
+        if $0.state != $1.state { return $0.state.displayOrder < $1.state.displayOrder }
         return $0.createdAt > $1.createdAt
       }
   }
 
-  func canActivate(_ adjustment: Adjustment, limit: Int = 2) -> Bool {
+  var topAdjustments: [Adjustment] { Array(orderedAdjustments.prefix(maxActiveAdjustments)) }
+
+  func canActivate(_ adjustment: Adjustment) -> Bool {
     adjustments
       .filter { $0.state == .active && $0.id != adjustment.id }
-      .count < limit
+      .count < maxActiveAdjustments
   }
 
   func adjustments(containing almostId: Almost.ID) -> [Adjustment] {
@@ -25,7 +24,7 @@ public extension Repository {
   }
 }
 
-private extension Adjustment.State {
+public extension Adjustment.State {
   var displayOrder: Int {
     switch self {
     case .active: 0

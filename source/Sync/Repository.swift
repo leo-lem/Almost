@@ -2,6 +2,7 @@
 
 import FirebaseAnalytics
 import FirebaseFirestore
+import struct SwiftUI.Binding
 
 @MainActor
 @Observable
@@ -9,13 +10,58 @@ public final class Repository {
   public private(set) var almosts: [Almost] = []
   public private(set) var adjustments: [Adjustment] = []
 
-  private var userId: String?
   private var almostsListener: ListenerRegistration?
   private var adjustmentsListener: ListenerRegistration?
 
-  private let firestore = Firestore.firestore()
+  private let auth: Authentication,
+              config: Settings,
+              firestore = Firestore.firestore()
 
-  public init() {}
+  public init(_ auth: Authentication, _ config: Settings) {
+    self.auth = auth
+    self.config = config
+
+    sync()
+  }
+}
+
+public extension Repository {
+  var userId: String? { localOnly ? nil : auth.userId }
+  
+  var localOnly: Bool { config.localOnly }
+  var maxActiveAdjustments: Int { config.maxActiveAdjustments }
+  var showRecentAlmosts: Bool { config.showRecentAlmosts }
+  var minimumPatternScore: Int { 10 }
+}
+
+public extension Repository {
+  func binding<T: Storable>(for id: T.ID) -> Binding<T> {
+    Binding {
+      return switch T.self {
+      case is Almost.Type:
+        self.almosts.first { $0.id == id } as! T // swiftlint:disable:this force_cast
+      case is Adjustment.Type:
+        self.adjustments.first { $0.id == id } as! T // swiftlint:disable:this force_cast
+      default:
+        fatalError("Unsupported storable type: \(T.self)")
+      }
+    } set: { newValue in
+      switch newValue {
+      case let almost as Almost:
+        if let index = self.almosts.firstIndex(where: { $0.id == almost.id }) {
+          self.almosts[index] = almost
+        }
+
+      case let adjustment as Adjustment:
+        if let index = self.adjustments.firstIndex(where: { $0.id == adjustment.id }) {
+          self.adjustments[index] = adjustment
+        }
+
+      default:
+        assertionFailure("Unsupported storable type: \(T.self)")
+      }
+    }
+  }
 }
 
 public extension Repository {
@@ -84,16 +130,19 @@ public extension Repository {
 }
 
 extension Repository {
-  public func updateSync(for userId: String?) {
-    self.userId = userId
+  private func sync() {
+    withObservationTracking {
+      _ = auth.userId
+      _ = config.localOnly
+    } onChange: { [weak self] in
+      Task { @MainActor in
+        self?.sync()
+      }
+    }
 
     detachListeners()
 
-    guard let userId else {
-      almosts = []
-      adjustments = []
-      return
-    }
+    guard let userId else { return }
 
     almostsListener = firestore
       .collection("users")

@@ -3,14 +3,7 @@
 import SwiftUI
 
 public extension Adjustment {
-  var defaultText: String {
-    get { text ?? "" }
-    set { text = newValue.isEmpty ? nil : newValue }
-  }
-
-  var relativeTimestamp: String {
-    RelativeDateTimeFormatter().localizedString(for: createdAt, relativeTo: .now)
-  }
+  var textPlaceholder: String { "Short, actionable rule for this pattern" }
 }
 
 public extension Adjustment.State {
@@ -38,15 +31,6 @@ public extension Adjustment.State {
     case .active: .green
     case .stabilized: .blue
     case .archived: .secondary
-    }
-  }
-
-  var next: Self {
-    switch self {
-    case .suggested: .active
-    case .active: .stabilized
-    case .stabilized: .archived
-    case .archived: .suggested
     }
   }
 }

@@ -13,7 +13,7 @@ public extension Pattern {
     var total = 0
 
     for i in indices {
-      for j in self.index(after: i)..<endIndex {
+      for j in index(after: i)..<endIndex {
         total += self[i].overlapScore(with: self[j])
       }
     }
@@ -31,15 +31,33 @@ public extension Pattern {
   }
 }
 
+public extension Almost {
+  func overlapScore(with other: Self) -> Int {
+    let sharedFailures = failures.intersection(other.failures).count
+    let sharedTriggers = triggers.intersection(other.triggers).count
+    let sharedContexts = contexts.intersection(other.contexts).count
+    let sharedStates = states.intersection(other.states).count
+
+    return sharedFailures * 3
+    + sharedTriggers * 2
+    + sharedContexts * 2
+    + sharedStates
+  }
+
+  func isRelated(to other: Self, minimumScore: Int) -> Bool {
+    overlapScore(with: other) >= minimumScore
+  }
+}
+
 public extension [Almost] {
-  func patterns(minimumScore: Int = Almost.minimumPatternOverlapScore) -> [Pattern] {
-    guard count >= 2 else { return [] }
+  func patterns(minimumScore: Int, minimumPatternSize: Int = 2) -> [Pattern] {
+    guard count >= minimumPatternSize else { return [] }
 
     let adjacency = makeAdjacency(minimumScore: minimumScore)
     let components = connectedComponents(using: adjacency)
 
     return components
-      .filter { $0.count >= 2 }
+      .filter { $0.count >= minimumPatternSize }
       .sorted(by: Self.patternSort)
   }
 
@@ -77,7 +95,7 @@ public extension [Almost] {
     visited: inout Set<Int>
   ) -> Pattern {
     var stack = [start]
-    var component: [Almost] = []
+    var component: Pattern = []
 
     while let current = stack.popLast() {
       guard visited.insert(current).inserted else { continue }
