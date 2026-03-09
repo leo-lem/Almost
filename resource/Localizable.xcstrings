@@ -1,0 +1,144 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld almosts" : {
+
+    },
+    "%lld new patterns" : {
+
+    },
+    "%lld similarity" : {
+
+    },
+    "About Me" : {
+
+    },
+    "Active Adjustments: %lld" : {
+
+    },
+    "Add an almost…" : {
+
+    },
+    "Are you sure you want to delete your account?" : {
+
+    },
+    "Capture a few almosts and review a pattern to create your first adjustment." : {
+
+    },
+    "Create Account" : {
+
+    },
+    "Delete Account" : {
+
+    },
+    "Describe the almost…" : {
+
+    },
+    "Development" : {
+
+    },
+    "Discard" : {
+
+    },
+    "Done" : {
+
+    },
+    "Edit" : {
+
+    },
+    "Email" : {
+
+    },
+    "Enable AI" : {
+
+    },
+    "Enable Analytics" : {
+
+    },
+    "Features" : {
+
+    },
+    "Find out more" : {
+
+    },
+    "Links" : {
+
+    },
+    "Local only mode [May lose data]" : {
+
+    },
+    "No Connection" : {
+
+    },
+    "No new patterns. Add more almosts…" : {
+
+    },
+    "OK" : {
+
+    },
+    "Only %lld active adjustments" : {
+
+    },
+    "Password" : {
+
+    },
+    "Preferences" : {
+
+    },
+    "Privacy Policy" : {
+
+    },
+    "Recent Almosts" : {
+
+    },
+    "Requires app restart" : {
+
+    },
+    "Review patterns" : {
+
+    },
+    "Review your patterns" : {
+
+    },
+    "Save" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Show all adjustments" : {
+
+    },
+    "Show fewer adjustments" : {
+
+    },
+    "Show Recent Almosts" : {
+
+    },
+    "Sign In" : {
+
+    },
+    "Sign Out" : {
+
+    },
+    "Signed In" : {
+
+    },
+    "Stabilize or archive an active adjustment before activating another one." : {
+
+    },
+    "Update" : {
+
+    },
+    "Welcome!" : {
+
+    },
+    "You will lose all your data!" : {
+
+    },
+    "Your Journey through Almost?" : {
+
+    }
+  },
+  "version" : "1.1"
+}

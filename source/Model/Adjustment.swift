@@ -28,18 +28,22 @@ public struct Adjustment: Codable, Identifiable, Hashable, Sendable {
 }
 
 public extension Adjustment {
+  init(_ pattern: Pattern) {
+    self.init(almosts: pattern.map(\.id), text: nil)
+  }
+
+  var isActive: Bool { state == .active }
+
+  mutating func nextState() { self.state = state.next }
+}
+
+public extension Adjustment {
   enum State: String, Codable, CaseIterable, Sendable {
     case suggested
     case active
     case stabilized
     case archived
   }
-}
-
-public extension Adjustment {
-  var isActive: Bool { state == .active }
-
-  mutating func nextState() { self.state = state.next }
 }
 
 public extension Adjustment.State {

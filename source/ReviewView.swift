@@ -6,44 +6,29 @@ import SwiftUIExtensions
 public struct ReviewView: View {
   @Environment(Repository.self) private var repo
 
-  private let adjustment: Adjustment?
-
   public var body: some View {
     ScrollView {
-      VStack(alignment: .leading) {
-        ForEach(displayedPatterns, id: \.createdAtRange) { pattern in
-          PatternView(pattern: pattern, adjustment: adjustmentFor(pattern))
-        }
-        .replaceIfEmpty {
-          Text("No new patterns. Add more almosts…")
-            .padding()
-            .foregroundStyle(.secondary)
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
-        }
+      if displayedPatterns.isEmpty {
+        Text("No new patterns. Add more almosts…")
+          .frame(maxWidth: .infinity)
+          .cardStyle(.accent.opacity(0.1))
       }
-      .padding()
+
+      ForEach(displayedPatterns, id: \.createdAtRange) { pattern in
+        PatternView(pattern)
+          .cardStyle(.accent.opacity(0.1))
+      }
     }
-    .navigationTitle("Review")
+    .padding()
+    .navigationTitle("Review your patterns")
     .trackScreen("ReviewView")
   }
 
-  public init(adjustment: Adjustment? = nil) {
-    self.adjustment = adjustment
-  }
+  public init() {}
 }
 
 private extension ReviewView {
-  var displayedPatterns: [Pattern] {
-    if let adjustment { return [repo.pattern(for: adjustment)] }
-
-    return repo.openPatterns
-  }
-
-  func adjustmentFor(_ pattern: Pattern) -> Adjustment? {
-    if let adjustment { return adjustment }
-
-    return repo.adjustments.first { Set($0.almosts) == Set(pattern.map(\.id)) }
-  }
+  var displayedPatterns: [Pattern] { repo.openPatterns }
 }
 
 #Preview {

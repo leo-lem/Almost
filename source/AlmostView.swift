@@ -16,7 +16,6 @@ public struct AlmostView: View {
         .toolbar {
           ToolbarItem(placement: .topBarLeading) { AuthenticationButton() }
         }
-        .navigationBarTitleDisplayMode(.inline)
     }
     .background(Color(uiColor: .systemBackground))
     .foregroundStyle(.primary)

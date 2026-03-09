@@ -41,7 +41,7 @@ public struct AdjustmentCard: View {
           .labelStyle(.capsule(adjustment.state.color))
 
         if !adjustment.almosts.isEmpty {
-          Label("\(adjustment.almosts.count)", systemImage: "link")
+          Label("\(adjustment.almosts.count) almosts", systemImage: "link")
             .labelStyle(.capsule(.secondary))
         }
 
@@ -63,7 +63,7 @@ public struct AdjustmentCard: View {
     .swipeActions { delete }
     .onChange(of: isEditing) { _, isEditing in
       textFieldIsFocused = isEditing
-      if isEditing, saveAfterEdit { Task { try? await repo.save(adjustment) } }
+      if !isEditing, saveAfterEdit { Task { try? await repo.save(adjustment) } }
     }
   }
 

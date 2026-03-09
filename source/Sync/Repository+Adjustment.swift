@@ -10,7 +10,6 @@ public extension Repository {
         return $0.createdAt > $1.createdAt
       }
   }
-
   var topAdjustments: [Adjustment] { Array(orderedAdjustments.prefix(maxActiveAdjustments)) }
 
   func canActivate(_ adjustment: Adjustment) -> Bool {
@@ -19,8 +18,8 @@ public extension Repository {
       .count < maxActiveAdjustments
   }
 
-  func adjustments(containing almostId: Almost.ID) -> [Adjustment] {
-    adjustments.filter { $0.almosts.contains(almostId) }
+  func adjustment(for pattern: Pattern) -> Adjustment? {
+    adjustments.first { $0.almosts.elementsEqual(Set(pattern.map(\.id))) }
   }
 }
 

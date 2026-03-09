@@ -7,32 +7,27 @@ import SwiftUI
 @MainActor
 @Observable
 public final class Settings {
-  public var analyticsEnabled: Bool {
-    get { defaults.bool("analyticsEnabled", default: true) }
-    set {
-      defaults.set(newValue, forKey: "analyticsEnabled")
-      Analytics.setAnalyticsCollectionEnabled(newValue)
+  public var analyticsEnabled = true {
+    didSet {
+      defaults.set(analyticsEnabled, forKey: "analyticsEnabled")
+      Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
     }
   }
 
-  public var aiEnabled: Bool {
-    get { defaults.bool("aiEnabled", default: true)}
-    set { defaults.set(newValue, forKey: "aiEnabled") }
+  public var aiEnabled = true {
+    didSet { defaults.set(aiEnabled, forKey: "aiEnabled") }
   }
 
-  public var localOnly: Bool {
-    get { defaults.bool("localOnly", default: false) }
-    set { defaults.set(newValue, forKey: "localOnly") }
+  public var localOnly = false {
+    didSet { defaults.set(localOnly, forKey: "localOnly") }
   }
 
-  public var maxActiveAdjustments: Int {
-    get { defaults.int("maxActiveAdjustments", default: 2) }
-    set { defaults.set(newValue, forKey: "maxActiveAdjustments") }
+  public var maxActiveAdjustments = 2 {
+    didSet { defaults.set(maxActiveAdjustments, forKey: "maxActiveAdjustments") }
   }
 
-  public var showRecentAlmosts: Bool {
-    get { defaults.bool("showRecentAlmosts", default: true) }
-    set { defaults.set(newValue, forKey: "showRecentAlmosts") }
+  public var showRecentAlmosts = false {
+    didSet { defaults.set(showRecentAlmosts, forKey: "showRecentAlmosts") }
   }
 
   private let config = RemoteConfig.remoteConfig()
@@ -78,13 +73,5 @@ public final class Settings {
 private extension UserDefaults {
   func exists(_ key: String) -> Bool {
     object(forKey: key) != nil
-  }
-
-  func bool(_ key: String, default defaultValue: Bool) -> Bool {
-    exists(key) ? bool(forKey: key) : defaultValue
-  }
-
-  func int(_ key: String, default defaultValue: Int) -> Int {
-    exists(key) ? integer(forKey: key) : defaultValue
   }
 }

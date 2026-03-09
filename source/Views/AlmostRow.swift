@@ -29,6 +29,7 @@ public struct AlmostRow: View {
 
         if isEditing { delete }
       }
+      .font(.footnote)
       .multilineTextAlignment(.leading)
       .lineLimit(2)
       .transition(.identity)
@@ -71,7 +72,7 @@ public struct AlmostRow: View {
     .swipeActions { delete }
     .onChange(of: isEditing) { _, isEditing in
       textFieldIsFocused = isEditing
-      if isEditing, saveAfterEdit { Task { try? await repo.save(almost) } }
+      if !isEditing, saveAfterEdit { Task { try? await repo.save(almost) } }
     }
   }
 

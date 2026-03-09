@@ -5,56 +5,65 @@ import SwiftUIExtensions
 
 public struct JourneyView: View {
   @State private var showAllAdjustments = false
-  @State private var activeLimitAlertIsPresented = false
 
   @Environment(Repository.self) private var repo
 
   public var body: some View {
-    ZStack(alignment: .bottom) {
-      List {
-        VStack {
-          adjustments
+    List {
+      Section {
+        if repo.topAdjustments.isEmpty {
+          Text("Capture a few almosts and review a pattern to create your first adjustment.")
+            .cardStyle()
+        }
 
-          if repo.orderedAdjustments.count > repo.maxActiveAdjustments {
-            Button(
-              showAllAdjustments ? "Show fewer adjustments" : "Show all adjustments",
-              systemImage: showAllAdjustments ? "chevron.up" : "chevron.down"
-            ) { showAllAdjustments.toggle() }
-            .buttonStyle(.plain)
-            .font(.subheadline.weight(.medium))
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-          }
-
-          NavigationLink { ReviewView() } label: {
-            VStack(alignment: .leading) {
-              Text("Review patterns")
-                .font(.headline)
-              Text("\(repo.openPatterns.count) new patterns")
-                .foregroundStyle(.secondary)
-            }
-            .frame(maxWidth: .infinity)
-            .cardStyle(.accent.opacity(0.25))
+        ForEach(adjustments, id: \.id) { adjustment in
+          NavigationLink {
+            PatternView(repo.pattern(for: adjustment))
+              .padding()
+          } label: {
+            AdjustmentCard(repo.binding(for: adjustment.id))
           }
         }
 
-        if !repo.recentAlmosts.isEmpty {
-          Section {
-            ForEach(repo.recentAlmosts.prefix(3), id: \.id) { almost in
-              AlmostRow(repo.binding(for: almost.id))
-            }
-          } header: {
-            Text("Recent Almosts")
+        if repo.orderedAdjustments.count > repo.maxActiveAdjustments {
+          Button(
+            showAllAdjustments ? "Show fewer adjustments" : "Show all adjustments",
+            systemImage: showAllAdjustments ? "chevron.up" : "chevron.down"
+          ) { showAllAdjustments.toggle() }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+
+        NavigationLink { ReviewView() } label: {
+          VStack(alignment: .leading) {
+            Text("Review patterns")
               .font(.headline)
+            Text("\(repo.openPatterns.count) new patterns")
+              .foregroundStyle(.secondary)
           }
+          .frame(maxWidth: .infinity)
+          .cardStyle(.accent.opacity(0.75))
         }
       }
-      .listStyle(.plain)
+      .animation(.default, value: adjustments)
 
-      QuickCaptureBar()
-        .padding()
+      if !almosts.isEmpty {
+        Section {
+          ForEach(almosts, id: \.id) { almost in
+            AlmostRow(repo.binding(for: almost.id))
+          }
+        } header: {
+          Text("Recent Almosts")
+            .font(.headline)
+        }
+        .animation(.default, value: repo.recentAlmosts)
+      }
+
+      Spacer()
     }
-    .navigationTitle("You Journey of Almost?")
+    .listStyle(.plain)
+    .overlay(alignment: .bottom) { QuickCaptureBar().padding() }
+    .navigationTitle("Your Journey through Almost?")
+    .navigationBarTitleDisplayMode(.inline)
     .trackScreen("JourneyView")
   }
 
@@ -62,19 +71,8 @@ public struct JourneyView: View {
 }
 
 private extension JourneyView {
-  var adjustments: some View {
-    ForEach(showAllAdjustments ? repo.orderedAdjustments : repo.topAdjustments, id: \.id) { adjustment in
-      NavigationLink { ReviewView(adjustment: adjustment) } label: {
-        AdjustmentCard(repo.binding(for: adjustment.id))
-      }
-    }
-    .replaceIfEmpty {
-      Text("Capture a few almosts and review a pattern to create your first adjustment.")
-        .padding()
-        .foregroundStyle(.secondary)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
-    }
-  }
+  var almosts: [Almost] { Array(repo.recentAlmosts.prefix(3)) }
+  var adjustments: [Adjustment] { showAllAdjustments ? repo.orderedAdjustments : repo.topAdjustments }
 }
 
 #Preview {

@@ -1,11 +1,11 @@
 // Created by Leopold Lemmermann on 08.03.26.
 
+import Extensions
 import SwiftUI
 import SwiftUIExtensions
 
 public struct PatternView: View {
   public let pattern: Pattern
-
   @State private var adjustment: Adjustment
 
   @Environment(Repository.self) private var repo
@@ -17,25 +17,24 @@ public struct PatternView: View {
         Label("\(pattern.count) almosts", systemImage: "square.stack.3d.up.fill")
           .labelStyle(.capsule(.accent))
 
-        Label("\(pattern.score) points", systemImage: "sparkle")
+        Label("\(pattern.score) similarity", systemImage: "sparkle")
           .labelStyle(.capsule(.secondary))
 
         Spacer()
 
         if ai.usable {
           AsyncButton("Suggest", systemImage: "brain", indicatorStyle: .replace) { await suggest() }
-            .buttonStyle(.bordered)
             .labelStyle(.iconOnly)
+            .buttonStyle(.bordered)
         }
       }
 
-      List(Array(pattern), id: \.id) { almost in
+      ForEach(Array(pattern), id: \.id) { almost in
         AlmostRow(repo.binding(for: almost.id))
+        Divider()
       }
-      .listStyle(.plain)
-      .scrollDisabled(true)
 
-      AdjustmentCard($adjustment)
+      AdjustmentCard($adjustment, saveAfterEdit: false)
         .cardStyle()
 
       AsyncButton(indicatorStyle: .edge(.trailing)) { try? await repo.save(adjustment) } label: {
@@ -46,12 +45,15 @@ public struct PatternView: View {
       .buttonStyle(.borderedProminent)
       .tint(.accent.opacity(0.75))
     }
-    .task { if adjustment.text == nil { await suggest() } }
+    .task {
+      self.adjustment ?= repo.adjustment(for: pattern)
+      if adjustment.text == nil { await suggest() }
+    }
   }
 
-  public init(pattern: Pattern, adjustment: Adjustment? = nil) {
+  public init(_ pattern: Pattern) {
     self.pattern = pattern
-    self.adjustment = adjustment ?? Adjustment(almosts: pattern.map(\.id), text: nil, state: .suggested)
+    self.adjustment = Adjustment(pattern)
   }
 }
 
@@ -83,7 +85,7 @@ private extension PatternView {
   ]
 
   VStack {
-    PatternView(pattern: pattern)
+    PatternView(pattern)
   }
   .padding()
   .firebase()
