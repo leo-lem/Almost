@@ -23,6 +23,16 @@ public final class Settings {
     set { defaults.set(newValue, forKey: "localOnly") }
   }
 
+  public var maxAdjustments: Int {
+    get { defaults.exists("maxAdjustments") ? defaults.integer(forKey: "maxAdjustments") : 2 }
+    set { defaults.set(newValue, forKey: "maxAdjustments") }
+  }
+
+  public var showRecentAlmosts: Bool {
+    get { defaults.exists("showRecentAlmosts") ? defaults.bool(forKey: "showRecentAlmosts") : true }
+    set { defaults.set(newValue, forKey: "showRecentAlmosts") }
+  }
+
   private let config = RemoteConfig.remoteConfig()
   private let defaults = UserDefaults.standard
 

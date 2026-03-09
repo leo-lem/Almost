@@ -8,6 +8,7 @@ public struct JourneyView: View {
   @State private var activeLimitAlertIsPresented = false
 
   @Environment(Repository.self) private var repo
+  @Environment(Settings.self) private var settings
 
   public var body: some View {
     VStack {
@@ -32,7 +33,7 @@ public struct JourneyView: View {
         .padding()
         .background(.accent.opacity(0.25), in: RoundedRectangle(cornerRadius: 20))
 
-        if !repo.recentAlmosts.isEmpty {
+        if settings.showRecentAlmosts, !repo.recentAlmosts.isEmpty {
           Section {
             ForEach(repo.recentAlmosts.prefix(3), id: \.id) { almost in
               AlmostRow(almost: Binding { almost } set: { newValue in
@@ -88,7 +89,7 @@ public struct JourneyView: View {
         ) {
           var updated = adjustment
 
-          if updated.state.next == .active, !repo.canActivate(updated) {
+          if updated.state.next == .active, !repo.canActivate(updated, limit: settings.maxAdjustments) {
             return activeLimitAlertIsPresented = true
           }
           updated.state = updated.state.next
@@ -102,7 +103,7 @@ public struct JourneyView: View {
         .foregroundStyle(.secondary)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
     }
-    .alert("Only two active adjustments", isPresented: $activeLimitAlertIsPresented) {
+    .alert("Only \(settings.maxAdjustments) active adjustment\(settings.maxAdjustments == 1 ? "" : "s")", isPresented: $activeLimitAlertIsPresented) {
       Button("OK", role: .cancel) {}
     } message: {
       Text("Stabilize or archive an active adjustment.")
