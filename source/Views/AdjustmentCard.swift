@@ -41,24 +41,24 @@ public struct AdjustmentCard: View {
           .labelStyle(.capsule(adjustment.state.color))
 
         if !adjustment.almosts.isEmpty {
-          Label("\(adjustment.almosts.count) almosts", systemImage: "link")
+          Label(.almosts(adjustment.almosts.count), systemImage: "link")
             .labelStyle(.capsule(.secondary))
         }
 
         Spacer()
 
-        Button(isEditing ? "Done" : "Edit",
-               systemImage: isEditing ? "checkmark.circle" : "pencil") { isEditing.toggle() }
+        Button(isEditing ? .done : .edit,
+               systemImage: isEditing ? "checkmark.circle" : "square.and.pencil") { isEditing.toggle() }
           .labelStyle(.iconOnly)
       }
       .matchedGeometryEffect(id: "meta-\(adjustment.id)", in: animations)
     }
     .buttonStyle(.borderless)
     .animation(.default, value: isEditing)
-    .alert("Only \(repo.maxActiveAdjustments) active adjustments", isPresented: $limitAlerting) {
-      Button("OK", role: .cancel) {}
+    .alert(.limitOfActiveAdjustmentsReached(repo.maxActiveAdjustments), isPresented: $limitAlerting) {
+      Button(.ok, role: .cancel) {}
     } message: {
-      Text("Stabilize or archive an active adjustment before activating another one.")
+      Text(.stabilizeOrArchiveAnActiveAdjustment)
     }
     .swipeActions { delete }
     .onChange(of: isEditing) { _, isEditing in

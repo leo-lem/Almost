@@ -11,7 +11,7 @@ public struct AuthenticationButton: View {
   
   public var body: some View {
     if !session.syncAvailable {
-      Label("No Connection", systemImage: "xmark.circle")
+      Label(.noConnection, systemImage: "xmark.circle")
         .foregroundColor(.yellow.opacity(0.7))
     } else {
       Menu {
@@ -23,22 +23,22 @@ public struct AuthenticationButton: View {
         }
 
         Toggle(isOn: $showingSettings) {
-          Label("Settings", systemImage: "gearshape.fill")
+          Label(.settings, systemImage: "gearshape.fill")
         }
 
         if session.hasAccount {
           Button(role: .destructive) {
             try? session.signOut()
           } label: {
-            Label("Sign Out", systemImage: "xmark.circle.fill")
+            Label(.signOut, systemImage: "xmark.circle.fill")
           }
         } else {
           Toggle(isOn: $signingIn) {
-            Label("Sign In", systemImage: "person.crop.circle.badge.plus")
+            Label(.signIn, systemImage: "person.crop.circle.badge.plus")
           }
         }
       } label: {
-        Label("Signed In", systemImage: "person.crop.circle.fill")
+        Label(.signedIn, systemImage: "person.crop.circle.fill")
       }
       .labelStyle(.iconOnly)
       .foregroundColor(.accent)

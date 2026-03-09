@@ -19,7 +19,7 @@ public struct AlmostRow: View {
     VStack(alignment: .leading) {
       HStack {
         if isEditing {
-          TextField("Describe the almost…", text: $almost.text, axis: .vertical)
+          TextField(.describeTheAlmost, text: $almost.text, axis: .vertical)
             .textFieldStyle(.plain)
             .focused($textFieldIsFocused)
         } else {
@@ -61,8 +61,8 @@ public struct AlmostRow: View {
 
         Spacer()
 
-        Button(isEditing ? "Done" : "Edit",
-               systemImage: isEditing ? "checkmark.circle" : "pencil") { isEditing.toggle() }
+        Button(isEditing ? .done : .edit,
+               systemImage: isEditing ? "checkmark.circle" : "square.and.pencil") { isEditing.toggle() }
           .labelStyle(.iconOnly)
       }
       .matchedGeometryEffect(id: "meta-\(almost.id)", in: animations)

@@ -14,7 +14,7 @@ public struct AuthenticationView: View {
   public var body: some View {
     Form {
       Section {
-        TextField("Email", text: $email)
+        TextField(.email, text: $email)
           .keyboardType(.emailAddress)
           .textContentType(.emailAddress)
           .textInputAutocapitalization(.never)
@@ -22,7 +22,7 @@ public struct AuthenticationView: View {
           .submitLabel(.next)
         
         HStack {
-          SecureField("Password", text: $password)
+          SecureField(.password, text: $password)
             .textContentType(.password)
             .autocorrectionDisabled()
             .submitLabel(.go)
@@ -41,7 +41,7 @@ public struct AuthenticationView: View {
               dismiss()
             } catch { self.error = error }
           } label: {
-            Label("Create Account", systemImage: "person.badge.plus")
+            Label(.createAccount, systemImage: "person.badge.plus")
           }
           .disabled(email.isEmpty || password.isEmpty)
           .labelStyle(.iconOnly)
@@ -53,14 +53,14 @@ public struct AuthenticationView: View {
               dismiss()
             } catch { self.error = error }
           } label: {
-            Label("Sign In", systemImage: "arrow.right.circle.fill")
+            Label(.signIn, systemImage: "arrow.right.circle.fill")
           }
           .labelStyle(.iconOnly)
           .disabled(email.isEmpty || password.isEmpty)
           .buttonStyle(.borderedProminent)
         }
       } header: {
-        Text("Welcome!")
+        Text(.welcome)
       } footer: {
         if let message = error?.localizedDescription {
           Text(message)

@@ -11,8 +11,9 @@ struct IntelligenceTests {
     @Test("Predict tags generates useful output for representative almosts", .enabled(if: SystemLanguageModel.default.isAvailable))
     @MainActor
     func testPredictTags() async throws {
-      let intelligence = Intelligence()
-      intelligence.updateAIEnabled(true)
+      let settings = Settings()
+      settings.aiEnabled = true
+      let intelligence = Intelligence(settings)
 
       let cases: [Almost] = [
         Almost(text: "Left home too late and almost missed my train."),
@@ -51,8 +52,9 @@ struct IntelligenceTests {
     @Test("Returns input unchanged when AI is disabled")
     @MainActor
     func testPredictTagsDisabledFallback() async {
-      let intelligence = Intelligence()
-      intelligence.updateAIEnabled(false)
+      let settings = Settings()
+      settings.aiEnabled = false
+      let intelligence = Intelligence(settings)
 
       let input = Almost(
         text: "Packed late and almost forgot my passport.",
@@ -73,8 +75,9 @@ struct IntelligenceTests {
     @Test("Suggests an adjustment for representative patterns", .enabled(if: SystemLanguageModel.default.isAvailable))
     @MainActor
     func testSuggestAdjustment() async throws {
-      let intelligence = Intelligence()
-      intelligence.updateAIEnabled(true)
+      let settings = Settings()
+      settings.aiEnabled = true
+      let intelligence = Intelligence(settings)
 
       let pattern1: Pattern = [
         Almost(
@@ -126,7 +129,7 @@ struct IntelligenceTests {
         let result = await intelligence.suggestAdjustment(for: pattern)
 
         #expect(result.state == .suggested)
-        #expect(result.almosts == pattern.map(\.id))
+        #expect(result.almosts == Set(pattern.map(\.id)))
 
         if let text = result.text {
           #expect(!text.isEmpty)
@@ -138,8 +141,9 @@ struct IntelligenceTests {
     @Test("Returns fallback adjustment when AI is disabled")
     @MainActor
     func testSuggestAdjustmentDisabledFallback() async {
-      let intelligence = Intelligence()
-      intelligence.updateAIEnabled(false)
+      let settings = Settings()
+      settings.aiEnabled = false
+      let intelligence = Intelligence(settings)
 
       let pattern: Pattern = [
         Almost(id: "a1", text: "Packed late and almost forgot my passport.")
@@ -155,8 +159,9 @@ struct IntelligenceTests {
     @Test("Returns fallback adjustment for invalid pattern")
     @MainActor
     func testSuggestAdjustmentInvalidPatternFallback() async {
-      let intelligence = Intelligence()
-      intelligence.updateAIEnabled(true)
+      let settings = Settings()
+      settings.aiEnabled = false
+      let intelligence = Intelligence(settings)
 
       let pattern: Pattern = [
         Almost(id: "a1", text: "Single entry should not form a valid pattern.")

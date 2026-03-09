@@ -14,64 +14,64 @@ struct SettingsView: View {
   var body: some View {
     Form {
       Section {
-        Toggle("Enable AI", systemImage: "brain",
+        Toggle(.enableAi, systemImage: "brain",
                isOn: Binding { config.aiEnabled } set: { config.aiEnabled = $0 })
-        Toggle("Local only mode [May lose data]", systemImage: "internaldrive",
+        Toggle(.localOnlyMode, systemImage: "internaldrive",
                isOn: Binding { config.localOnly } set: { config.localOnly = $0 })
       } header: {
-        Label("Features", systemImage: "puzzlepiece.extension")
+        Label(.features, systemImage: "puzzlepiece.extension")
       }
 
       Section {
-        Toggle("Enable Analytics", systemImage: "chart.bar.xaxis",
+        Toggle(.enableAnalytics, systemImage: "chart.bar.xaxis",
                isOn: Binding { config.analyticsEnabled } set: { config.analyticsEnabled = $0})
 
-        Toggle("Show Recent Almosts", systemImage: "clock",
+        Toggle(.recentAlmosts, systemImage: "clock",
                isOn: Binding { config.showRecentAlmosts } set: { config.showRecentAlmosts = $0})
 
         Stepper(
-          "Active Adjustments: \(config.maxActiveAdjustments)",
+          .activeAdjustments(config.maxActiveAdjustments),
           value: Binding { config.maxActiveAdjustments } set: { config.maxActiveAdjustments = $0 },
           in: 1...8
         )
 
         if session.hasAccount {
-          Button("Delete Account", systemImage: "trash", role: .destructive) {
+          Button(.deleteAccount, systemImage: "trash", role: .destructive) {
             deleteAccountAlertIsPresented = true
           }
           .foregroundStyle(.red)
-          .alert("Are you sure you want to delete your account?", isPresented: $deleteAccountAlertIsPresented) {
+          .alert(.areYouSureYouWantToDeleteYourAccount, isPresented: $deleteAccountAlertIsPresented) {
             AsyncButton("Delete Account", systemImage: "trash", role: .destructive) {
               try? await session.deleteAccount()
             }
           } message: {
-            Text("You will lose all your data!")
+            Text(.youWillLoseAllYourData)
           }
         }
       } header: {
-        Label("Preferences", systemImage: "gear")
+        Label(.preferences, systemImage: "gear")
       }
 
       Section {
         Link(destination: URL(string: "https://almost.leolem.dev")!) {
-          Label("Find out more", systemImage: "safari")
+          Label(.findOutMore, systemImage: "safari")
         }
         .labelStyle(.external(color: .accent, transfer: true))
         .foregroundStyle(.accent)
 
         Link(destination: URL(string: "https://almost.leolem.dev/privacy")!) {
-          Label("Privacy Policy", systemImage: "lock.shield")
+          Label(.privacyPolicy, systemImage: "lock.shield")
         }
         .labelStyle(.external(color: .indigo, transfer: true))
         .foregroundStyle(.indigo)
 
         Link(destination: URL(string: "https://leolem.dev")!) {
-          Label("About Me", systemImage: "person.circle")
+          Label(.aboutMe, systemImage: "person.circle")
         }
         .labelStyle(.external(color: .green, transfer: true))
         .foregroundStyle(.green)
       } header: {
-        Label("Links", systemImage: "link")
+        Label(.links, systemImage: "link")
       }
 
 #if DEBUG
@@ -91,11 +91,11 @@ struct SettingsView: View {
           }
         }
       } header: {
-        Label("Development", systemImage: "hammer")
+        Label(.development, systemImage: "hammer")
       }
 #endif
     }
-    .navigationTitle("Settings")
+    .navigationTitle(.settings)
     .navigationBarTitleDisplayMode(.inline)
     .presentationDetents([.fraction(0.7)])
     .trackScreen("SettingsView")

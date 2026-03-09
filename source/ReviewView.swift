@@ -9,7 +9,7 @@ public struct ReviewView: View {
   public var body: some View {
     ScrollView {
       if displayedPatterns.isEmpty {
-        Text("No new patterns. Add more almosts…")
+        Text(.noNewPatternsAddMoreAlmosts)
           .frame(maxWidth: .infinity)
           .cardStyle(.accent.opacity(0.1))
       }
@@ -20,7 +20,7 @@ public struct ReviewView: View {
       }
     }
     .padding()
-    .navigationTitle("Review your patterns")
+    .navigationTitle(.reviewPatternsInAlmosts)
     .trackScreen("ReviewView")
   }
 

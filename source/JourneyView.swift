@@ -12,7 +12,7 @@ public struct JourneyView: View {
     List {
       Section {
         if repo.topAdjustments.isEmpty {
-          Text("Capture a few almosts and review a pattern to create your first adjustment.")
+          Text(.captureAFewAlmostsAndReviewAPatternToCreateYourFirstAdjustment)
             .cardStyle()
         }
 
@@ -27,7 +27,7 @@ public struct JourneyView: View {
 
         if repo.orderedAdjustments.count > repo.maxActiveAdjustments {
           Button(
-            showAllAdjustments ? "Show fewer adjustments" : "Show all adjustments",
+            showAllAdjustments ? .showFewerAdjustments : .showAllAdjustments,
             systemImage: showAllAdjustments ? "chevron.up" : "chevron.down"
           ) { showAllAdjustments.toggle() }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -35,9 +35,9 @@ public struct JourneyView: View {
 
         NavigationLink { ReviewView() } label: {
           VStack(alignment: .leading) {
-            Text("Review patterns")
+            Text(.reviewPatternsInAlmosts)
               .font(.headline)
-            Text("\(repo.openPatterns.count) new patterns")
+            Text(.newPatterns(repo.openPatterns.count))
               .foregroundStyle(.secondary)
           }
           .frame(maxWidth: .infinity)
@@ -52,7 +52,7 @@ public struct JourneyView: View {
             AlmostRow(repo.binding(for: almost.id))
           }
         } header: {
-          Text("Recent Almosts")
+          Text(.recentAlmosts)
             .font(.headline)
         }
         .animation(.default, value: repo.recentAlmosts)
@@ -62,7 +62,7 @@ public struct JourneyView: View {
     }
     .listStyle(.plain)
     .overlay(alignment: .bottom) { QuickCaptureBar().padding() }
-    .navigationTitle("Your Journey through Almost?")
+    .navigationTitle(.yourJourneyThroughAlmost)
     .navigationBarTitleDisplayMode(.inline)
     .trackScreen("JourneyView")
   }

@@ -14,10 +14,10 @@ public struct PatternView: View {
   public var body: some View {
     VStack(alignment: .leading) {
       HStack {
-        Label("\(pattern.count) almosts", systemImage: "square.stack.3d.up.fill")
+        Label(.almosts(pattern.count), systemImage: "square.stack.3d.up.fill")
           .labelStyle(.capsule(.accent))
 
-        Label("\(pattern.score) similarity", systemImage: "sparkle")
+        Label(.similarity(pattern.score), systemImage: "sparkle")
           .labelStyle(.capsule(.secondary))
 
         Spacer()
@@ -38,7 +38,7 @@ public struct PatternView: View {
         .cardStyle()
 
       AsyncButton(indicatorStyle: .edge(.trailing)) { try? await repo.save(adjustment) } label: {
-        Label(repo.adjustments.contains { $0.id == adjustment.id } ? "Update" : "Save",
+        Label(repo.adjustments.contains { $0.id == adjustment.id } ? .update : .save,
               systemImage: "square.and.arrow.down")
           .frame(maxWidth: .infinity)
       }

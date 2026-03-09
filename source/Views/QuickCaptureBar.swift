@@ -14,7 +14,7 @@ public struct QuickCaptureBar: View {
   public var body: some View {
     VStack {
       HStack {
-        TextField("Add an almost…", text: $text, axis: .vertical)
+        TextField(.addAnAlmost, text: $text, axis: .vertical)
           .textFieldStyle(.plain)
           .onSubmit { Task { await submit() } }
           .disabled(!canType)
@@ -32,7 +32,7 @@ public struct QuickCaptureBar: View {
           .cardStyle()
 
         HStack {
-          Button("Discard", systemImage: "trash", role: .destructive) { self.pendingAlmost = nil }
+          Button(.discard, systemImage: "trash", role: .destructive) { self.pendingAlmost = nil }
           Spacer()
           AsyncButton("Save", systemImage: "checkmark.circle") { await savePending() }
             .buttonStyle(.borderedProminent)
