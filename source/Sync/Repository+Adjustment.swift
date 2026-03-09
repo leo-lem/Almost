@@ -14,10 +14,10 @@ public extension Repository {
       }
   }
 
-  func canActivate(_ adjustment: Adjustment) -> Bool {
+  func canActivate(_ adjustment: Adjustment, limit: Int = 2) -> Bool {
     adjustments
       .filter { $0.state == .active && $0.id != adjustment.id }
-      .count < 2
+      .count < limit
   }
 
   func adjustments(containing almostId: Almost.ID) -> [Adjustment] {

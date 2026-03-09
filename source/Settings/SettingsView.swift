@@ -28,6 +28,22 @@ struct SettingsView: View {
       }
 
       Section {
+        Stepper(
+          "Max active adjustments: \(settings.maxActiveAdjustments)",
+          value: Binding { settings.maxActiveAdjustments } set: { settings.maxActiveAdjustments = $0 },
+          in: 1...10
+        )
+
+        Stepper(
+          "Recent almosts to show: \(settings.recentAlmostsCount)",
+          value: Binding { settings.recentAlmostsCount } set: { settings.recentAlmostsCount = $0 },
+          in: 1...10
+        )
+      } header: {
+        Label("Limits", systemImage: "slider.horizontal.3")
+      }
+
+      Section {
         Toggle(isOn: Binding { settings.analyticsEnabled } set: { settings.analyticsEnabled = $0}) {
           Label("Enable Analytics", systemImage: "chart.bar.xaxis")
         }
