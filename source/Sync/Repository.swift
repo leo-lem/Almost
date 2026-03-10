@@ -36,28 +36,35 @@ public extension Repository {
 
 public extension Repository {
   func binding<T: Storable>(for id: T.ID) -> Binding<T> {
-    Binding {
-      return switch T.self {
-      case is Almost.Type:
-        self.almosts.first { $0.id == id } as! T // swiftlint:disable:this force_cast
-      case is Adjustment.Type:
-        self.adjustments.first { $0.id == id } as! T // swiftlint:disable:this force_cast
-      default:
-        fatalError("Unsupported storable type: \(T.self)")
+    let initial: T? =
+    if T.self == Almost.self {
+      almosts.first { $0.id == id } as? T
+    } else if T.self == Adjustment.self {
+      adjustments.first { $0.id == id } as? T
+    } else {
+      nil
+    }
+
+    precondition(initial != nil, "Unsupported or missing storable type: \(T.self)")
+
+    return Binding {
+      if T.self == Almost.self {
+        return (self.almosts.first { $0.id == id } as? T) ?? initial!
       }
+
+      if T.self == Adjustment.self {
+        return (self.adjustments.first { $0.id == id } as? T) ?? initial!
+      }
+
+      return initial!
     } set: { newValue in
-      switch newValue {
-      case let almost as Almost:
-        if let index = self.almosts.firstIndex(where: { $0.id == almost.id }) {
-          self.almosts[index] = almost
-        }
-
-      case let adjustment as Adjustment:
-        if let index = self.adjustments.firstIndex(where: { $0.id == adjustment.id }) {
-          self.adjustments[index] = adjustment
-        }
-
-      default:
+      if let almost = newValue as? Almost,
+         let index = self.almosts.firstIndex(where: { $0.id == almost.id }) {
+        self.almosts[index] = almost
+      } else if let adjustment = newValue as? Adjustment,
+                let index = self.adjustments.firstIndex(where: { $0.id == adjustment.id }) {
+        self.adjustments[index] = adjustment
+      } else {
         assertionFailure("Unsupported storable type: \(T.self)")
       }
     }

@@ -29,7 +29,7 @@ public struct PatternView: View {
         }
       }
 
-      ForEach(Array(pattern), id: \.id) { almost in
+      ForEach(displayedAlmosts, id: \.id) { almost in
         AlmostRow(repo.binding(for: almost.id))
         Divider()
       }
@@ -51,9 +51,9 @@ public struct PatternView: View {
     }
   }
 
-  public init(_ pattern: Pattern) {
+  public init(_ pattern: Pattern, adjustment: Adjustment? = nil) {
     self.pattern = pattern
-    self.adjustment = Adjustment(pattern)
+    self.adjustment = adjustment ?? Adjustment(pattern)
   }
 }
 
@@ -61,6 +61,10 @@ private extension PatternView {
   func suggest() async {
     guard pattern.isValid else { return }
     adjustment = await ai.suggestAdjustment(for: pattern)
+  }
+
+  var displayedAlmosts: [Almost] {
+    repo.almosts(with: Set(pattern.map(\.id)))
   }
 }
 

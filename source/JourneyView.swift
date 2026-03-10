@@ -18,7 +18,7 @@ public struct JourneyView: View {
 
         ForEach(adjustments, id: \.id) { adjustment in
           NavigationLink {
-            PatternView(repo.pattern(for: adjustment))
+            PatternView(repo.pattern(for: adjustment), adjustment: adjustment)
               .padding()
           } label: {
             AdjustmentCard(repo.binding(for: adjustment.id))
