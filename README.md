@@ -5,45 +5,42 @@
 [![Firebase](https://img.shields.io/badge/Firebase-console-orange?logo=firebase)](https://console.firebase.google.com/project/dev-leolem-almost/overview)
 [![App Store Connect](https://img.shields.io/badge/App%20Store%20Connect-Dashboard-green?logo=apple)](https://appstoreconnect.apple.com/apps/6742201361/distribution)
 
-*A reflective tool to help you learn from your near misses.*  
-All new and rebuilt with Firebase under the hood.
+Almost? is a small reflective tool for tracking near misses: the things you almost did, almost forgot, or almost got wrong. It helps you spot patterns in those moments and turn them into concrete adjustments.
 
-## ✨ Features
+## What you can do
 
-- Log daily “almosts” — things you meant to do but didn’t  
-- Reflect on what happened and how to grow from it  
-- Mark favorites for review  
-- Tag your mood to uncover emotional patterns  
-- Filter insights and explore your journey  
-- Remote Config to toggle features dynamically  
-- Subtle haptics, smooth animations, and dark mode support
+- Capture almosts quickly
+- Tag what contributed to them
+- Review recurring patterns
+- Turn patterns into adjustments
+- Keep adjustments active, stabilize them, or archive them
+- Sync through Firebase or use the app locally
 
+## How it works
 
-## 🔧 Tech Stack
+The app is built around a simple loop:
 
-- **SwiftUI** with modern `@Observable`-based architecture
-- **Firebase**:
-  - Authentication (anonymous and email/password)
-  - Firestore (real-time sync)
-  - Analytics
-  - Remote Config
-- Clean MV-ish architecture:
-  - Feature modules and navigation via `@Environment`
-  - Central `SessionState` abstraction
-- Launch screen via Storyboard and app icon variants (light, dark, tinted)
-- Remote configuration toggles (e.g., favorites, mood tags, analytics opt-in)
-- Responsive UI with TipKit, haptics, and custom styling
+1. Capture an almost
+2. Review recurring patterns
+3. Create an adjustment
+4. See whether the pattern improves over time
 
-## 🛠️ Building
+## Tech
+
+- SwiftUI
+- Observation with `@Observable`
+- Firebase Authentication
+- Firestore
+- Analytics
+- Remote Config
+- TipKit
+
+## Build
 
 You’ll need:
 
-- If you want to use your own Firebase, you will need a [GoogleService-Info.plist]() for Firebase (place in [resource/firebase](resource/firebase))
 - Xcode 15 or newer
-- macOS with Swift 6.0+
+- macOS with Swift 6+
+- a `GoogleService-Info.plist` if you want to use your own Firebase project
 
-No additional setup needed — simply open `portfolio.xcodeproj`, choose the `Almost?` scheme, and build.
-
----
-
-Built by [@Leo‑Lem](https://github.com/leolem) — passionate about clean code, automation, and thoughtful UX.
+Place the plist in `resource/firebase`, open `portfolio.xcodeproj`, choose the `Almost?` scheme, and build.
