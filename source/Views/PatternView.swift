@@ -34,6 +34,8 @@ public struct PatternView: View {
         Divider()
       }
 
+      Spacer()
+
       AdjustmentCard($adjustment, saveAfterEdit: false)
         .cardStyle()
 

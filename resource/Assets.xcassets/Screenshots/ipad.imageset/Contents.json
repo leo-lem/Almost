@@ -1,13 +1,6 @@
 {
   "images" : [
     {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -18,7 +11,11 @@
           "value" : "dark"
         }
       ],
-      "filename" : "2.png",
+      "filename" : "Apple iPad Pro 12.9 Inch Screenshot 4.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -29,7 +26,22 @@
           "value" : "dark"
         }
       ],
-      "filename" : "3.png",
+      "filename" : "Apple iPad Pro 12.9 Inch Screenshot 5.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Apple iPad Pro 12.9 Inch Screenshot 6.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -1,13 +1,6 @@
 {
   "images" : [
     {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -18,7 +11,11 @@
           "value" : "dark"
         }
       ],
-      "filename" : "2.png",
+      "filename" : "Apple iPhone 16 Pro Max Screenshot 1.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
       "idiom" : "universal",
       "scale" : "2x"
     },
@@ -29,7 +26,22 @@
           "value" : "dark"
         }
       ],
-      "filename" : "3.png",
+      "filename" : "Apple iPhone 16 Pro Max Screenshot 2.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "Apple iPhone 16 Pro Max Screenshot 3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
