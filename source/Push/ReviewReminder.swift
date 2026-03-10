@@ -60,7 +60,3 @@ public final class Notifications {
     }
   }
 }
-
-extension Notification.Name {
-  static let openReviewFromNotification = Notification.Name("openReviewFromNotification")
-}

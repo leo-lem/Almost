@@ -15,3 +15,7 @@ public final class AppRouter {
     path = [.review]
   }
 }
+
+extension Notification.Name {
+  static let openReviewFromNotification = Notification.Name("openReviewFromNotification")
+}
