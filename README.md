@@ -43,4 +43,4 @@ You’ll need:
 - macOS with Swift 6+
 - a `GoogleService-Info.plist` if you want to use your own Firebase project
 
-Place the plist in `resource/firebase`, open `portfolio.xcodeproj`, choose the `Almost?` scheme, and build.
+Place the plist in `resource/firebase`, open `almost.xcodeproj`, choose the `Almost` scheme, and build.
