@@ -46,6 +46,8 @@ public final class Settings {
 
     config.fetchAndActivate { _, _ in
       Task { @MainActor in
+        guard !self.defaults.bool(forKey: "remoteConfigFetched") else { return }
+
         if !self.defaults.exists("analyticsEnabled") {
           self.analyticsEnabled = self.config["analytics_enabled"].boolValue
         }
@@ -65,6 +67,8 @@ public final class Settings {
         if !self.defaults.exists("showRecentAlmosts") {
           self.showRecentAlmosts = self.config["show_recent_almosts"].boolValue
         }
+
+        self.defaults.set(true, forKey: "remoteConfigFetched")
       }
     }
   }

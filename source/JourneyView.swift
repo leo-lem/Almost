@@ -65,6 +65,9 @@ public struct JourneyView: View {
     .navigationTitle(.yourJourneyThroughAlmost)
     .navigationBarTitleDisplayMode(.inline)
     .trackScreen("JourneyView")
+    .task(id: repo.openPatterns.count) {
+      await Notifications.shared.refreshReviewReminder(openPatternCount: repo.openPatterns.count)
+    }
   }
 
   public init() {}

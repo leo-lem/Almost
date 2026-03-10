@@ -12,6 +12,7 @@
 		6EAEC8862E321A2D0031EDAF /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */; };
 		6EAEC8882E321AAA0031EDAF /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */; };
 		6EAEC88F2E322F060031EDAF /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 6EAEC88E2E322F060031EDAF /* FirebaseRemoteConfig */; };
+		6EC67CCE2F5F5504002EFAEF /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6EC67CCD2F5F5504002EFAEF /* FirebaseMessaging */; };
 		6EC7C8722A18439800C783F0 /* AlmostApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC7C8712A18439800C783F0 /* AlmostApp.swift */; };
 		6EFD09B82E3000A300475D32 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B72E3000A300475D32 /* FirebaseCore */; };
 		6EFD09BA2E300CE900475D32 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6EFD09B92E300CE900475D32 /* FirebaseFirestore */; };
@@ -95,7 +96,10 @@
 				Model/Adjustment.swift,
 				Model/Almost.swift,
 				Model/Pattern.swift,
+				"Push/AppDelegate+Push.swift",
+				Push/ReviewReminder.swift,
 				ReviewView.swift,
+				Router/Router.swift,
 				Settings/Settings.swift,
 				Settings/SettingsView.swift,
 				"Sync/Model+Storable.swift",
@@ -135,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EC67CCE2F5F5504002EFAEF /* FirebaseMessaging in Frameworks */,
 				6EFD09B82E3000A300475D32 /* FirebaseCore in Frameworks */,
 				6EFD09BA2E300CE900475D32 /* FirebaseFirestore in Frameworks */,
 				6E82758A2E3142E100780973 /* SwiftUIExtensions in Frameworks */,
@@ -217,6 +222,7 @@
 				6EAEC8852E321A2D0031EDAF /* FirebaseAnalytics */,
 				6EAEC8872E321AAA0031EDAF /* FirebaseCrashlytics */,
 				6EAEC88E2E322F060031EDAF /* FirebaseRemoteConfig */,
+				6EC67CCD2F5F5504002EFAEF /* FirebaseMessaging */,
 			);
 			productName = KeepinOn;
 			productReference = 6E37D5FC2E314A3800F7D712 /* Almost.app */;
@@ -532,6 +538,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = resource/Almost.entitlements;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
@@ -544,7 +551,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 3.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DBUILDING_FOR_PREVIEWS";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.leolem.keepinon;
@@ -563,6 +570,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = resource/Almost.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
@@ -574,7 +582,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 3.0;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = dev.leolem.keepinon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -758,6 +766,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6EB5D4432E2E97900078D1AD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfig;
+		};
+		6EC67CCD2F5F5504002EFAEF /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6EB5D4432E2E97900078D1AD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		6EFD09B72E3000A300475D32 /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;

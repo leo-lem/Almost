@@ -8,22 +8,28 @@ public struct AlmostView: View {
   @State private var config: Settings
   @State private var repo: Repository
   @State private var ai: Intelligence
+  @State private var router = AppRouter()
 
   public var body: some View {
-    NavigationStack {
+    NavigationStack(path: $router.path) {
       JourneyView()
         .background(Color.background)
         .toolbar {
           ToolbarItem(placement: .topBarLeading) { AuthenticationButton() }
         }
+        .navigationDestination(for: AppRouter.Destination.self) { destination in
+          switch destination {
+          case .review: ReviewView()
+          }
+        }
     }
     .background(Color(uiColor: .systemBackground))
     .foregroundStyle(.primary)
     .accentColor(.accent)
-    .environment(auth)
-    .environment(config)
-    .environment(repo)
-    .environment(ai)
+    .onReceive(NotificationCenter.default.publisher(for: .openReviewFromNotification)) { _ in
+      router.openReview()
+    }
+    .environment(auth).environment(config).environment(repo).environment(ai).environment(router)
   }
   
   public init(
