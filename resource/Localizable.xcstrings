@@ -34,7 +34,7 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "one almost"
+                  "value" : "One almost"
                 }
               },
               "other" : {
@@ -46,7 +46,7 @@
               "zero" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "no almosts"
+                  "value" : "No almosts"
                 }
               }
             }
@@ -87,7 +87,7 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "one new pattern"
+                  "value" : "One new pattern"
                 }
               },
               "other" : {
@@ -99,7 +99,7 @@
               "zero" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "no new patterns"
+                  "value" : "No new patterns"
                 }
               }
             }

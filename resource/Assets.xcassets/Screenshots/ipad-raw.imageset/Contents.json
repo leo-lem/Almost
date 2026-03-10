@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ipad-1.png",
+      "filename" : "1.jpeg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ipad-2.png",
+      "filename" : "2.jpeg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ipad-3.png",
+      "filename" : "3.jpeg",
       "idiom" : "universal",
       "scale" : "3x"
     }

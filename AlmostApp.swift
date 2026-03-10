@@ -14,13 +14,10 @@ public struct AlmostApp: App {
     WindowGroup {
       AlmostView()
         .task {
-          let center = UNUserNotificationCenter.current()
-          let granted = try? await center.requestAuthorization(options: [.alert, .sound, .badge])
-
+          let granted = try? await UNUserNotificationCenter.current()
+            .requestAuthorization(options: [.alert, .sound, .badge])
           if granted == true {
-            await MainActor.run {
-              UIApplication.shared.registerForRemoteNotifications()
-            }
+            UIApplication.shared.registerForRemoteNotifications()
           }
         }
     }

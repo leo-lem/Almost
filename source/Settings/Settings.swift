@@ -34,6 +34,18 @@ public final class Settings {
   private let defaults = UserDefaults.standard
 
   public init() {
+    if !self.defaults.exists("analyticsEnabled") {
+      analyticsEnabled = defaults.bool(forKey: "analyticsEnabled")
+      Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
+    }
+
+    aiEnabled = self.defaults.exists("aiEnabled") ? defaults.bool(forKey: "aiEnabled") : true
+    localOnly = self.defaults.exists("localOnly") ? defaults.bool(forKey: "localOnly") : false
+    maxActiveAdjustments = self.defaults.exists("maxActiveAdjustments")
+      ? defaults.integer(forKey: "maxActiveAdjustments")
+      : 2
+    showRecentAlmosts = self.defaults.exists("showRecentAlmosts") ? defaults.bool(forKey: "showRecentAlmosts") : false
+
     config.setDefaults([
       "analytics_enabled": analyticsEnabled as NSObject,
       "ai_enabled": aiEnabled as NSObject,
@@ -41,8 +53,6 @@ public final class Settings {
       "max_active_adjustments": maxActiveAdjustments as NSObject,
       "show_recent_almosts": showRecentAlmosts as NSObject
     ])
-
-    Analytics.setAnalyticsCollectionEnabled(analyticsEnabled)
 
     config.fetchAndActivate { _, _ in
       Task { @MainActor in
